@@ -1,0 +1,13 @@
+digraph {
+	rv_k [label="rv_k ~ Normal"]
+	rv_output_dep_KSEG1 [label="rv_output_dep_KSEG1 ~ Normal"]
+	rv_tSlope_dep_KSEG1 [label="rv_tSlope_dep_KSEG1 ~ Normal"]
+	rv_kSlope_dep_KSEG1 [label="rv_kSlope_dep_KSEG1 ~ Normal"]
+	rv_t [label="rv_t ~ Normal"]
+	rv_intercept_dep_KSEG1 [label="rv_intercept_dep_KSEG1 ~ Normal"]
+	rv_k -> rv_output_dep_KSEG1
+	rv_tSlope_dep_KSEG1 -> rv_output_dep_KSEG1
+	rv_kSlope_dep_KSEG1 -> rv_output_dep_KSEG1
+	rv_t -> rv_output_dep_KSEG1
+	rv_intercept_dep_KSEG1 -> rv_output_dep_KSEG1
+}
