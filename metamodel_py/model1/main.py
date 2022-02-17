@@ -41,7 +41,7 @@ Created on Tue Jan 25 15:23:32 2022
     !git push origin master
 """
 
-# import numpy as np
+import numpy as np
 import pandas as pd
 import pymc3 as pm
 # from IPython.display import display
@@ -56,6 +56,8 @@ import model1.modeling
 import model1.trainedmodeltomesh
 
 metamodel_directoty = '/home/yair/Documents/Git/metamodel_py'
+model1_path = '/home/yair/Documents/Git/metamodel_py/model1'
+
 #################################################
 # 1. Read and arange data:
 # 1.1 Read raw training data for model1:
@@ -138,7 +140,7 @@ pm.traceplot(trace1)
 trace1_summary = pm.summary(trace1)
 
 trace1_summary.to_pickle("trace1_summay")
-
+# trace1_summary.to_pickle(metamodel_directoty+'/model1', "trace1_summay")
 trace1_summary_r = pd.read_pickle("trace1_summay")
 
 mean_sd_r = trace1_summary_r.loc[:, ['mean', 'sd']]
@@ -165,13 +167,39 @@ gv1_trained_filename =\
 n_t = 21
 max_t = 100.
 min_t = 0.
+Ts = np.linspace(min_t, max_t, n_t)
 
 n_k = 20
 max_k = 100.
 min_k = max_k/n_k
+Ks = np.linspace(min_k, max_k, n_k)
 
 if True:
     deps_mean, deps_std =\
         model1.trainedmodeltomesh.trained_mesh(min_t, max_t, n_t,
                                                min_k, max_k, n_k,
                                                df_model1_trainedTable)
+
+    df_deps_mean = pd.DataFrame(data=deps_mean, index=Ks, columns=Ts)
+    df_deps_std = pd.DataFrame(data=deps_std, index=Ks, columns=Ts)
+#################################################
+if False:
+    # np.save("trained_dep_KSEG_mean_21x20", deps_mean)
+    # np.save("trained_dep_KSEG_std_21x20", deps_std)
+
+    df_deps_mean.to_pickle(model1_path+"/df_trained_dep_KSEG_mean_21x20")
+    df_deps_std.to_pickle(model1_path+"/df_trained_dep_KSEG_std_21x20")
+
+# import pickle
+
+# deps_mean_r = np.load('trained_dep_KSEG_mean_21x20.npy')
+
+df_deps_mean_r = pd.read_pickle(model1_path+"/df_trained_dep_KSEG_mean_21x20")
+df_deps_std_r = pd.read_pickle(model1_path+"/df_trained_dep_KSEG_std_21x20")
+
+if True:
+    DataToPlot[3] = [[df_deps_mean_r.columns,
+                      df_deps_mean_r.index],
+                     [df_deps_mean_r.values]]
+    plotWhat = [True, False, False, True]
+    model1.plotting.plotData(DataToPlot, plotWhat)

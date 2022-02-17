@@ -93,3 +93,9 @@ def fittedData(df_fitParameters_dep, df_trainingData_model1):
 #                 parametersNames_dep[2] +\
 #                 "*" + \
 #                 "k"
+
+# Get fit parameters:
+
+
+def get_parameters_fitting():
+    pass

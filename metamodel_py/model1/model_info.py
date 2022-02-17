@@ -285,3 +285,8 @@ def displayInfo(model1_dep):
            'border': '1px black solid'}))
 
 #################################################
+# Get nodel info:
+
+
+def get_model_info():
+    pass
