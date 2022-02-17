@@ -194,6 +194,7 @@ if False:
 
 # deps_mean_r = np.load('trained_dep_KSEG_mean_21x20.npy')
 
+
 df_deps_mean_r = pd.read_pickle(model1_path+"/df_trained_dep_KSEG_mean_21x20")
 df_deps_std_r = pd.read_pickle(model1_path+"/df_trained_dep_KSEG_std_21x20")
 
