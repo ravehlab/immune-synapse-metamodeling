@@ -164,17 +164,17 @@ gv1_trained_filename =\
                        directory=metamodel_directoty+'/model1')
 
 # 4.4 Trained_mesh:
-n_t = 21
+n_t = 21  # number of points in x direction.
 max_t = 100.
 min_t = 0.
-Ts = np.linspace(min_t, max_t, n_t)
+Ts = np.linspace(min_t, max_t, n_t)  # x values.
 
 n_k = 20
 max_k = 100.
 min_k = max_k/n_k
 Ks = np.linspace(min_k, max_k, n_k)
 
-if True:
+if False:
     deps_mean, deps_std =\
         model1.trainedmodeltomesh.trained_mesh(min_t, max_t, n_t,
                                                min_k, max_k, n_k,
@@ -182,6 +182,7 @@ if True:
 
     df_deps_mean = pd.DataFrame(data=deps_mean, index=Ks, columns=Ts)
     df_deps_std = pd.DataFrame(data=deps_std, index=Ks, columns=Ts)
+
 #################################################
 if False:
     # np.save("trained_dep_KSEG_mean_21x20", deps_mean)
