@@ -1,0 +1,7 @@
+,ID,Type,Short Name,Latex Name,Description,Distribution,Distribution parameters,Units
+0,fp_t_dep_KSEG1,Free parameter,t,$$t^{KSEG}$$,Time,Uniform,"{'lower': '0.0', 'upper': '100.0'}",$$sec$$
+1,fp_k_dep_KSEG1,Free parameter,k,$$\kappa^{KSEG}$$,Membrane rigidity,Uniform,"{'lower': '0.0', 'upper': '100.0'}",$$kTnm^2$$
+2,rv_intercept_dep_KSEG1,Random variable,intercept,$$dep^{KSEG}_{intercept}$$,Interception with z axis,Normal,"{'mu': '43.13672662683967', 'sd': '3.9402198740867416'}",$$nm$$
+3,rv_tSlope_dep_KSEG1,Random variable,tSlope,$$dep^{KSEG}_{tSlope}$$,Slope in t direction,Normal,"{'mu': '1.2493359995821776', 'sd': '0.047520839693519'}",$$sec$$
+4,rv_kSlope_dep_KSEG1,Random variable,kSlope,$$dep^{KSEG}_{kSlope}$$,Slope in k direction,Normal,"{'mu': '0.6287049708389193', 'sd': '0.0475208393250919'}",$$kTnm^2$$
+5,rv_output_dep_KSEG1,Random variable,output,$$dep^{KSEG}_{output}$$,dep output,Normal,"{'mu': '', 'sd': '20.0'}",$$nm$$

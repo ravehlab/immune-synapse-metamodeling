@@ -1,0 +1,16 @@
+digraph {
+	subgraph cluster100 {
+		rv_t [label="rv_t ~ Uniform" style=filled]
+		rv_k [label="rv_k ~ Uniform" style=filled]
+		rv_output_dep_KSEG1 [label="rv_output_dep_KSEG1 ~ Normal" style=filled]
+		label=100 labeljust=r labelloc=b style=rounded
+	}
+	rv_tSlope_dep_KSEG1 [label="rv_tSlope_dep_KSEG1 ~ Normal"]
+	rv_intercept_dep_KSEG1 [label="rv_intercept_dep_KSEG1 ~ Normal"]
+	rv_kSlope_dep_KSEG1 [label="rv_kSlope_dep_KSEG1 ~ Normal"]
+	rv_k -> rv_output_dep_KSEG1
+	rv_tSlope_dep_KSEG1 -> rv_output_dep_KSEG1
+	rv_kSlope_dep_KSEG1 -> rv_output_dep_KSEG1
+	rv_t -> rv_output_dep_KSEG1
+	rv_intercept_dep_KSEG1 -> rv_output_dep_KSEG1
+}
