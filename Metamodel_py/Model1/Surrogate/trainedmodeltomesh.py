@@ -9,7 +9,7 @@ Created on Wed Feb 16 18:05:56 2022
 import numpy as np
 import pymc3 as pm
 
-import model1.modeling
+from Model1.Surrogate import modeling
 
 # Create a heatmap by running the trained model with a batch of x, y value:
 
@@ -24,7 +24,7 @@ def trained_mesh(min_x, max_x, n_x, min_y, max_y, n_y,
 
     for i, y in enumerate(Ys):
         for j, x in enumerate(Xs):
-            current_model = model1.modeling.get_pm_model1_trained(
+            current_model = modeling.get_pm_model1_trained(
                 df_model1_trainedTable, observed_k=y, observed_t=x)
             with current_model:
                 current_trace = pm.sample(2000, chains=4, progressbar=False)

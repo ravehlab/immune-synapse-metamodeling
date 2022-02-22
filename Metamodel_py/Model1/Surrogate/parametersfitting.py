@@ -12,31 +12,43 @@ from scipy.optimize import curve_fit
 # Set fit equation for dep:
 
 
-def linxliny(tk, intercept, tSlope, kSlope):
+def linxliny(xy, intercept, xSlope, ySlope):
+    """
+    Gets: xy, intercept, xSlope, ySlope.
+    Returns: f.
+    Calling: None.
+    Description:
+    """
 
-    t, k = tk
-    f = intercept + tSlope*t + kSlope*k
+    x, y = xy
+    parametersNames = ['intercept', 'xSlope', 'ySlope']
+    f = intercept + xSlope*x + ySlope*y
 
-    return f
+    return f, parametersNames
 #################################################
 # Set fit function for dep:
 
 
-def setFitFunction(df_trainingData_model1):
+def setFitFunction(df_trainingData_flatten, parametersNames):
+    """
+    Gets: df_trainingData_model1.
+    Returns: df_fitParameters_dep.
+    Calling: None.
+    Description:
+    """
 
     # Read x, y, z data from dataFrame:
-    flatten_t = df_trainingData_model1['time_sec']
-    flatten_k = df_trainingData_model1['k0_kTnm2']
-    flatten_dep_nm = df_trainingData_model1['dep_nm']
+    flatten_x = df_trainingData_flatten['time_sec']
+    flatten_y = df_trainingData_flatten['k0_kTnm2']
+    flatten_z = df_trainingData_flatten['dep_nm']
 
     p0_dep = 0., 0., 0.
-    parametersNames_dep = ['intercept', 'tSlope', 'kSlope']
 
     df_fitParameters_dep = get_fit_parameters(
-        X=(flatten_t, flatten_k),
+        X=(flatten_x, flatten_y),
         fitFunc=linxliny,
-        fXdata=flatten_dep_nm,
-        parametersNames=parametersNames_dep,
+        fXdata=flatten_z,
+        parametersNames=parametersNames,
         p0=p0_dep)
 
     return df_fitParameters_dep
@@ -47,9 +59,14 @@ def setFitFunction(df_trainingData_model1):
 
 def get_fit_parameters(X, fitFunc, fXdata, parametersNames, p0):
     """
-    Returns fit parameters and aranges them in DataFrames where the index
-    (rows) are the fit parameters' names and the columns are 'mu' and 'sd'.
+    Gets: X, fitFunc, fXdata, parametersNames, p0.
+    Returns: df_fit_parameters.
+    Calling: None.
+    Description: Returns fit parameters and aranges them in DataFrame
+    where the index (rows) are the fit parameters' names and the columns
+    are 'mu' and 'sd'.
     """
+
     popt, pcov = curve_fit(fitFunc, X, fXdata, p0)
     mu = popt
     sd = np.sqrt(np.diag(pcov))
@@ -64,25 +81,26 @@ def get_fit_parameters(X, fitFunc, fXdata, parametersNames, p0):
 # Fitted data:
 
 
-def fittedData(df_fitParameters_dep, df_trainingData_model1):
+def fittedData(df_fitParameters, df_trainingData_flatten):
 
-    intercept_fit = df_fitParameters_dep.loc['intercept', 'mu']
-    tSlope_fit = df_fitParameters_dep.loc['tSlope', 'mu']
-    kSlope_fit = df_fitParameters_dep.loc['kSlope', 'mu']
+    
+    intercept_fit = df_fitParameters.loc['intercept', 'mu']
+    xSlope_fit = df_fitParameters.loc['xSlope', 'mu']
+    ySlope_fit = df_fitParameters.loc['ySlope', 'mu']
 
-    flatten_fitted_data =\
+    fitted_data_flatten =\
         intercept_fit +\
-        tSlope_fit*df_trainingData_model1['time_sec'] +\
-        kSlope_fit*df_trainingData_model1['k0_kTnm2']
+        xSlope_fit*df_trainingData_flatten['time_sec'] +\
+        ySlope_fit*df_trainingData_flatten['k0_kTnm2']
 
-    df_flatten_fitted_data = df_trainingData_model1
-    df_flatten_fitted_data['dep_nm'] = flatten_fitted_data
+    df_fitted_data_flatten = df_trainingData_flatten
+    df_fitted_data_flatten['dep_nm'] = fitted_data_flatten
 
-    df_fitted_data_array = df_flatten_fitted_data.pivot(index='k0_kTnm2',
+    df_fitted_data_pivot = df_fitted_data_flatten.pivot(index='k0_kTnm2',
                                                         columns='time_sec',
                                                         values='dep_nm')
 
-    return df_fitted_data_array
+    return df_fitted_data_pivot
 #################################################
 # equation_dep = parametersNames_dep[0] + \
 #                 "+" + \

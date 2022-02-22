@@ -38,7 +38,7 @@ import pymc3 as pm
 # from IPython.display import display
 
 # Import Model1 packages:
-from Model1.Surrogate import styling
+from Model1.Surrogate import definitions
 from Model1.Surrogate import plotting
 from Model1.Surrogate import preprocessing
 from Model1.Surrogate import parametersfitting
@@ -46,33 +46,21 @@ from Model1.Surrogate import create_model_info
 from Model1.Surrogate import modeling
 from Model1.Surrogate import trainedmodeltomesh
 
-metamodel_path = '/home/yair/Documents/Git/Metamodel_py'
-model_path = metamodel_path+'/Model1'
+Metamodel_path = '/home/yair/Documents/Git/Metamodel_py'
+Model_path = Metamodel_path+'/Model1'
 
 #################################################
-# 1. Read and arange data:
-# 1.1 Read raw training data for model1 from Input folder:
-dep_raw_data = pd.read_csv(model_path+'/Input/dep_raw_data.csv', header=None)
+# 1. Get training data:
+raw_data_path = Model_path+'/Input/dep_raw_data.csv'
 
-# 1.2 Crop and scale raw data to nanometers,
-# assign values and units for x and y axes:
-t_array, k_array, dep_training_data_nm =\
-    preprocessing.cropAndScaleRawData(dep_raw_data)
+df_trainingData_dep_pivot, df_trainingData_dep_flatten =\
+    preprocessing.get_training_data(raw_data_path)
 
-# 1.3 Arange training data in pandas dataFrame (df):
-df_dep_nm = preprocessing.trainingDataToDataFrame(
-    t_array, k_array, dep_training_data_nm)
+save_name_pivot = 'df_trainingData_model1_pivot.csv'
+save_name_flatten = 'df_trainingData_model1_flatten.csv'
 
-# 1.4 Plot training data:
-nRows = 4
+# Save training data:
 
-DataToPlot = nRows*[None]
-DataToPlot[0] = [[df_dep_nm.columns,
-                  df_dep_nm.index],
-                 [df_dep_nm.values]]
-plotWhat = [True, False, False, False]
-
-plotting.plotData(DataToPlot, plotWhat)
 #################################################
 # 2. Pre modeling (finding initial fit parameters):
 # 2.1 Define fit equations and parameters:
@@ -93,6 +81,9 @@ DataToPlot[1] = [[df_fitted_dep.columns,
 plotWhat = [True, True, False, False]
 
 plotting.plotData(DataToPlot, plotWhat)
+#################################################
+# 2. Get parameters fitting:
+
 #################################################
 # 3. Create table for model info:
 # 3.1 Define class RV
@@ -121,7 +112,7 @@ pm_model1_untrained = modeling.get_pm_model1_untrained(
 gv1_untrained = pm.model_to_graphviz(pm_model1_untrained)
 gv1_untrained_filename =\
     gv1_untrained.render(filename='gv1_untrained',
-                         directory=metamodel_directoty+'/model1')
+                         directory=Model1_path')
 
 with pm_model1_untrained:
     trace1 = pm.sample(2000, chains=4)
