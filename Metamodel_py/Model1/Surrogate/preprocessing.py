@@ -106,7 +106,7 @@ def plot_data(df_trainingData_pivot):
     Gets: df_trainingData_model1_pivot.
     Returns: None.
     Calling: None.
-    Description:
+    Description: Plottin a heatmap of training data.
     """
 
     # 1.4 Plot training data:

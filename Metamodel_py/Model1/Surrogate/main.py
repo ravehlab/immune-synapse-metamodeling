@@ -16,11 +16,10 @@ Created on Tue Jan 25 15:23:32 2022
     2.3 Create fitted data.
     2.4 Plot fitted data.
 3. Create tables for the model.
-    3.1
-    3.2
-    3.3
-    3.4
-    3.5
+    3.1 Define 'Random Variable' (RV) class.
+    3.2 Define 'Model' class.
+    3.3 Get untrained model info.
+    3.4 Create table with untrained model info.
 4. Create surrogate model with pymc3.
     4.1 Create untrained pymc3 model.
     4.2 Create trained pymc3 model.
@@ -29,7 +28,6 @@ Created on Tue Jan 25 15:23:32 2022
     5.1
     5.2
     5.3
-6.
 """
 
 import numpy as np
@@ -59,20 +57,28 @@ df_trainingData_dep_pivot, df_trainingData_dep_flatten =\
 save_name_pivot = 'df_trainingData_model1_pivot.csv'
 save_name_flatten = 'df_trainingData_model1_flatten.csv'
 
-# Save training data:
+# Save training data as pivot array:
+df_trainingData_dep_pivot.to_pickle(
+    Model_path+'/Processing/'+save_name_pivot)
 
+# Save training data as flatten array:
+df_trainingData_dep_flatten.to_pickle(
+    Model_path+'/Processing/'+save_name_flatten)
 #################################################
+
 # 2. Pre modeling (finding initial fit parameters):
 # 2.1 Define fit equations and parameters:
-df_trainingData_model1 = pd.read_csv('trainingData_model1.csv')
+
+    
+
 
 # 2.2 Get fit parameters:
 df_fitParameters_dep = parametersfitting.setFitFunction(
-    df_trainingData_model1)
+    df_trainingData_dep_flatten_r)
 
 # 2.3 Create fitted data from fit parameters:
 df_fitted_dep = parametersfitting.fittedData(
-    df_fitParameters_dep, df_trainingData_model1)
+    df_trainingData_dep_flatten_r, df_trainingData_model1)
 
 # 2.4 Plot fitted data:
 DataToPlot[1] = [[df_fitted_dep.columns,
