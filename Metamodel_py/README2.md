@@ -16,7 +16,7 @@ Model3/ - TCR phosphorylation (TCRP).
 Coupled_model/ - Coupling (C).
 
 =============================
-Model1/ - Kinetic segregation:
+Every model has the same folder names:
 
 Folders:
 =============================
@@ -26,8 +26,9 @@ Surrogate/ - Files for learning and training the model.
 Output/ - Files to be used by the coupled model.
 
 =============================
+Every model follow the same process:
 
-Structure:
+Process:
 =============================
 1. Pre-processing
 	1.1 Reading raw training data from 'Input/'.
