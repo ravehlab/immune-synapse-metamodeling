@@ -38,24 +38,30 @@ import pymc3 as pm
 # Import Model1 packages:
 from Model1.Surrogate import definitions
 from Model1.Surrogate import plotting
-from Model1.Surrogate import preprocessing
-from Model1.Surrogate import parametersfitting
-from Model1.Surrogate import create_model_info
-from Model1.Surrogate import modeling
-from Model1.Surrogate import trainedmodeltomesh
+from Model1.Surrogate import preProcessing
+from Model1.Surrogate import parametersFitting
+from Model1.Surrogate import createModelInfo
+from Model1.Surrogate import training
+from Model1.Surrogate import predicting
 
-Metamodel_path = '/home/yair/Documents/Git/Metamodel_py'
-Model_path = Metamodel_path+'/Model1'
+Metamodel_path = '/home/yair/Documents/Git/Metamodel_py/'
+Model_path = Metamodel_path+'Model1/'
+Input_path = Model_path+'Input/'
+Output_path = Model_path+'Output/'
+Input_data_name = 'df_trainingData_model1_pivot.csv'
 
 #################################################
 # 1. Get training data:
-raw_data_path = Model_path+'/Input/dep_raw_data.csv'
 
-df_trainingData_dep_pivot, df_trainingData_dep_flatten =\
-    preprocessing.get_training_data(raw_data_path)
+# 1.1 Read trainingData from Input/ folder:
+df_trainingData_dep_pivot = pd.read_pickle(Input_path+Input_data_name)
 
-save_name_pivot = 'df_trainingData_model1_pivot.csv'
-save_name_flatten = 'df_trainingData_model1_flatten.csv'
+# Get trainingDta aranged as dataFrame in columns (flatten):
+df_trainingData_dep_flatten = preProcessing.pivotToFlatten(
+    df_trainingData_dep_pivot)
+
+save_name_pivot = 'df_trainingData_dep_pivot.csv'
+save_name_flatten = 'df_trainingData_dep_flatten.csv'
 
 # Save training data as pivot array:
 df_trainingData_dep_pivot.to_pickle(
@@ -64,42 +70,56 @@ df_trainingData_dep_pivot.to_pickle(
 # Save training data as flatten array:
 df_trainingData_dep_flatten.to_pickle(
     Model_path+'/Processing/'+save_name_flatten)
+
+# 1.3 Plot training data:
+preProcessing.plotTrainingData(
+    df_trainingData_dep_pivot, definitions)
 #################################################
 
-# 2. Pre modeling (finding initial fit parameters):
+# 2. Parameters Fitting (to be used as initial parameters
+# for the untrained model):
+
+# Read df_trainingData_flatten:
+df_trainingData_dep_flatten_r = pd.read_pickle(
+    Model_path+'/Processing/'+save_name_flatten)
+
 # 2.1 Define fit equations and parameters:
 
-    
+
 
 
 # 2.2 Get fit parameters:
-df_fitParameters_dep = parametersfitting.setFitFunction(
+df_fitParameters_dep = parametersFitting.setFitFunction(
     df_trainingData_dep_flatten_r)
 
+
+
+
 # 2.3 Create fitted data from fit parameters:
-df_fitted_dep = parametersfitting.fittedData(
-    df_trainingData_dep_flatten_r, df_trainingData_model1)
+df_fitted_dep = parametersFitting.fittedData(
+    df_trainingData_dep_flatten_r, df_fitParameters_dep)
 
 # 2.4 Plot fitted data:
-DataToPlot[1] = [[df_fitted_dep.columns,
-                  df_fitted_dep.index],
-                 [df_fitted_dep.values]]
-plotWhat = [True, True, False, False]
-
-plotting.plotData(DataToPlot, plotWhat)
+preProcessing.plotFittedData(
+    df_fittedData_dep_pivot, definitions)
 #################################################
 # 2. Get parameters fitting:
+
+
+
+
+
 
 #################################################
 # 3. Create table for model info:
 # 3.1 Define class RV
-create_model_info.RV
+createModelInfo.RV
 
 # 3.2 Define class Model:
-create_model_info.Model
+createModelInfo.Model
 
 # 3.3 Get untrained info:
-model1_dep_info = create_model_info.model1_info(df_fitParameters_dep)
+model1_dep_info = createModelInfo.model1_info(df_fitParameters_dep)
 df_model1_untrainedTable = model1_dep_info.get_dataframe()
 
 # 3.4 Display untrained table:
@@ -109,8 +129,18 @@ print(df_model1_untrainedTable)
 
 # 3.5 Output (temp)
 
+
+
+
+
+
+
+
+
+
 #################################################
 # 4. Modeling with pymc3:
+
 # 4.1 df_model1_untrainedTabled
 pm_model1_untrained = modeling.get_pm_model1_untrained(
      df_trainingData_model1, df_model1_untrainedTable)
@@ -118,7 +148,7 @@ pm_model1_untrained = modeling.get_pm_model1_untrained(
 gv1_untrained = pm.model_to_graphviz(pm_model1_untrained)
 gv1_untrained_filename =\
     gv1_untrained.render(filename='gv1_untrained',
-                         directory=Model1_path')
+                         directory=Model1_path)
 
 with pm_model1_untrained:
     trace1 = pm.sample(2000, chains=4)
@@ -143,53 +173,33 @@ for rv in mean_sd_r.index:
         str(mean_sd_r.loc[rv]['sd'])
 
 # 4.3 Set trained model:
-pm_model1_trained = model1.modeling.get_pm_model1_trained(
+pm_model1_trained = training.get_pm_model1_trained(
     df_model1_trainedTable)
 
 gv1_trained = pm.model_to_graphviz(pm_model1_trained)
 gv1_trained_filename =\
     gv1_trained.render(filename='gv1_trained',
-                       directory=metamodel_directoty+'/model1')
-
-# 4.4 Trained_mesh:
-n_t = 21  # number of points in x direction.
-max_t = 100.
-min_t = 0.
-Ts = np.linspace(min_t, max_t, n_t)  # x values.
-
-n_k = 20
-max_k = 100.
-min_k = max_k/n_k
-Ks = np.linspace(min_k, max_k, n_k)
-
-if False:
-    deps_mean, deps_std =\
-        model1.trainedmodeltomesh.trained_mesh(min_t, max_t, n_t,
-                                               min_k, max_k, n_k,
-                                               df_model1_trainedTable)
-
-    df_deps_mean = pd.DataFrame(data=deps_mean, index=Ks, columns=Ts)
-    df_deps_std = pd.DataFrame(data=deps_std, index=Ks, columns=Ts)
+                       directory=Output_path)
 
 #################################################
-if False:
-    # np.save("trained_dep_KSEG_mean_21x20", deps_mean)
-    # np.save("trained_dep_KSEG_std_21x20", deps_std)
+# 5 Predictions based on the trained parameters:
 
-    df_deps_mean.to_pickle(model1_path+"/df_trained_dep_KSEG_mean_21x20")
-    df_deps_std.to_pickle(model1_path+"/df_trained_dep_KSEG_std_21x20")
+# 5.1 Run prediction:
+run_prediction = False
 
-# import pickle
+if run_prediction:
+    df_prediction_mean, df_prediction_std =\
+        predicting.predict(df_model1_trainedTable)
 
-# deps_mean_r = np.load('trained_dep_KSEG_mean_21x20.npy')
+    df_prediction_mean.to_pickle(Output_path+"/df_model1_predicted_dep_mean")
+    df_prediction_std.to_pickle(Output_path+"/df_model1_predicted_dep_std")
 
+df_prediction_mean_r = pd.read_pickle(
+    Output_path+"/df_model1_predicted_dep_mean")
+df_prediction_std_r = pd.read_pickle(
+    Output_path+"/df_model1_predicted_dep_std")
 
-df_deps_mean_r = pd.read_pickle(model1_path+"/df_trained_dep_KSEG_mean_21x20")
-df_deps_std_r = pd.read_pickle(model1_path+"/df_trained_dep_KSEG_std_21x20")
-
-if True:
-    DataToPlot[3] = [[df_deps_mean_r.columns,
-                      df_deps_mean_r.index],
-                     [df_deps_mean_r.values]]
-    plotWhat = [True, False, False, True]
-    model1.plotting.plotData(DataToPlot, plotWhat)
+# 5.2 Plot prediction data:
+predicting.plotPredictionData(df_prediction_mean_r,
+                              df_prediction_std_r,
+                              definitions)
