@@ -6,38 +6,35 @@ Created on Tue Jan 25 15:23:32 2022
 @author: yairn
 
 1. Pre process of data.
-    1.1 Read raw training data for model1.
-    1.2 Crop and scale data, assign values and units for x and y axes.
-    1.3 Arange training data in 'pandas' dataFrame.
-    1.4 Plot training data.
+    1.1 Get training data.
+    1.2 Plot training data.
 2. Pre modeling (finding initial fit parameters).
     2.1 Define fit equations and parameters.
     2.2 Get fit parameters.
     2.3 Create fitted data.
     2.4 Plot fitted data.
 3. Create tables for the model.
-    3.1 Define 'Random Variable' (RV) class.
+    3.1 Define 'RV' (Random Variable) class.
     3.2 Define 'Model' class.
     3.3 Get untrained model info.
     3.4 Create table with untrained model info.
 4. Create surrogate model with pymc3.
     4.1 Create untrained pymc3 model.
     4.2 Create trained pymc3 model.
-    4.3 Create a fine mesh surrogate model based on the trained parameters.
-5. Outputs.
-    5.1
-    5.2
-    5.3
+    4.3 Create table with trained model info.
+5. Predictions based on the trained parameters:
+    5.1 Run prediction:
+    5.2 Plot prediction data:
 """
 
-import numpy as np
+# import numpy as np
 import pandas as pd
 import pymc3 as pm
 # from IPython.display import display
 
-# Import Model1 packages:
+# Import Model packages:
 from Model1.Surrogate import definitions
-from Model1.Surrogate import plotting
+# from Model1.Surrogate import plotting
 from Model1.Surrogate import preProcessing
 from Model1.Surrogate import parametersFitting
 from Model1.Surrogate import createModelInfo
@@ -73,7 +70,7 @@ df_trainingData_dep_flatten.to_pickle(
 
 # 1.3 Plot training data:
 preProcessing.plotTrainingData(
-    df_trainingData_dep_pivot, definitions)
+    df_trainingData_dep_pivot)
 #################################################
 
 # 2. Parameters Fitting (to be used as initial parameters
@@ -96,12 +93,12 @@ df_fitParameters_dep = parametersFitting.setFitFunction(
 
 
 # 2.3 Create fitted data from fit parameters:
-df_fitted_dep = parametersFitting.fittedData(
+df_fitted_dep = parametersFitting.getFittedData(
     df_trainingData_dep_flatten_r, df_fitParameters_dep)
 
 # 2.4 Plot fitted data:
 preProcessing.plotFittedData(
-    df_fittedData_dep_pivot, definitions)
+    df_fittedData_dep_pivot)
 #################################################
 # 2. Get parameters fitting:
 
@@ -139,7 +136,7 @@ print(df_model1_untrainedTable)
 
 
 #################################################
-# 4. Modeling with pymc3:
+# 4. Training with pymc3:
 
 # 4.1 df_model1_untrainedTabled
 pm_model1_untrained = modeling.get_pm_model1_untrained(

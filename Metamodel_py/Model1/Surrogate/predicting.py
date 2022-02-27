@@ -20,11 +20,11 @@ from Model1.Surrogate import plotting
 def predict(df_model1_trainedTable):
     """
     Gets: df_model1_trainedTable.
-    Returns: df_prediction_mean,
-             df_prediction_std.
+    Returns: df_prediction_mean, df_prediction_std.
     Calling: training.get_pm_model1_trained.
     Called by: main
-    Description: Plotting a heatmap of the training data.
+    Description: Calculating predictions based on
+    the trained model parameters.
     """
 
     Xs = definitions.Xs  # x values.
@@ -35,6 +35,7 @@ def predict(df_model1_trainedTable):
 
     for i, y in enumerate(Ys):
         for j, x in enumerate(Xs):
+
             current_model = training.get_pm_model1_trained(
                 df_model1_trainedTable, observed_y=y, observed_x=x)
 

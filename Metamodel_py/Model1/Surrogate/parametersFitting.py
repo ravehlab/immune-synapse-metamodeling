@@ -92,7 +92,7 @@ def getFitParameters(X, fitFunc, fXdata, parametersNames, p0):
 # Fitted data:
 
 
-def fittedData(df_fitParameters, df_trainingData_flatten):
+def getFittedData(df_fitParameters, df_trainingData_flatten):
     """
     Gets: df_fitParameters, df_trainingData_flatten.
     Returns: df_fitted_data_pivot.
@@ -119,24 +119,9 @@ def fittedData(df_fitParameters, df_trainingData_flatten):
 
     return df_fitted_data_pivot
 
+#################################################
+# Plot fitted data:
 
-# def getParametersFitting():
-#     """
-#     Gets:
-#     Returns: df_fitted_data_pivot.
-#     Calling: None.
-#     Description: Pre modeling (finding initial fit parameters).
-#     """
-
-#     # 2.1 Define fit equations and parameters:
-#     df_trainingData_model1 = pd.read_csv('trainingData_model1.csv')
-
-#     # 2.2 Get fit parameters:
-#     df_fitParameters_dep = setFitFunction(df_trainingData_model1)
-
-#     # 2.3 Create fitted data from fit parameters:
-#     df_fitted_data_pivot = fittedData(df_fitParameters_dep,
-#                                       df_trainingData_model1)
 
 def plotFittedData(df_pivot):
     """

@@ -288,5 +288,5 @@ def displayInfo(model1_dep):
 # Get nodel info:
 
 
-def get_model_info():
+def getModelInfo():
     pass

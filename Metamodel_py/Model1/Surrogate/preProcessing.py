@@ -47,7 +47,7 @@ def pivotToFlatten(df_pivot):
 # 1.3 Plot training data:
 
 
-def plotTrainingData(df_pivot, definitions):
+def plotTrainingData(df_pivot):
     """
     Gets: df_pivot.
     Returns: None.
