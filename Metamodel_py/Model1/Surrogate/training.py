@@ -21,49 +21,54 @@ def get_pm_model1_untrained(df_trainingData_model1,
 
         t_KSEG1_obs = df_trainingData_model1.loc[:, 'time_sec'].values
         k_KSEG1_obs = df_trainingData_model1.loc[:, 'k0_kTnm2'].values
-        dep_KSEG1_obs = df_trainingData_model1.loc[:, 'dep_nm'].values
+        depletion_KSEG1_obs =\
+            df_trainingData_model1.loc[:, 'depletion_nm'].values
 
         # rv_t
-        ID = 'fp_t_dep_KSEG1'
+        ID = 'fp_t_depletion_KSEG1'
         rv_t = pm.Uniform('rv_t',
                           lower=dfRV.loc[ID, DP]['lower'],
                           upper=dfRV.loc[ID, DP]['upper'],
                           observed=t_KSEG1_obs)
 
         # rv_k
-        ID = 'fp_k_dep_KSEG1'
+        ID = 'fp_k_depletion_KSEG1'
         rv_k = pm.Uniform('rv_k',
                           lower=dfRV.loc[ID, DP]['lower'],
                           upper=dfRV.loc[ID, DP]['upper'],
                           observed=k_KSEG1_obs)
 
-        # dep_KSEG
+        # depletion_KSEG
         """TODO: read parameters values from RV table"""
-        # rv_intercept_dep_KSEG1
-        ID = 'rv_intercept_dep_KSEG1'
-        rv_intercept_dep_KSEG1 = pm.Normal(ID,
-                                           mu=eval(dfRV.loc[ID, DP]['mu']),
-                                           sd=eval(dfRV.loc[ID, DP]['sd']))
+        # rv_intercept_depletion_KSEG1
+        ID = 'rv_intercept_depletion_KSEG1'
+        rv_intercept_depletion_KSEG1 = pm.Normal(
+            ID,
+            mu=eval(dfRV.loc[ID, DP]['mu']),
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_tSlope_dep_KSEG1
-        ID = 'rv_tSlope_dep_KSEG1'
-        rv_tSlope_dep_KSEG1 = pm.Normal(ID,
-                                        mu=eval(dfRV.loc[ID, DP]['mu']),
-                                        sd=eval(dfRV.loc[ID, DP]['sd']))
+        # rv_tSlope_depletion_KSEG1
+        ID = 'rv_tSlope_depletion_KSEG1'
+        rv_tSlope_depletion_KSEG1 = pm.Normal(
+            ID,
+            mu=eval(dfRV.loc[ID, DP]['mu']),
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_kSlope_dep_KSEG1
-        ID = 'rv_kSlope_dep_KSEG1'
-        rv_kSlope_dep_KSEG1 = pm.Normal(ID,
-                                        mu=eval(dfRV.loc[ID, DP]['mu']),
-                                        sd=eval(dfRV.loc[ID, DP]['sd']))
+        # rv_kSlope_depletion_KSEG1
+        ID = 'rv_kSlope_depletion_KSEG1'
+        rv_kSlope_depletion_KSEG1 = pm.Normal(
+            ID,
+            mu=eval(dfRV.loc[ID, DP]['mu']),
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        ID = 'rv_output_dep_KSEG1'
-        rv_output_dep_KSEG1 = pm.Normal(ID,
-                                        mu=rv_intercept_dep_KSEG1 +
-                                        rv_tSlope_dep_KSEG1*rv_t +
-                                        rv_kSlope_dep_KSEG1*rv_k,
-                                        sd=eval(dfRV.loc[ID, DP]['sd']),
-                                        observed=dep_KSEG1_obs)
+        ID = 'rv_output_depletion_KSEG1'
+        rv_output_depletion_KSEG1 = pm.Normal(
+            ID,
+            mu=rv_intercept_depletion_KSEG1 +
+            rv_tSlope_depletion_KSEG1*rv_t +
+            rv_kSlope_depletion_KSEG1*rv_k,
+            sd=eval(dfRV.loc[ID, DP]['sd']),
+            observed=depletion_KSEG1_obs)
 
     return pm_model1_untrained
 #################################################
@@ -91,31 +96,35 @@ def get_pm_model1_trained(df_model1_trainedTable,
         rv_t = pm.Normal('rv_t', mu=50, sd=20, observed=observed_t)
         rv_k = pm.Normal('rv_k', mu=50, sd=20, observed=observed_k)
 
-        # dep_KSEG
-        # rv_intercept_dep_KSEG1
-        ID = 'rv_intercept_dep_KSEG1'
-        rv_intercept_dep_KSEG1 = pm.Normal(ID,
-                                           mu=eval(dfRV.loc[ID, DP]['mu']),
-                                           sd=eval(dfRV.loc[ID, DP]['sd']))
+        # depletion_KSEG
+        # rv_intercept_depletion_KSEG1
+        ID = 'rv_intercept_depletion_KSEG1'
+        rv_intercept_depletion_KSEG1 = pm.Normal(
+            ID,
+            mu=eval(dfRV.loc[ID, DP]['mu']),
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_tSlope_dep_KSEG1
-        ID = 'rv_tSlope_dep_KSEG1'
-        rv_tSlope_dep_KSEG1 = pm.Normal(ID,
-                                        mu=eval(dfRV.loc[ID, DP]['mu']),
-                                        sd=eval(dfRV.loc[ID, DP]['sd']))
+        # rv_tSlope_depletion_KSEG1
+        ID = 'rv_tSlope_depletion_KSEG1'
+        rv_tSlope_depletion_KSEG1 = pm.Normal(
+            ID,
+            mu=eval(dfRV.loc[ID, DP]['mu']),
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_kSlope_dep_KSEG1
-        ID = 'rv_kSlope_dep_KSEG1'
-        rv_kSlope_dep_KSEG1 = pm.Normal(ID,
-                                        mu=eval(dfRV.loc[ID, DP]['mu']),
-                                        sd=eval(dfRV.loc[ID, DP]['sd']))
+        # rv_kSlope_depletion_KSEG1
+        ID = 'rv_kSlope_depletion_KSEG1'
+        rv_kSlope_depletion_KSEG1 = pm.Normal(
+            ID,
+            mu=eval(dfRV.loc[ID, DP]['mu']),
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        ID = 'rv_output_dep_KSEG1'
-        rv_output_dep_KSEG1 = pm.Normal(ID,
-                                        mu=rv_intercept_dep_KSEG1 +
-                                        rv_tSlope_dep_KSEG1*rv_t +
-                                        rv_kSlope_dep_KSEG1*rv_k,
-                                        sd=eval(dfRV.loc[ID, DP]['sd']))
+        ID = 'rv_output_depletion_KSEG1'
+        rv_output_depletion_KSEG1 = pm.Normal(
+            ID,
+            mu=rv_intercept_depletion_KSEG1 +
+            rv_tSlope_depletion_KSEG1*rv_t +
+            rv_kSlope_depletion_KSEG1*rv_k,
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
     return pm_model1_trained
 #################################################

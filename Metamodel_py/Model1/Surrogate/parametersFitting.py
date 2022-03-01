@@ -12,7 +12,7 @@ from scipy.optimize import curve_fit
 from Model1.Surrogate import definitions
 from Model1.Surrogate import plotting
 
-# Set fit equation for dep:
+# 2.1 Set fit equation for dep:
 
 
 def linXlinY(xy, intercept, xSlope, ySlope):
@@ -25,32 +25,30 @@ def linXlinY(xy, intercept, xSlope, ySlope):
     """
 
     x, y = xy
-    parametersNames = ['intercept', 'xSlope', 'ySlope']
     f = intercept + xSlope*x + ySlope*y
 
-    return f, parametersNames
+    return f
+
 #################################################
-# Set fit function for dep:
+# 2.2 Set fit function for dep:
 
 
 def setFitFunction(df_trainingData_flatten):
     """
-    Gets: df_trainingData_model1.
-    Returns: df_fitParameters_dep.
+    Gets: df_trainingData_model1.csv
+    Returns: df_fitParameters_depletion.
     Calling: None.
     Called by: main.
-    Description:
+    Description: Returns a dataFrame with index=parametersNames,
+    columns=['mu', 'sd'], values=fitParameters.
     """
 
-    parametersNames_dep = definitions.parametersNames_dep
+    parametersNames_dep = definitions.parametersNames_depletion
 
     # Read x, y, z data from dataFrame:
     flatten_x = df_trainingData_flatten['time_sec']
     flatten_y = df_trainingData_flatten['k0_kTnm2']
-    flatten_z = df_trainingData_flatten['dep_nm']
-
-    X = (flatten_x, flatten_y)
-    print(X)
+    flatten_z = df_trainingData_flatten['depletion_nm']
 
     p0_dep = 100., 0., 0.
 
@@ -64,7 +62,7 @@ def setFitFunction(df_trainingData_flatten):
     return df_fitParameters_dep
 
 #################################################
-# Get fit parameters:
+# 2.3 Get fit parameters:
 
 
 def getFitParameters(X, fitFunc, fXdata, parametersNames, p0):
@@ -72,50 +70,56 @@ def getFitParameters(X, fitFunc, fXdata, parametersNames, p0):
     Gets: X, fitFunc, fXdata, parametersNames, p0.
     Returns: df_fit_parameters.
     Calling: None.
-    Called by:
+    Called by: parametersFitting.setFitData
     Description: Returns fit parameters and aranges them in DataFrame
     where the index (rows) are the fit parameters' names and the columns
     are 'mu' and 'sd'.
     """
 
-    popt, pcov = curve_fit(fitFunc, X, fXdata, parametersNames, p0)
+    popt, pcov = curve_fit(fitFunc, X, fXdata, p0)
     mu = popt
     sd = np.sqrt(np.diag(pcov))
 
     data = {'mu': mu, 'sd': sd}
     index = parametersNames
 
-    df_fit_parameters = pd.DataFrame(data, index=index)
+    df_fitParameters = pd.DataFrame(data, index=index)
 
-    return df_fit_parameters
+    return df_fitParameters
+
 #################################################
-# Fitted data:
+# 2.4 Get fitted data:
 
 
-def getFittedData(df_fitParameters, df_trainingData_flatten):
+def getFittedData(df_trainingData_flatten, df_fitParameters):
     """
     Gets: df_fitParameters, df_trainingData_flatten.
     Returns: df_fitted_data_pivot.
     Calling: None.
-    Called by:
-    Description:
+    Called by: Surrogate.main
+    Description: Returns fitted data created by the fit parameters and the
+    x, y data.
     """
 
+    # Read fit parameters from df_fitParameters:
     intercept_fit = df_fitParameters.loc['intercept', 'mu']
     xSlope_fit = df_fitParameters.loc['xSlope', 'mu']
     ySlope_fit = df_fitParameters.loc['ySlope', 'mu']
 
+    flatten_x = df_trainingData_flatten['time_sec']
+    flatten_y = df_trainingData_flatten['k0_kTnm2']
+
     fitted_data_flatten =\
         intercept_fit +\
-        xSlope_fit*df_trainingData_flatten['time_sec'] +\
-        ySlope_fit*df_trainingData_flatten['k0_kTnm2']
+        xSlope_fit*flatten_x +\
+        ySlope_fit*flatten_y
 
     df_fitted_data_flatten = df_trainingData_flatten
-    df_fitted_data_flatten['dep_nm'] = fitted_data_flatten
+    df_fitted_data_flatten['depletion_nm'] = fitted_data_flatten
 
     df_fitted_data_pivot = df_fitted_data_flatten.pivot(index='k0_kTnm2',
                                                         columns='time_sec',
-                                                        values='dep_nm')
+                                                        values='depletion_nm')
 
     return df_fitted_data_pivot
 
@@ -139,6 +143,6 @@ def plotFittedData(df_pivot):
                       df_pivot.index],
                      [df_pivot.values]]
 
-    plotWhat = [False, True, False, False]
+    plotWhat = [True, False, False, False]
 
     plotting.plotData(DataToPlot, plotWhat)

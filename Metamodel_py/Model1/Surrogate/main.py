@@ -27,145 +27,119 @@ Created on Tue Jan 25 15:23:32 2022
     5.2 Plot prediction data:
 """
 
-# import numpy as np
 import pandas as pd
 import pymc3 as pm
-# from IPython.display import display
+from IPython.display import display
 
 # Import Model packages:
 from Model1.Surrogate import definitions
-# from Model1.Surrogate import plotting
 from Model1.Surrogate import preProcessing
 from Model1.Surrogate import parametersFitting
 from Model1.Surrogate import createModelInfo
 from Model1.Surrogate import training
 from Model1.Surrogate import predicting
 
-Metamodel_path = '/home/yair/Documents/Git/Metamodel_py/'
+# Define pahts:
+Outside_path = '/home/yair/Documents/Git/'
+Metamodel_path = Outside_path+'Metamodel_py/'
 Model_path = Metamodel_path+'Model1/'
 Input_path = Model_path+'Input/'
+Processing_path = Model_path+'Processing/'
 Output_path = Model_path+'Output/'
-Input_data_name = 'df_trainingData_model1_pivot.csv'
+Input_data_name = 'df_trainingData_depletion_pivot.csv'
 
 #################################################
 # 1. Get training data:
+# 1.1 Read trainingData from Input/:
+df_trainingData_depletion_pivot =\
+    pd.read_pickle(Input_path+Input_data_name)
 
-# 1.1 Read trainingData from Input/ folder:
-df_trainingData_dep_pivot = pd.read_pickle(Input_path+Input_data_name)
+# Get trainingData aranged as dataFrame in columns (flatten):
+df_trainingData_depletion_flatten =\
+    preProcessing.pivotToFlatten(df_trainingData_depletion_pivot)
 
-# Get trainingDta aranged as dataFrame in columns (flatten):
-df_trainingData_dep_flatten = preProcessing.pivotToFlatten(
-    df_trainingData_dep_pivot)
+df_trainingData_depletion_flatten.to_csv(
+    Input_path+"/df_trainingData_depletion_flatten.csv")
 
-save_name_pivot = 'df_trainingData_dep_pivot.csv'
-save_name_flatten = 'df_trainingData_dep_flatten.csv'
+# 1.2 Plot training data:
+preProcessing.plotTrainingData(df_trainingData_depletion_pivot)
 
-# Save training data as pivot array:
-df_trainingData_dep_pivot.to_pickle(
-    Model_path+'/Processing/'+save_name_pivot)
-
-# Save training data as flatten array:
-df_trainingData_dep_flatten.to_pickle(
-    Model_path+'/Processing/'+save_name_flatten)
-
-# 1.3 Plot training data:
-preProcessing.plotTrainingData(
-    df_trainingData_dep_pivot)
 #################################################
-
 # 2. Parameters Fitting (to be used as initial parameters
 # for the untrained model):
+# 2.1 Get fit parameters:
+df_fitParameters_depletion = parametersFitting.setFitFunction(
+    df_trainingData_depletion_flatten)
 
-# Read df_trainingData_flatten:
-df_trainingData_dep_flatten_r = pd.read_pickle(
-    Model_path+'/Processing/'+save_name_flatten)
+# 2.2 Create fitted data from fit parameters:
+df_fittedData_depletion_pivot = parametersFitting.getFittedData(
+    df_trainingData_depletion_flatten, df_fitParameters_depletion)
 
-# 2.1 Define fit equations and parameters:
-
-
-
-
-# 2.2 Get fit parameters:
-df_fitParameters_dep = parametersFitting.setFitFunction(
-    df_trainingData_dep_flatten_r)
-
-
-
-
-# 2.3 Create fitted data from fit parameters:
-df_fitted_dep = parametersFitting.getFittedData(
-    df_trainingData_dep_flatten_r, df_fitParameters_dep)
-
-# 2.4 Plot fitted data:
-preProcessing.plotFittedData(
-    df_fittedData_dep_pivot)
-#################################################
-# 2. Get parameters fitting:
-
-
-
-
-
+# 2.3 Plot fitted data:
+parametersFitting.plotFittedData(df_fittedData_depletion_pivot)
 
 #################################################
 # 3. Create table for model info:
-# 3.1 Define class RV
+# 3.1 Define class RV (Random variable).
 createModelInfo.RV
 
 # 3.2 Define class Model:
 createModelInfo.Model
 
 # 3.3 Get untrained info:
-model1_dep_info = createModelInfo.model1_info(df_fitParameters_dep)
-df_model1_untrainedTable = model1_dep_info.get_dataframe()
+model1_depletion_info = createModelInfo.model1_depletion_info(
+    df_fitParameters_depletion)
+
+# Get untrained table:
+df_model1_untrainedTable = createModelInfo.model1_depletion.get_dataframe()
+
+# Untrained table with 'ID' as index:
+df_model1_untrainedTable_ID = df_model1_untrainedTable.set_index('ID')
 
 # 3.4 Display untrained table:
-df_model1_untrainedTable = df_model1_untrainedTable.set_index('ID')
-# model1.model_info.displayInfo(df_model1_untrainedTable)
-print(df_model1_untrainedTable)
+display(df_model1_untrainedTable_ID.style.set_properties(
+    **{'text-align': 'left',
+       'background-color': 'rgba(200, 150, 255, 0.65)',
+       'border': '1px black solid'}))
 
-# 3.5 Output (temp)
+print(df_model1_untrainedTable_ID)
 
-
-
-
-
-
-
-
-
+# 3.5 Output (temp) save displayed table as figure.
 
 #################################################
 # 4. Training with pymc3:
 
 # 4.1 df_model1_untrainedTabled
-pm_model1_untrained = modeling.get_pm_model1_untrained(
-     df_trainingData_model1, df_model1_untrainedTable)
+pm_model1_untrained = training.get_pm_model1_untrained(
+     df_trainingData_depletion_flatten, df_model1_untrainedTable_ID)
 
-gv1_untrained = pm.model_to_graphviz(pm_model1_untrained)
-gv1_untrained_filename =\
-    gv1_untrained.render(filename='gv1_untrained',
-                         directory=Model1_path)
+gv_untrained = pm.model_to_graphviz(pm_model1_untrained)
+
+gv_untrained_filename =\
+    gv_untrained.render(filename='gv_untrained',
+                        directory=Output_path)
 
 with pm_model1_untrained:
-    trace1 = pm.sample(2000, chains=4)
+    trace = pm.sample(2000, chains=4)
 
-pm.traceplot(trace1)
+pm.traceplot(trace)
 
-trace1_summary = pm.summary(trace1)
+trace_summary = pm.summary(trace)
 
-trace1_summary.to_pickle("trace1_summay")
-# trace1_summary.to_pickle(metamodel_directoty+'/model1', "trace1_summay")
-trace1_summary_r = pd.read_pickle("trace1_summay")
+trace_summary.to_pickle(Output_path, "trace_summay")
 
-mean_sd_r = trace1_summary_r.loc[:, ['mean', 'sd']]
+trace_summary_r = pd.read_pickle("trace_summay")
+
+mean_sd_r = trace_summary_r.loc[:, ['mean', 'sd']]
 
 df_model1_trainedTable = df_model1_untrainedTable
 
 DP = 'Distribution parameters'
 for rv in mean_sd_r.index:
+
     df_model1_trainedTable.loc[rv, DP]['mu'] =\
         str(mean_sd_r.loc[rv]['mean'])
+
     df_model1_trainedTable.loc[rv]['sd'] =\
         str(mean_sd_r.loc[rv]['sd'])
 
@@ -173,14 +147,12 @@ for rv in mean_sd_r.index:
 pm_model1_trained = training.get_pm_model1_trained(
     df_model1_trainedTable)
 
-gv1_trained = pm.model_to_graphviz(pm_model1_trained)
-gv1_trained_filename =\
-    gv1_trained.render(filename='gv1_trained',
-                       directory=Output_path)
+gv_trained = pm.model_to_graphviz(pm_model1_trained)
+gv_trained_filename =\
+    gv_trained.render(filename='gv_trained', directory=Output_path)
 
 #################################################
 # 5 Predictions based on the trained parameters:
-
 # 5.1 Run prediction:
 run_prediction = False
 

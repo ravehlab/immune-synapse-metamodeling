@@ -1,22 +1,10 @@
-# immune-synapse-metamodeling
-Source code for metamodeling of the immune synapse
+# Output
 
-For paper Neve-Oz et al., 2021 (name TBD)
+Folders:<br>
+Data/:<br>
 
-<ADD DETAILS HERE>
-  
-Folders:
-Data/
-Figures/
-
-=============================
-Data/:
+Figures/:<br>
 
 
 
-=============================
-Figures/:
 
-
-
-=============================
