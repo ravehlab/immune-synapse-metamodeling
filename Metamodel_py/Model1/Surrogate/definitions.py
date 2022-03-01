@@ -34,11 +34,43 @@ Training:
 Predicting:
 """
 
+import pandas as pd
+
+#################################################
+# 0. Define data names and paths:
+# Define pahts:
+# '/home/yair/
+
+paths = {}
+paths['home'] = 'C:/Users/Owner/Documents/Git/immune-synapse-metamodeling/'
+paths['Metamodel'] = paths['home']+'Metamodel_py/'
+paths['Model'] = paths['Metamodel']+'Model1/'
+paths['Input'] = paths['Model']+'Input/'
+paths['Processing'] = paths['Model']+'Processing/'
+paths['Output'] = paths['Model']+'Output/'
+
+# Define data names
+Input_data_name_pivot = 'df_trainingData_depletion_pivot.csv'
+
+# Read trainingData aranged as dataFrame - pivot:
+df_trainingData_depletion_pivot = pd.read_csv(
+    paths['Input']+'df_trainingData_depletion_pivot.csv')
+   
+# Get trainingData aranged as dataFrame in columns (flatten):
+df_trainingData_depletion_flatten =\
+    pivotToFlatten(df_trainingData_depletion_pivot)
+
+df_trainingData_depletion_flatten.to_csv(
+    Input_path+"/df_trainingData_depletion_flatten.csv")    
+
+# 1. Define plots:
+plots = {}
+    
 axes_names_units = ['time_sec', 'k0_kTnm2', 'depletion_nm']
 
 axes_labels = ["$t(sec)$", "$\kappa(kTnm^2)$"]
 
-dep_Title = "Depletion \n"
+dep_Title = "Depletion"
 colTitles = [dep_Title]
 
 rowTitles = ["Training data", "Data fit", "Trained parameters", "Prediction"]
