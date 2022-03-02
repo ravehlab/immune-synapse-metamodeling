@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Feb  8 10:58:29 2022
-
 @author: yairn
 """
 
 import numpy as np
+import pandas as pd
 
 """
 Contains:
-
 Plotting:
 Font sizes
 Font type
@@ -20,202 +19,181 @@ Axes ticks
 Axes labels
 Plots titles
 rendering?
-
 Fitting:
 Fit equations
 Fit parameters names
-
 Creat Model Info:
-
-
 Training:
-
-
 Predicting:
 """
 
+
+
 #################################################
-dict_plot = {}
-dict_plot['xlabel'] = "$t(sec)$"
-dict_plot['ylabel'] = "$\kappa(kTnm^2)$"
+# 0. Define data names and paths:
+# Define pahts:
+# '/home/yair/
+# C:/Users/Owner/
+
+paths = {}
+paths['home'] = '/home/yair/Documents/Git/'
+paths['Metamodel'] = paths['home']+'Metamodel_py/'
+paths['Model'] = paths['Metamodel']+'Model1/'
+paths['Input'] = paths['Model']+'Input/'
+paths['Processing'] = paths['Model']+'Processing/'
+paths['Output'] = paths['Model']+'Output/'
+
+#################################################
+# Define data names:
+# Read raw data delpletion:
+# raw_data_name = 'raw_data_array_depletion.csv'
+# df_raw_data_depletion =\
+#     pd.read_csv(paths['Input']+raw_data_name, header=None)
 
 
 
 
 
+# Input_data_name_pivot = 'df_trainingData_depletion_pivot.csv'
 axes_names_units = ['time_sec', 'k0_kTnm2', 'depletion_nm']
 
-axes_labels = ["$t(sec)$", "$\kappa(kTnm^2)$"]
+# # Read trainingData aranged as dataFrame - pivot:
+# df_trainingData_depletion_pivot = pd.read_csv(
+#     paths['Input']+'df_trainingData_depletion_pivot.csv')
+   
+# Get trainingData aranged as dataFrame in columns (flatten):
+# df_trainingData_depletion_flatten =\
+#     pivotToFlatten(df_trainingData_depletion_pivot)
 
-dep_Title = "Depletion \n"
-colTitles = [dep_Title]
-
-rowTitles = ["Training data", "Data fit", "Trained parameters", "Prediction"]
-
-vmins = [0]
-vmaxs = [250]
-
-nRows = 4
-nCols = 1
-
-figsize = [4., 12.]
-
-# Contour levels for depletion heatmap:
-dep_contour_levels = np.arange(25., 250., 25.)
-
-colormap = 'Purples'
-
-fontsize1 = 10
-fontsize2 = 12
-fontsize3 = 14
-fontsize4 = 16
+# df_trainingData_depletion_flatten.to_csv(
+#     Input_path+"/df_trainingData_depletion_flatten.csv")    
 
 #################################################
+# Define plots:
+plots = {}
+plots['figSize'] = [4., 12.]
+plots['xLabel'] = "$t(sec)$"
+plots['yLabel'] = "$\kappa(kTnm^2)$"
+plots['rowTitles'] = ["Training data",
+                      "Data fit",
+                      "Trained parameters",
+                      "Prediction"]
+
+
+# For Depletion:
+plots['Depletion'] = {}
+plots['Depletion']['title'] = 'Depletion'
+plots['Depletion']['vmin'] = [0]
+plots['Depletion']['vmax'] = [250]
+plots['Depletion']['contourLevels'] = np.arange(25., 250., 25.)
+plots['colormap'] = 'Purples'
+plots['nRoWs'] = len(plots['rowTitles'])
+plots['nCols'] = 1
+
+plots['fontSizes'] = {}
+plots['fontSizes']['1'] = 10
+plots['fontSizes']['2'] = 12
+plots['fontSizes']['3'] = 14
+plots['fontSizes']['4'] = 16
+
+#################################################
+# Define model:
+
+model = {}
+model['LongName'] = 'Kinetic segregation'
+model['ShortName'] = 'KSEG'
+model['Index'] = '1'
+model['Description'] = """Distributions and inter distances of TCR and CD45
+molecules that result from the early contact of a T-cell and an activating
+surface."""
+
+# Define free parameters for all submodels in the Model:
+x = {}
+x['varType'] = 'Free parameter'
+x['shortVarType'] = 'fp'
+x['shortName'] = 't'
+x['description'] = 'Time'
+x['texName'] =\
+    "$$" +\
+    x['shortName'] +\
+    "^{" +\
+    model['ShortName'] +\
+    "}$$"
+x['units'] = '$$sec$$'
+x['ID'] =\
+    x['shortVarType'] + '_' +\
+    x['shortName'] + '_' +\
+    model['ShortName'] +\
+    model['Index']
+x['distribution'] = 'Uniform'
+x['distributionParameters'] = {'lower': str(0.),
+                               'upper': str(100.)}
+
+y = {}
+y['varType'] = 'Free parameter'
+y['shortVarType'] = 'fp'
+y['shortName'] = 'k'
+y['description'] = 'Membrane rigidity'
+y['texName'] =\
+    "$$" +\
+    y['shortName'] +\
+    "^{" +\
+    model['ShortName'] +\
+    "}$$"
+y['units'] = '$$kTnm^2$$'
+y['ID'] =\
+    y['shortVarType'] + '_' +\
+    y['shortName'] + '_' +\
+    model['ShortName'] +\
+    model['Index']
+y['distribution'] = 'Uniform'
+y['distributionParameters'] = {'lower': str(0.),
+                               'upper': str(100.)}
+
+#################################################
+# Define submodels:
+
+submodels = {}
+submodels['Depletion'] = {}
+submodels['Depletion']['name'] = 'depletion'
+submodels['Depletion']['index'] = '3'
+submodels['Depletion']['fitParametersNames'] =\
+    ['intercept', 'xSlope', 'ySlope']
+submodels['Depletion']['equation'] =\
+    submodels['Depletion']['fitParametersNames'][0] +\
+    "+" +\
+    submodels['Depletion']['fitParametersNames'][1] +\
+    "*" +\
+    "x" +\
+    "+" +\
+    submodels['Depletion']['fitParametersNames'][2] +\
+    "*" + \
+    "y"
+submodels['tableBackgroundColor_rgba'] = (200, 150, 255, 0.65)
+
+#################################################
+# y = pm.Normal.dist(mu=10, sd=0.5)
+# y.random(size=20)
+
 # 2.1 Define fit equations and parameters:
 
 
-parametersNames_depletion = ['intercept', 'xSlope', 'ySlope']
+# parametersNames_depletion = ['intercept', 'xSlope', 'ySlope']
 
-equation_depletion = parametersNames_depletion[0] +\
-                    "+" +\
-                    parametersNames_depletion[1] +\
-                    "*" +\
-                    "x" +\
-                    "+" +\
-                    parametersNames_depletion[2] +\
-                    "*" + \
-                    "y"
+# equation_depletion = parametersNames_depletion[0] +\
+#                     "+" +\
+#                     parametersNames_depletion[1] +\
+#                     "*" +\
+#                     "x" +\
+#                     "+" +\
+#                     parametersNames_depletion[2] +\
+#                     "*" + \
+#                     "y"
 
 # Get fit parameters:
 
 #################################################
-# 3. Create model info:
 
-# dict_Model1 = {}
-# dict_Model1['modelShortName'] = 'KSEG'
-
-modelLongName = 'Kinetic segregation'
-modelShortName = 'KSEG'
-modelIndex = '1'
-modelDescription = """Distributions and inter distances of TCR and CD45
-molecules that result from the early contact of a T-cell and an activating
-surface."""
-
-shortName_x = 't'
-shortName_y = 'k'
-
-ID_x = 'fp_' + shortName_x + '_' + modelShortName+modelIndex
-ID_y = 'fp_' + shortName_y + '_' + modelShortName+modelIndex
-
-dict_x = {}
-dict_x['ID'] = ID_x
-dict_x['varType'] = 'Free parameter'
-dict_x['shortName'] = 't'
-dict_x['texName'] = "$$t^{KSEG}$$"
-dict_x['units'] = '$$sec$$'
-dict_x['description'] = 'Time'
-dict_x['distribution'] = 'Uniform'
-dict_x['distributionParameters'] = {'lower': str(0.),
-                                    'upper': str(100.)}
-
-
-dict_y = {}
-dict_y['ID'] = ID_y
-dict_y['varType'] = 'Free parameter'
-dict_y['shortName'] = 'k'
-dict_y['texName'] = "$$\kappa^{KSEG}$$"
-dict_y['units'] = '$$kTnm^2$$'
-dict_y['description'] = 'Membrane rigidity'
-dict_y['distribution'] = 'Uniform'
-dict_y['distributionParameters'] = {'lower': str(0.),
-                                    'upper': str(100.)}
-
-submodelName = 'depletion'
-
-#############################
-# y = pm.Normal.dist(mu=10, sd=0.5)
-# y.random(size=20)
-
-dict_depletion = {}
-dict_depletion['ID_x'] = ID_x
-
-depletion_background_color_rgba = (200, 150, 255, 0.65)
-#############################
-
-
-def model1_depletion_info(df_fitParameters_depletion):
-
-    model1_depletion.add_rv(
-        RV(id=dict_x['ID'],
-           varType=dict_x['varType'],
-           shortName=dict_x['shortName'],
-           texName=dict_x['texName'],
-           description=dict_x['description'],
-           distribution=dict_x['distribution'],
-           distributionParameters=dict_x['distributionParameters'],
-           units=dict_x['units']))
-
-    model1_depletion.add_rv(
-        RV(id=dict_y['ID'],
-           varType=dict_y['varType'],
-           shortName=dict_y['shortName'],
-           texName=dict_y['texName'],
-           description=dict_y['description'],
-           distribution=dict_y['distribution'],
-           distributionParameters=dict_y['distributionParameters'],
-           units=dict_y['units']))
-
-    model1_depletion.add_rv(
-        RV(id='rv_intercept_depletion_KSEG1',
-            varType='Random variable',
-            shortName='intercept',
-            texName='$$dep^{KSEG}_{intercept}$$',
-            description='Interception with z axis',
-            distribution='Normal',
-            distributionParameters={
-                'mu': str(df_fitParameters_depletion.loc['intercept', 'mu']),
-                'sd': str(df_fitParameters_depletion.loc['intercept', 'sd'])},
-            units='$$nm$$'))
-
-    model1_depletion.add_rv(
-        RV(id='rv_tSlope_depletion_KSEG1',
-            varType='Random variable',
-            shortName='tSlope',
-            texName='$$dep^{KSEG}_{tSlope}$$',
-            description='Slope in t direction',
-            distribution='Normal',
-            distributionParameters={
-                'mu': str(df_fitParameters_depletion.loc['tSlope', 'mu']),
-                'sd': str(df_fitParameters_depletion.loc['tSlope', 'sd'])},
-            units='$$sec$$'))
-
-    model1_depletion.add_rv(
-        RV(id='rv_kSlope_depletion_KSEG1',
-            varType='Random variable',
-            shortName='kSlope',
-            texName='$$dep^{KSEG}_{kSlope}$$',
-            description='Slope in k direction',
-            distribution='Normal',
-            distributionParameters={
-                'mu': str(df_fitParameters_depletion.loc['kSlope', 'mu']),
-                'sd': str(df_fitParameters_depletion.loc['kSlope', 'sd'])},
-            units='$$kTnm^2$$'))
-
-    model1_depletion.add_rv(
-        RV(id='rv_output_depletion_KSEG1',
-           varType='Random variable',
-           shortName='output',
-           texName='$$depletion^{KSEG}_{output}$$',
-           description='depletion output',
-           distribution='Normal',
-           distributionParameters={'mu': '',
-                                   'sd': str(20.)},
-           units="$$nm$$"))
-
-    model1_depletion_info.to_csv("Model1/Processing/Model1_Info_depletion.csv")
-
-    return(model1_depletion_info)
-#################################################
 
 #################################################
 # 4. Training:
@@ -225,12 +203,17 @@ def model1_depletion_info(df_fitParameters_depletion):
 # Define parameters for running prediction:
 
 
-n_x = 21  # number of points in x direction.
-max_x = 100.
-min_x = 0.
-Xs = np.linspace(min_x, max_x, n_x)  # x values.
+prediction = {}
+prediction['n_x'] = 21  # number of points in x direction.
+prediction['max_x'] = 100.
+prediction['min_x'] = 0.
+prediction['Xs'] = np.linspace(prediction['min_x'],
+                               prediction['max_x'],
+                               prediction['n_x'])  # x values.
 
-n_y = 20  # number of points in y direction.
-max_y = 100.
-min_y = max_y/n_y
-Ys = np.linspace(min_y, max_y, n_y)
+prediction['n_y'] = 20  # number of points in y direction.
+prediction['max_y'] = 100.
+prediction['min_y'] = prediction['max_y']/prediction['n_y']
+prediction['Ys'] = np.linspace(prediction['min_y'],
+                               prediction['max_y'],
+                               prediction['n_y'])

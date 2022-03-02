@@ -9,26 +9,29 @@ Created on Sun Feb  6 16:24:26 2022
 import matplotlib.pyplot as plt
 
 from Model1.Surrogate import definitions
+
+plots = definitions.plots
 #################################################
 # Set what data to plot:
 
 
 def plotData(DataToPlot, plotWhat):
+
     # titles and labels:
-    xLabel = definitions.axes_labels[0]  # "$t(sec)$"
-    yLabel = definitions.axes_labels[1]  # "$\kappa(kTnm^2)$"
+    xLabel = plots['xLabel']
+    yLabel = plots['yLabel']
 
     # Titles for the subplots:
-    colTitles = definitions.colTitles
-    rowTitles = definitions.rowTitles
+    colTitles = plots['Depletion']['title']
+    rowTitles = plots['rowTitles']
 
     # min and max values for the different heatmaps:
-    vmins = definitions.vmins
-    vmaxs = definitions.vmaxs
+    vmins = plots['Depletion']['vmin']
+    vmaxs = plots['Depletion']['vmax']
 
     # Number of rows and columns of subplots:
-    nRows = definitions.nRows
-    nCols = definitions.nCols
+    nRows = plots['nRoWs']
+    nCols = plots['nCols']
 
     # Plot a row of subplot if the data is not empty and if value is 'True':
     for iRow in range(nRows):
@@ -59,7 +62,7 @@ def plotHeatmaps(
         vmaxs,
         iRow):
 
-    fig = plt.figure(figsize=definitions.figsize)
+    fig = plt.figure(figsize=plots['figSize'])
 
     # im identifier:
     im = [None]*nCols
@@ -71,9 +74,9 @@ def plotHeatmaps(
 
     max_plotWhat = 4  # np.max(np.where(plotWhat))
 
-    colormap = definitions.colormap
-    dep_contour_levels = definitions.dep_contour_levels
-    fontsize1 = definitions.fontsize1
+    colormap = plots['colormap']
+    dep_contour_levels = plots['Depletion']['contourLevels']
+    fontsize1 = plots['fontSizes']['1']
 
     # plot the nRows x nCols subplots with labels, titles at
     # sceciefic locations. iCol is Column index, iRow is Row index:
