@@ -34,6 +34,15 @@ Training:
 Predicting:
 """
 
+#################################################
+dict_plot = {}
+dict_plot['xlabel'] = "$t(sec)$"
+dict_plot['ylabel'] = "$\kappa(kTnm^2)$"
+
+
+
+
+
 axes_names_units = ['time_sec', 'k0_kTnm2', 'depletion_nm']
 
 axes_labels = ["$t(sec)$", "$\kappa(kTnm^2)$"]
