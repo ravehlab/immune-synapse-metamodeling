@@ -11,7 +11,8 @@ from IPython.display import display
 
 from Model1.Surrogate import definitions
 
-Outside_path = '/home/yair/Documents/Git/'
+
+Outside_path = definitions.paths['home'] # '/home/yair/Documents/Git/'
 Metamodel_path = Outside_path+'Metamodel_py/'
 Model_path = Metamodel_path+'Model1/'
 Input_path = Model_path+'Input/'
