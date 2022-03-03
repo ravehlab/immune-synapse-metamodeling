@@ -164,6 +164,7 @@ submodels['Depletion']['name'] = 'depletion'
 submodels['Depletion']['index'] = '3'
 submodels['Depletion']['fitParametersNames'] =\
     ['intercept', 'xSlope', 'ySlope']
+# Fit equation:
 submodels['Depletion']['equation'] =\
     submodels['Depletion']['fitParametersNames'][0] +\
     "+" +\
@@ -174,31 +175,14 @@ submodels['Depletion']['equation'] =\
     submodels['Depletion']['fitParametersNames'][2] +\
     "*" + \
     "y"
-submodels['Depletion']['p0'] = 100., 0., 0.  # initial parameters
+submodels['Depletion']['p0'] = 100., 0., 0.  # Initial fit parameters
 submodels['Depletion']['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
 
-#################################################
-# y = pm.Normal.dist(mu=10, sd=0.5)
-# y.random(size=20)
-
-# 2.1 Define fit equations and parameters:
-
-
-# parametersNames_depletion = ['intercept', 'xSlope', 'ySlope']
-
-# equation_depletion = parametersNames_depletion[0] +\
-#                     "+" +\
-#                     parametersNames_depletion[1] +\
-#                     "*" +\
-#                     "x" +\
-#                     "+" +\
-#                     parametersNames_depletion[2] +\
-#                     "*" + \
-#                     "y"
-
-# Get fit parameters:
 
 #################################################
+# crateModelInfo:
+
+
 
 
 #################################################
@@ -223,3 +207,7 @@ prediction['min_y'] = prediction['max_y']/prediction['n_y']
 prediction['Ys'] = np.linspace(prediction['min_y'],
                                prediction['max_y'],
                                prediction['n_y'])
+
+#################################################
+# y = pm.Normal.dist(mu=10, sd=0.5)
+# y.random(size=20)
