@@ -10,9 +10,8 @@ import pandas as pd
 """
 Contains:
 Plotting:
-Font sizes
 Font type
-model colors
+
 Axes scales
 Axes units
 Axes ticks
@@ -20,8 +19,7 @@ Axes labels
 Plots titles
 rendering?
 Fitting:
-Fit equations
-Fit parameters names
+
 Creat Model Info:
 Training:
 Predicting:
@@ -50,30 +48,6 @@ data['flatten_columns_names'] = {}
 data['flatten_columns_names']['x'] = 'time_sec'
 data['flatten_columns_names']['y'] = 'k0_kTnm2'
 data['flatten_columns_names']['z'] = 'depletion_nm'
-
-
-# Read raw data delpletion:
-# raw_data_name = 'raw_data_array_depletion.csv'
-# df_raw_data_depletion =\
-#     pd.read_csv(paths['Input']+raw_data_name, header=None)
-
-
-
-
-
-# Input_data_name_pivot = 'df_trainingData_depletion_pivot.csv'
-# columns_names_units = ['time_sec', 'k0_kTnm2', 'depletion_nm']
-
-# # Read trainingData aranged as dataFrame - pivot:
-# df_trainingData_depletion_pivot = pd.read_csv(
-#     paths['Input']+'df_trainingData_depletion_pivot.csv')
-   
-# Get trainingData aranged as dataFrame in columns (flatten):
-# df_trainingData_depletion_flatten =\
-#     pivotToFlatten(df_trainingData_depletion_pivot)
-
-# df_trainingData_depletion_flatten.to_csv(
-#     Input_path+"/df_trainingData_depletion_flatten.csv")
 
 #################################################
 # Define plots:
@@ -164,6 +138,7 @@ submodels['Depletion']['name'] = 'depletion'
 submodels['Depletion']['index'] = '3'
 submodels['Depletion']['fitParametersNames'] =\
     ['intercept', 'xSlope', 'ySlope']
+
 # Fit equation:
 submodels['Depletion']['equation'] =\
     submodels['Depletion']['fitParametersNames'][0] +\
@@ -175,8 +150,48 @@ submodels['Depletion']['equation'] =\
     submodels['Depletion']['fitParametersNames'][2] +\
     "*" + \
     "y"
-submodels['Depletion']['p0'] = 100., 0., 0.  # Initial fit parameters
+# Fit parameters description:
+submodels['Depletion']['fitParameterDescriptions'] =\
+    ["Intersection with z axis (nm)",
+     "Slope in x direction",
+     "Slope in y direction"]
+
+# Initial fit parameters
+submodels['Depletion']['p0'] = 100., 0., 0.
 submodels['Depletion']['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
+
+#################################################
+# Define fit parameters:
+
+fitParameters = {}
+
+for i, fitParametersName in enumerate(
+        submodels['Depletion']['fitParametersNames']):
+    #
+    fitParameters[fitParametersName] = {}
+    fitParameters[fitParametersName]['varType'] = 'Random variable'
+    fitParameters[fitParametersName]['shortVarType'] = 'rv'
+    fitParameters[fitParametersName]['shortName'] =\
+        submodels['Depletion']['fitParametersNames'][i]
+    fitParameters[fitParametersName]['description'] = \
+        submodels['Depletion']['fitParametersDescription'][i]
+    fitParameters[fitParametersName]['texName'] =\
+        "$$" +\
+        fitParameters[fitParametersName]['shortName'] +\
+        "^{" +\
+        model['ShortName'] +\
+        "}$$"
+    # fitParametersName['units'] = '$$kTnm^2$$'
+    fitParameters[fitParametersName]['ID'] =\
+        fitParameters[fitParametersName]['shortVarType'] + '_' +\
+        fitParameters[fitParametersName]['shortName'] + '_' +\
+        model['ShortName'] +\
+        model['Index']
+    # fitParametersName['distribution'] = 'Uniform'
+    # fitParametersName['distributionParameters'] = {'lower': str(0.),
+    #                                'upper': str(100.)}
+
+    print(fitParameters[fitParametersName])
 
 
 #################################################
