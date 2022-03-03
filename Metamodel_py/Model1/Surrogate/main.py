@@ -39,23 +39,7 @@ from Model1.Surrogate import createModelInfo
 from Model1.Surrogate import training
 from Model1.Surrogate import predicting
 
-# Define pahts:
-# Outside_path = '/home/yair/Documents/Git/'
-# Metamodel_path = Outside_path+'Metamodel_py/'
-# Model_path = Metamodel_path+'Model1/'
-# Input_path = Model_path+'Input/'
-# Processing_path = Model_path+'Processing/'
-# Output_path = Model_path+'Output/'
-# Input_data_name = 'df_trainingData_depletion_pivot.csv'
-
 paths = definitions.paths
-# paths = {}
-# paths['home'] = '/home/yair/Documents/Git/'
-# paths['Metamodel'] = paths['home']+'Metamodel_py/'
-# paths['Model'] = paths['Metamodel']+'Model1/'
-# paths['Input'] = paths['Model']+'Input/'
-# paths['Processing'] = paths['Model']+'Processing/'
-# paths['Output'] = paths['Model']+'Output/'
 
 #################################################
 # 1. Get training data:
@@ -65,30 +49,28 @@ df_raw_data_depletion =\
     pd.read_csv(paths['Input']+raw_data_name, header=None)
 
 # 1.0.1 Crop and scale raw data:
-x_array, y_array, z_array =\
-    preProcessing.cropAndScaleRawData(df_raw_data_depletion)
+# x_array, y_array, z_array =\
+#     preProcessing.cropAndScaleRawData(df_raw_data_depletion)
 
-df_trainingData_depletion_pivot, df_trainingData_depletion_flatten =\
-    preProcessing.trainingDataToDataFrame(x_array, y_array, z_array)
+df_trainingData_depletion_pivot =\
+    preProcessing.rawDataToDataFramePivot(df_raw_data_depletion)
 
-# Save pivot data as .csv:
-df_trainingData_depletion_flatten.to_csv(
+# Save dataFrame pivot as .csv:
+df_trainingData_depletion_pivot.to_csv(
     paths['Input']+"/df_trainingData_depletion_pivot.csv")
 
-# Save flatten data as .csv:
+# Get trainingData aranged as dataFrame in columns (flatten):
+df_trainingData_depletion_flatten =\
+    preProcessing.pivotToFlatten(df_trainingData_depletion_pivot)
+
+# Save dataFrame flatten as .csv:
 df_trainingData_depletion_flatten.to_csv(
     paths['Input']+"/df_trainingData_depletion_flatten.csv")
 
 # 1.1 Read trainingData from Input/:
-# df_trainingData_depletion_pivot =\
-#     pd.read_csv(paths['Input']+Input_data_name)
-
-# Get trainingData aranged as dataFrame in columns (flatten):
-# df_trainingData_depletion_flatten =\
-#     preProcessing.pivotToFlatten(df_trainingData_depletion_pivot)
-
-# df_trainingData_depletion_flatten.to_csv(
-#     paths['Input']+"/df_trainingData_depletion_flatten.csv")
+df_trainingData_depletion_pivot_r =\
+    pd.read_csv(paths['Input']+"/df_trainingData_depletion_pivot.csv",
+                index_col=None)
 
 # 1.2 Plot training data:
 preProcessing.plotTrainingData(df_trainingData_depletion_pivot)

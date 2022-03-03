@@ -12,6 +12,10 @@ from scipy.optimize import curve_fit
 from Model1.Surrogate import definitions
 from Model1.Surrogate import plotting
 
+submodels = definitions.submodels
+plots = definitions.plots
+data = definitions.data
+
 # 2.1 Set fit equation for dep:
 
 
@@ -43,21 +47,21 @@ def setFitFunction(df_trainingData_flatten):
     columns=['mu', 'sd'], values=fitParameters.
     """
 
-    parametersNames_dep = definitions.parametersNames_depletion
+    # parametersNames_depletion = definitions.parametersNames_depletion
 
     # Read x, y, z data from dataFrame:
-    flatten_x = df_trainingData_flatten['time_sec']
-    flatten_y = df_trainingData_flatten['k0_kTnm2']
-    flatten_z = df_trainingData_flatten['depletion_nm']
+    flatten_x = df_trainingData_flatten[data['flatten_columns_names']['x']]
+    flatten_y = df_trainingData_flatten[data['flatten_columns_names']['y']]
+    flatten_z = df_trainingData_flatten[data['flatten_columns_names']['z']]
 
-    p0_dep = 100., 0., 0.
+    parametersNames = submodels['Depletion']['fitParametersNames']
 
     df_fitParameters_dep = getFitParameters(
         X=(flatten_x, flatten_y),
         fitFunc=linXlinY,
         fXdata=flatten_z,
-        parametersNames=parametersNames_dep,
-        p0=p0_dep)
+        parametersNames=parametersNames,
+        p0=submodels['Depletion']['p0'])
 
     return df_fitParameters_dep
 
@@ -106,6 +110,11 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
     xSlope_fit = df_fitParameters.loc['xSlope', 'mu']
     ySlope_fit = df_fitParameters.loc['ySlope', 'mu']
 
+    flatten_column_name_x = data['flatten_columns_names']['x']
+    flatten_column_name_y = data['flatten_columns_names']['y']
+    flatten_column_name_z = data['flatten_columns_names']['z']
+
+
     flatten_x = df_trainingData_flatten['time_sec']
     flatten_y = df_trainingData_flatten['k0_kTnm2']
 
@@ -136,7 +145,7 @@ def plotFittedData(df_pivot):
     Description: Plotting a heatmap of the training data.
     """
 
-    nRows = definitions.nRows
+    nRows = plots['nRoWs']
 
     DataToPlot = nRows*[None]
     DataToPlot[0] = [[df_pivot.columns,

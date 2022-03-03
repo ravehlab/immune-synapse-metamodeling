@@ -45,6 +45,13 @@ paths['Output'] = paths['Model']+'Output/'
 
 #################################################
 # Define data names:
+data = {}
+data['flatten_columns_names'] = {}
+data['flatten_columns_names']['x'] = 'time_sec'
+data['flatten_columns_names']['y'] = 'k0_kTnm2'
+data['flatten_columns_names']['z'] = 'depletion_nm'
+
+
 # Read raw data delpletion:
 # raw_data_name = 'raw_data_array_depletion.csv'
 # df_raw_data_depletion =\
@@ -55,7 +62,7 @@ paths['Output'] = paths['Model']+'Output/'
 
 
 # Input_data_name_pivot = 'df_trainingData_depletion_pivot.csv'
-axes_names_units = ['time_sec', 'k0_kTnm2', 'depletion_nm']
+# columns_names_units = ['time_sec', 'k0_kTnm2', 'depletion_nm']
 
 # # Read trainingData aranged as dataFrame - pivot:
 # df_trainingData_depletion_pivot = pd.read_csv(
@@ -66,7 +73,7 @@ axes_names_units = ['time_sec', 'k0_kTnm2', 'depletion_nm']
 #     pivotToFlatten(df_trainingData_depletion_pivot)
 
 # df_trainingData_depletion_flatten.to_csv(
-#     Input_path+"/df_trainingData_depletion_flatten.csv")    
+#     Input_path+"/df_trainingData_depletion_flatten.csv")
 
 #################################################
 # Define plots:
@@ -78,23 +85,21 @@ plots['rowTitles'] = ["Training data",
                       "Data fit",
                       "Trained parameters",
                       "Prediction"]
+plots['fontSizes'] = {}
+plots['fontSizes']['1'] = 10
+plots['fontSizes']['2'] = 12
+plots['fontSizes']['3'] = 14
+plots['fontSizes']['4'] = 16
+plots['nRoWs'] = len(plots['rowTitles'])
+plots['nCols'] = 1
 
-
-# For Depletion:
+# For Depletion plots:
 plots['Depletion'] = {}
 plots['Depletion']['title'] = 'Depletion'
 plots['Depletion']['vmin'] = [0]
 plots['Depletion']['vmax'] = [250]
 plots['Depletion']['contourLevels'] = np.arange(25., 250., 25.)
 plots['colormap'] = 'Purples'
-plots['nRoWs'] = len(plots['rowTitles'])
-plots['nCols'] = 1
-
-plots['fontSizes'] = {}
-plots['fontSizes']['1'] = 10
-plots['fontSizes']['2'] = 12
-plots['fontSizes']['3'] = 14
-plots['fontSizes']['4'] = 16
 
 #################################################
 # Define model:
@@ -169,7 +174,8 @@ submodels['Depletion']['equation'] =\
     submodels['Depletion']['fitParametersNames'][2] +\
     "*" + \
     "y"
-submodels['tableBackgroundColor_rgba'] = (200, 150, 255, 0.65)
+submodels['Depletion']['p0'] = 100., 0., 0.  # initial parameters
+submodels['Depletion']['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
 
 #################################################
 # y = pm.Normal.dist(mu=10, sd=0.5)
