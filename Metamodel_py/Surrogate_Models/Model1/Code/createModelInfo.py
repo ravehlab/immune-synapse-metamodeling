@@ -11,12 +11,12 @@ from IPython.display import display
 
 from Model1.Surrogate import definitions
 
-
-Outside_path = definitions.paths['home'] # '/home/yair/Documents/Git/'
-Metamodel_path = Outside_path+'Metamodel_py/'
-Model_path = Metamodel_path+'Model1/'
-Input_path = Model_path+'Input/'
-Input_data_name = 'df_trainingData_depletion_pivot.csv'
+paths = definitions.paths
+# Outside_path = definitions.paths['home'] # '/home/yair/Documents/Git/'
+# Metamodel_path = Outside_path+'Metamodel_py/'
+# Model_path = Metamodel_path+'Model1/'
+# Input_path = Model_path+'Input/'
+# Input_data_name = 'df_trainingData_depletion_pivot.csv'
 
 """
 Every variable is a column header in the table:
@@ -195,7 +195,7 @@ model1_depletion = Model(
     description='Model1 description',
     model_id='1',
     RV_csv_file=None,
-    data_csv_file=Input_path+'df_trainingData_depletion_flatten.csv')
+    data_csv_file=paths['Input']+'df_trainingData_depletion_flatten.csv')
 
 
 #################################################

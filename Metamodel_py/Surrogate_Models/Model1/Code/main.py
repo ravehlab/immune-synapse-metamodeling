@@ -27,6 +27,7 @@ Created on Tue Jan 25 15:23:32 2022
     5.2 Plot prediction data:
 """
 
+import os
 import pandas as pd
 import pymc3 as pm
 from IPython.display import display

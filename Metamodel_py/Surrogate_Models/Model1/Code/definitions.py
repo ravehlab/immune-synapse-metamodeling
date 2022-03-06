@@ -42,6 +42,54 @@ paths['Processing'] = paths['Model']+'Processing/'
 paths['Output'] = paths['Model']+'Output/'
 
 #################################################
+# Define model:
+
+model = {}
+model['LongName'] = 'Kinetic segregation'
+model['ShortName'] = 'KSEG'
+model['Index'] = '1'
+model['Description'] = """Distributions and inter distances of TCR and CD45
+molecules that result from the early contact of a T-cell and an activating
+surface."""
+
+#################################################
+# Define submodels:
+
+submodels = {}
+submodels['Depletion'] = {}
+submodels['Depletion']['name'] = 'depletion'
+submodels['Depletion']['index'] = '3'
+submodels['Depletion']['fitParametersNames'] =\
+    ['intercept', 'xSlope', 'ySlope']
+
+# Fit equation:
+submodels['Depletion']['equation'] =\
+    submodels['Depletion']['fitParametersNames'][0] +\
+    "+" +\
+    submodels['Depletion']['fitParametersNames'][1] +\
+    "*" +\
+    "x" +\
+    "+" +\
+    submodels['Depletion']['fitParametersNames'][2] +\
+    "*" + \
+    "y"
+# Fit parameters description:
+submodels['Depletion']['fitParametersDescriptions'] =\
+    ["Intersection with z axis (nm)",
+     "Slope in x direction",
+     "Slope in y direction"]
+
+# Fit parameters units:
+submodels['Depletion']['fitParametersUnits'] =\
+    ["nm",
+     "sec",
+     "kTnm^2"]
+
+# Initial fit parameters
+submodels['Depletion']['p0'] = 100., 0., 0.
+submodels['Depletion']['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
+
+#################################################
 # Define data names:
 data = {}
 data['flatten_columns_names'] = {}
@@ -76,16 +124,6 @@ plots['Depletion']['contourLevels'] = np.arange(25., 250., 25.)
 plots['colormap'] = 'Purples'
 
 #################################################
-# Define model:
-
-model = {}
-model['LongName'] = 'Kinetic segregation'
-model['ShortName'] = 'KSEG'
-model['Index'] = '1'
-model['Description'] = """Distributions and inter distances of TCR and CD45
-molecules that result from the early contact of a T-cell and an activating
-surface."""
-
 # Define free parameters for all submodels in the Model:
 x = {}
 x['varType'] = 'Free parameter'
@@ -129,36 +167,6 @@ y['distribution'] = 'Uniform'
 y['distributionParameters'] = {'lower': str(0.),
                                'upper': str(100.)}
 
-#################################################
-# Define submodels:
-
-submodels = {}
-submodels['Depletion'] = {}
-submodels['Depletion']['name'] = 'depletion'
-submodels['Depletion']['index'] = '3'
-submodels['Depletion']['fitParametersNames'] =\
-    ['intercept', 'xSlope', 'ySlope']
-
-# Fit equation:
-submodels['Depletion']['equation'] =\
-    submodels['Depletion']['fitParametersNames'][0] +\
-    "+" +\
-    submodels['Depletion']['fitParametersNames'][1] +\
-    "*" +\
-    "x" +\
-    "+" +\
-    submodels['Depletion']['fitParametersNames'][2] +\
-    "*" + \
-    "y"
-# Fit parameters description:
-submodels['Depletion']['fitParameterDescriptions'] =\
-    ["Intersection with z axis (nm)",
-     "Slope in x direction",
-     "Slope in y direction"]
-
-# Initial fit parameters
-submodels['Depletion']['p0'] = 100., 0., 0.
-submodels['Depletion']['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
 
 #################################################
 # Define fit parameters:
@@ -174,7 +182,7 @@ for i, fitParametersName in enumerate(
     fitParameters[fitParametersName]['shortName'] =\
         submodels['Depletion']['fitParametersNames'][i]
     fitParameters[fitParametersName]['description'] = \
-        submodels['Depletion']['fitParametersDescription'][i]
+        submodels['Depletion']['fitParametersDescriptions'][i]
     fitParameters[fitParametersName]['texName'] =\
         "$$" +\
         fitParameters[fitParametersName]['shortName'] +\
@@ -182,6 +190,8 @@ for i, fitParametersName in enumerate(
         model['ShortName'] +\
         "}$$"
     # fitParametersName['units'] = '$$kTnm^2$$'
+    fitParameters[fitParametersName]['texName'] =\
+        submodels['Depletion']['fitParametersUnits'][i]
     fitParameters[fitParametersName]['ID'] =\
         fitParameters[fitParametersName]['shortVarType'] + '_' +\
         fitParameters[fitParametersName]['shortName'] + '_' +\
