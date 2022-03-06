@@ -25,8 +25,6 @@ Training:
 Predicting:
 """
 
-
-
 #################################################
 # 0. Define data names and paths:
 # Define pahts:
@@ -36,10 +34,10 @@ Predicting:
 paths = {}
 paths['home'] = '/home/yair/Documents/Git/'
 paths['Metamodel'] = paths['home']+'Metamodel_py/'
-paths['Model'] = paths['Metamodel']+'Model1/'
-paths['Input'] = paths['Model']+'Input/'
+paths['Surrogate'] = paths['Metamodel']+'Surrogte_Models/'
+paths['Model'] = paths['Surrogate']+'Model1/'
+paths['Input'] = paths['Metamodel']+'Input_Models/Model1/Input/'
 paths['Processing'] = paths['Model']+'Processing/'
-paths['Output'] = paths['Model']+'Output/'
 
 #################################################
 # Define model:
@@ -51,43 +49,45 @@ model['Index'] = '1'
 model['Description'] = """Distributions and inter distances of TCR and CD45
 molecules that result from the early contact of a T-cell and an activating
 surface."""
+# Define submodels:
 
+# model['submodels'] = ['Depletion']
 #################################################
 # Define submodels:
 
 submodels = {}
-submodels['Depletion'] = {}
-submodels['Depletion']['name'] = 'depletion'
-submodels['Depletion']['index'] = '3'
-submodels['Depletion']['fitParametersNames'] =\
+submodels['names'] = ['Depletion']
+submodels['names'][0] = {}
+submodels['names'][0]['fitParametersNames'] =\
     ['intercept', 'xSlope', 'ySlope']
 
-# Fit equation:
-submodels['Depletion']['equation'] =\
-    submodels['Depletion']['fitParametersNames'][0] +\
+# Fit equation Depletion:
+submodels['names'][0]['equation'] =\
+    submodels['names'][0]['fitParametersNames'][0] +\
     "+" +\
-    submodels['Depletion']['fitParametersNames'][1] +\
+    submodels['names'][0]['fitParametersNames'][1] +\
     "*" +\
     "x" +\
     "+" +\
-    submodels['Depletion']['fitParametersNames'][2] +\
-    "*" + \
+    submodels['names'][0]['fitParametersNames'][2] +\
+    "*" +\
     "y"
-# Fit parameters description:
-submodels['Depletion']['fitParametersDescriptions'] =\
+
+# Fit parameters description Depletion:
+submodels['names'][0]['fitParametersDescriptions'] =\
     ["Intersection with z axis (nm)",
      "Slope in x direction",
      "Slope in y direction"]
 
 # Fit parameters units:
-submodels['Depletion']['fitParametersUnits'] =\
+submodels['names'][0]['fitParametersUnits'] =\
     ["nm",
      "sec",
      "kTnm^2"]
 
 # Initial fit parameters
-submodels['Depletion']['p0'] = 100., 0., 0.
-submodels['Depletion']['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
+submodels['names'][0]['p0'] = [100., 0., 0.]
+submodels['names'][0]['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
 
 #################################################
 # Define data names:
@@ -100,7 +100,7 @@ data['flatten_columns_names']['z'] = 'depletion_nm'
 #################################################
 # Define plots:
 plots = {}
-plots['figSize'] = [4., 12.]
+plots['figSize'] = [4., len(submodels['names'])*4.]
 plots['xLabel'] = "$t(sec)$"
 plots['yLabel'] = "$\kappa(kTnm^2)$"
 plots['rowTitles'] = ["Training data",
@@ -113,7 +113,7 @@ plots['fontSizes']['2'] = 12
 plots['fontSizes']['3'] = 14
 plots['fontSizes']['4'] = 16
 plots['nRoWs'] = len(plots['rowTitles'])
-plots['nCols'] = 1
+plots['nCols'] = len(submodels['names'])
 
 # For Depletion plots:
 plots['Depletion'] = {}
@@ -174,15 +174,15 @@ y['distributionParameters'] = {'lower': str(0.),
 fitParameters = {}
 
 for i, fitParametersName in enumerate(
-        submodels['Depletion']['fitParametersNames']):
+        submodels['names'][0]['fitParametersNames']):
     #
     fitParameters[fitParametersName] = {}
     fitParameters[fitParametersName]['varType'] = 'Random variable'
     fitParameters[fitParametersName]['shortVarType'] = 'rv'
     fitParameters[fitParametersName]['shortName'] =\
-        submodels['Depletion']['fitParametersNames'][i]
+        submodels['names'][0]['fitParametersNames'][i]
     fitParameters[fitParametersName]['description'] = \
-        submodels['Depletion']['fitParametersDescriptions'][i]
+        submodels['names'][0]['fitParametersDescriptions'][i]
     fitParameters[fitParametersName]['texName'] =\
         "$$" +\
         fitParameters[fitParametersName]['shortName'] +\
@@ -191,7 +191,7 @@ for i, fitParametersName in enumerate(
         "}$$"
     # fitParametersName['units'] = '$$kTnm^2$$'
     fitParameters[fitParametersName]['texName'] =\
-        submodels['Depletion']['fitParametersUnits'][i]
+        submodels['names'][0]['fitParametersUnits'][i]
     fitParameters[fitParametersName]['ID'] =\
         fitParameters[fitParametersName]['shortVarType'] + '_' +\
         fitParameters[fitParametersName]['shortName'] + '_' +\

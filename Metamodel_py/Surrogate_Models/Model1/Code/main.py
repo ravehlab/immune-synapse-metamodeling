@@ -27,18 +27,20 @@ Created on Tue Jan 25 15:23:32 2022
     5.2 Plot prediction data:
 """
 
-import os
 import pandas as pd
 import pymc3 as pm
 from IPython.display import display
+import os
 
+# parentDirectory: /home/yair/Documents/Git/Metamodel_py/Surrogate_Models
+# run Model1/Code/main
 # Import Model packages:
-from Model1.Surrogate import definitions
-from Model1.Surrogate import preProcessing
-from Model1.Surrogate import parametersFitting
-from Model1.Surrogate import createModelInfo
-from Model1.Surrogate import training
-from Model1.Surrogate import predicting
+from Model1.Code import definitions
+from Model1.Code import preProcessing
+from Model1.Code import parametersFitting
+from Model1.Code import createModelInfo
+from Model1.Code import training
+from Model1.Code import predicting
 
 paths = definitions.paths
 submodels = definitions.submodels
@@ -194,3 +196,18 @@ predicting.plotPredictionData(df_prediction_mean_r,
                               definitions)
 
 #################################################
+
+
+# Directory
+dirName = "Output"
+
+# Parent Directory path
+parent_dir = "D:/Pycharm projects/"
+
+# paths['Output'] = paths['Model']+'Output/'
+# Path
+path = os.path.join(parent_dir, directory)
+
+# Create the directory 'Output' in '/home / User / Documents'
+os.mkdir(path)
+print("Directory '% s' created" % directory)

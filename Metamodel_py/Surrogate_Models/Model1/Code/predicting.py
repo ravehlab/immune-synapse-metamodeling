@@ -10,9 +10,9 @@ import numpy as np
 import pandas as pd
 import pymc3 as pm
 
-from Model1.Surrogate import definitions
-from Model1.Surrogate import training
-from Model1.Surrogate import plotting
+from Model1.Code import definitions
+from Model1.Code import training
+from Model1.Code import plotting
 
 # Create a heatmap by running the trained model with a batch of x, y value:
 

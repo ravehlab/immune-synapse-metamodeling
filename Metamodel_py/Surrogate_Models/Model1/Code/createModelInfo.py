@@ -9,7 +9,7 @@ import pandas as pd
 # import pymc3 as pm
 from IPython.display import display
 
-from Model1.Surrogate import definitions
+from Model1.Code import definitions
 
 paths = definitions.paths
 # Outside_path = definitions.paths['home'] # '/home/yair/Documents/Git/'
