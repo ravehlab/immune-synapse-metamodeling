@@ -45,6 +45,12 @@ from Model1.Code import predicting
 paths = definitions.paths
 submodels = definitions.submodels
 
+# Create the directory 'Output' in '/Metamodel_py/Surrogate_Models/Model1/'
+directory = 'Output'
+path = os.path.join(paths['Model'], directory)
+os.mkdir(path)
+print("Directory '% s' created in '/Metamodel_py/Surrogate_Models/Model1/"
+      % directory)
 #################################################
 # 1. Get training data:
 # 1.0 Read raw data as dataFrame:
@@ -196,18 +202,3 @@ predicting.plotPredictionData(df_prediction_mean_r,
                               definitions)
 
 #################################################
-
-
-# Directory
-dirName = "Output"
-
-# Parent Directory path
-parent_dir = "D:/Pycharm projects/"
-
-# paths['Output'] = paths['Model']+'Output/'
-# Path
-path = os.path.join(parent_dir, directory)
-
-# Create the directory 'Output' in '/home / User / Documents'
-os.mkdir(path)
-print("Directory '% s' created" % directory)

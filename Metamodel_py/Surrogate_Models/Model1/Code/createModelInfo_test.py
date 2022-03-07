@@ -198,30 +198,23 @@ submodel_variables = Model(
 
 x = definitions.x
 y = definitions.y
+fps = [x, y]
 fitParameters = definitions.fitParameters
 fitParametersNames = submodels['names'][0]['fitParametersNames']
 
+
 def submodelInfo(df_submodel_fitParameters):
 
-    submodel_variables.add_rv(
-        RV(id=x['ID'],
-           varType=x['varType'],
-           shortName=x['shortName'],
-           texName=x['texName'],
-           description=x['description'],
-           distribution=x['distribution'],
-           distributionParameters=x['distributionParameters'],
-           units=x['units']))
-
-    submodel_variables.add_rv(
-        RV(id=y['ID'],
-           varType=y['varType'],
-           shortName=y['shortName'],
-           texName=y['texName'],
-           description=y['description'],
-           distribution=y['distribution'],
-           distributionParameters=y['distributionParameters'],
-           units=y['units']))
+    for fp in fps:
+        submodel_variables.add_rv(
+            RV(id=fp['ID'],
+               varType=fp['varType'],
+               shortName=fp['shortName'],
+               texName=fp['texName'],
+               description=fp['description'],
+               distribution=fp['distribution'],
+               distributionParameters=fp['distributionParameters'],
+               units=fp['units']))
 
     for rvName in fitParametersNames:
         submodel_variables.add_rv(
@@ -232,7 +225,7 @@ def submodelInfo(df_submodel_fitParameters):
                 description=fitParameters[rvName]['description'],
                 distribution=fitParameters[rvName]['distribution'],
                 distributionParameters=
-                    fitParameters[rvName]['distributionParameters'],
+                fitParameters[rvName]['distributionParameters'],
                 units=fitParameters[rvName]['units']))
 
 
@@ -253,21 +246,4 @@ def submodelInfo(df_submodel_fitParameters):
 
     return(model1_depletion_info)
 #################################################
-# Display RVs tables as DataFrames:
-# Display untrained table:
-# df_model1_untrainedTable = model1_depletion.get_dataframe()
-# df_model1_untrainedTable = df_model1_untrainedTable.set_index('ID')
-# display(df_model1_depletion_untrainedTable):
 
-
-def displayInfo(model1_depletion):
-
-    df_model1_untrainedTable = model1_depletion.get_dataframe()
-    df_model1_untrainedTable = df_model1_untrainedTable.set_index('ID')
-
-    display(df_model1_untrainedTable.style.set_properties(
-        **{'text-align': 'left',
-           'background-color': 'rgba(200, 150, 255, 0.65)',
-           'border': '1px black solid'}))
-
-#################################################
