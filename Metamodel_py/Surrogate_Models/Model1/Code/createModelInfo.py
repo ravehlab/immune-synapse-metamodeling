@@ -12,11 +12,7 @@ from IPython.display import display
 from Model1.Code import definitions
 
 paths = definitions.paths
-# Outside_path = definitions.paths['home'] # '/home/yair/Documents/Git/'
-# Metamodel_path = Outside_path+'Metamodel_py/'
-# Model_path = Metamodel_path+'Model1/'
-# Input_path = Model_path+'Input/'
-# Input_data_name = 'df_trainingData_depletion_pivot.csv'
+
 
 """
 Every variable is a column header in the table:

@@ -32,8 +32,9 @@ import pymc3 as pm
 from IPython.display import display
 import os
 
-# parentDirectory: /home/yair/Documents/Git/Metamodel_py/Surrogate_Models
-# run Model1/Code/main
+# Run from Directory: /home/yair/Documents/Git/Metamodel_py/Surrogate_Models
+# Run command: run Model1/Code/main
+
 # Import Model packages:
 from Model1.Code import definitions
 from Model1.Code import preProcessing
@@ -46,11 +47,13 @@ paths = definitions.paths
 submodels = definitions.submodels
 
 # Create the directory 'Output' in '/Metamodel_py/Surrogate_Models/Model1/'
-directory = 'Output'
-path = os.path.join(paths['Model'], directory)
+outputDirectory = 'Output'
+path = os.path.join(paths['Model'], outputDirectory)
+os.rmdir(path)
 os.mkdir(path)
-print("Directory '% s' created in '/Metamodel_py/Surrogate_Models/Model1/"
-      % directory)
+print("Directory '% s' created in /Metamodel_py/Surrogate_Models/Model1/"
+      % outputDirectory)
+
 #################################################
 # 1. Get training data:
 # 1.0 Read raw data as dataFrame:
@@ -138,7 +141,7 @@ gv_untrained = pm.model_to_graphviz(pm_model1_untrained)
 
 gv_untrained_filename =\
     gv_untrained.render(filename='gv_untrained',
-                        directory=paths['Output'])
+                        directory=outputDirectory)
 
 with pm_model1_untrained:
     trace = pm.sample(2000, chains=4)

@@ -74,7 +74,7 @@ def plotHeatmaps(
 
     max_plotWhat = 4  # np.max(np.where(plotWhat))
 
-    colormap = plots['colormap']
+    colormap = plots['Depletion']['colormap']
     dep_contour_levels = plots['Depletion']['contourLevels']
     fontsize1 = plots['fontSizes']['1']
 

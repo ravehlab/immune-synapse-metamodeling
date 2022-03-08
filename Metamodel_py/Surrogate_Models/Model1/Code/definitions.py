@@ -29,7 +29,7 @@ paths['home'] = '/home/yair/Documents/Git/'
 paths['Metamodel'] = paths['home']+'Metamodel_py/'
 paths['Surrogate'] = paths['Metamodel']+'Surrogate_Models/'
 paths['Model'] = paths['Surrogate']+'Model1/'
-paths['Input'] = paths['Metamodel']+'Input_Models/Model1/Input/'
+paths['Input'] = paths['Metamodel']+'Input_Models/Model1/'
 paths['Processing'] = paths['Model']+'Processing/'
 
 #################################################
