@@ -87,7 +87,7 @@ def plotHeatmaps(
                               vmax=vmaxs[iCol],
                               shading='auto',
                               cmap=colormap)
-        if 1:  # iRow > 0:
+        if 0:  # iRow > 0:
             cs = plt.contour(x1, x2, f[iCol],
                              decaylength_contour_levels,
                              colors='k',

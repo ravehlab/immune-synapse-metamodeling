@@ -30,7 +30,7 @@ def rawDataToDataFramePivot(df_z_raw_data):
     z_raw_data = df_z_raw_data.values
 
     # Scale data to preferred units:
-    z_array0 = np.log10(-z_raw_data)
+    z_array0 = -np.log10(-z_raw_data)
 
     # Get size of original array:
     size_y, size_x = np.shape(z_raw_data)

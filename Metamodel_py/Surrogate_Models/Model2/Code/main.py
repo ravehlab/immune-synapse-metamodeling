@@ -33,7 +33,7 @@ from IPython.display import display
 import os
 
 # Run from Directory: /home/yair/Documents/Git/Metamodel_py/Surrogate_Models
-# Run command: run Model1/Code/main
+# Run command: run Model2/Code/main
 
 # Import Model packages:
 from Model2.Code import definitions
@@ -132,7 +132,7 @@ print(df_model2_untrainedTable_ID)
 
 # 4.1 df_model_untrainedTabled
 pm_model_untrained = training.get_pm_model_untrained(
-     df_trainingData_decaylength_flatten, df_model_untrainedTable_ID)
+     df_trainingData_decaylength_flatten, df_model2_untrainedTable_ID)
 
 gv_untrained = pm.model_to_graphviz(pm_model_untrained)
 
@@ -153,25 +153,25 @@ trace_summary_r = pd.read_pickle(paths['Output']+"trace_summary")
 
 mean_sd_r = trace_summary_r.loc[:, ['mean', 'sd']]
 
-df_model_trainedTable_ID = df_model_untrainedTable_ID
+df_model2_trainedTable_ID = df_model2_untrainedTable_ID
 
 DP = 'Distribution parameters'
 for rv in mean_sd_r.index:
-    df_model_trainedTable_ID.loc[rv, DP]['mu'] =\
+    df_model2_trainedTable_ID.loc[rv, DP]['mu'] =\
         str(mean_sd_r.loc[rv]['mean'])
 
-    df_model_trainedTable_ID.loc[rv]['sd'] =\
+    df_model2_trainedTable_ID.loc[rv]['sd'] =\
         str(mean_sd_r.loc[rv]['sd'])
 
 # Display trained table:
-display(df_model_trainedTable_ID.style.set_properties(
+display(df_model2_trainedTable_ID.style.set_properties(
     **{'text-align': 'left',
        'background-color': submodels['decaylength']['tableBackgroundColor'],
        'border': '1px black solid'}))
 
 # 4.3 Set trained model:
 pm_model_trained = training.get_pm_model_trained(
-    df_model_trainedTable_ID)
+    df_model2_trainedTable_ID)
 
 gv_trained = pm.model_to_graphviz(pm_model_trained)
 gv_trained_filename =\
@@ -184,7 +184,7 @@ run_prediction = False
 
 if run_prediction:
     df_prediction_mean, df_prediction_std =\
-        predicting.predict(df_model_trainedTable_ID)
+        predicting.predict(df_model2_trainedTable_ID)
 
     df_prediction_mean.to_pickle(
         paths['Output']+"/df_model_predicted_dep_mean")

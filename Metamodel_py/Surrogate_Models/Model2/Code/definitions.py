@@ -111,9 +111,9 @@ plots['nCols'] = len(submodelsNames)
 # For Depletion plots:
 plots[submodelName] = {}
 plots[submodelName]['title'] = submodelName
-plots[submodelName]['vmin'] = [-3.]
-plots[submodelName]['vmax'] = [-1.]
-plots[submodelName]['contourLevels'] = np.arange(-3., -1., 0.25)
+plots[submodelName]['vmin'] = [1.]
+plots[submodelName]['vmax'] = [3.5]
+plots[submodelName]['contourLevels'] = np.arange(1., 3.5, 0.25)
 plots[submodelName]['colormap'] = 'Blues'
 
 #################################################
@@ -136,8 +136,8 @@ x['ID'] =\
     model['ShortName'] +\
     model['Index']
 x['distribution'] = 'Normal'
-x['distributionParameters'] = {'mu': str(1E-3),
-                               'upper': str(1E-1)}
+x['distributionParameters'] = {'mu': str(-2.),
+                               'sd': str(1.)}
 
 y = {}
 y['varType'] = 'Free parameter'
@@ -157,8 +157,8 @@ y['ID'] =\
     model['ShortName'] +\
     model['Index']
 y['distribution'] = 'Normal'
-y['distributionParameters'] = {'mu': str(1E-2),
-                               'std': str(1E-1)}
+y['distributionParameters'] = {'mu': str(-2.),
+                               'sd': str(1.)}
 
 
 #################################################

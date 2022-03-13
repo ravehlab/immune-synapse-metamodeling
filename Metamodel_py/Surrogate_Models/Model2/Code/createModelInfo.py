@@ -207,8 +207,8 @@ def model2_decaylength_info(df_fitParameters_decaylength):
            texName="$$Poff^{LCKA}$$",
            description='Decay probability',
            distribution='Normal',
-           distributionParameters={'mu': str(1E-3),
-                                   'sd': str(1E-2)},
+           distributionParameters={'mu': str(2.),
+                                   'sd': str(1.)},
            units='$$-$$'))
 
     model2_decaylength.add_rv(
@@ -218,15 +218,15 @@ def model2_decaylength_info(df_fitParameters_decaylength):
             texName='$$Diff^{LCKA}$$',
             description='Diffusion constant',
             distribution='Normal',
-            distributionParameters={'mu': str(1E-2),
-                                    'sd': str(1E-2)},
+            distributionParameters={'mu': str(2.),
+                                    'sd': str(1.)},
             units='$$mum^2/sec$$'))
 
     model2_decaylength.add_rv(
         RV(id='rv_intercept_decaylength_LCKA2',
             varType='Random variable',
             shortName='intercept',
-            texName='$$dep^{KSEG}_{intercept}$$',
+            texName='$$decaylength^{LCKA}_{intercept}$$',
             description='Interception with z axis',
             distribution='Normal',
             distributionParameters={
@@ -235,11 +235,11 @@ def model2_decaylength_info(df_fitParameters_decaylength):
             units='$$nm$$'))
 
     model2_decaylength.add_rv(
-        RV(id='rv_tSlope_depletion_KSEG1',
+        RV(id='rv_PoffSlope_decaylength_LCKA2',
             varType='Random variable',
-            shortName='tSlope',
-            texName='$$dep^{KSEG}_{tSlope}$$',
-            description='Slope in t direction',
+            shortName='PoffSlope',
+            texName='$$decaylength^{LCKA}_{KoffSlope}$$',
+            description='Slope in x direction',
             distribution='Normal',
             distributionParameters={
                 'mu': str(df_fitParameters_decaylength.loc['xSlope', 'mu']),
@@ -247,11 +247,11 @@ def model2_decaylength_info(df_fitParameters_decaylength):
             units='$$sec$$'))
 
     model2_decaylength.add_rv(
-        RV(id='rv_kSlope_depletion_KSEG1',
+        RV(id='rv_DiffSlope_decaylength_LCKA2',
             varType='Random variable',
-            shortName='kSlope',
-            texName='$$dep^{KSEG}_{kSlope}$$',
-            description='Slope in k direction',
+            shortName='DiffSlope',
+            texName='$$decaylength^{LCKA}_{DiffSlope}$$',
+            description='Slope in y direction',
             distribution='Normal',
             distributionParameters={
                 'mu': str(df_fitParameters_decaylength.loc['ySlope', 'mu']),
@@ -259,14 +259,14 @@ def model2_decaylength_info(df_fitParameters_decaylength):
             units='$$kTnm^2$$'))
 
     model2_decaylength.add_rv(
-        RV(id='rv_output_depletion_KSEG1',
+        RV(id='rv_output_decaylength_LCKA2',
            varType='Random variable',
            shortName='output',
-           texName='$$dep^{KSEG}_{output}$$',
-           description='dep output',
+           texName='$$decaylength^{LCKA}_{output}$$',
+           description='Decaylength output',
            distribution='Normal',
            distributionParameters={'mu': '',
-                                   'sd': str(20.)},
+                                   'sd': str(1.)},
            units="$$nm$$"))
 
     # model1_depletion.to_csv(
