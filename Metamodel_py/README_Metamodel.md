@@ -6,18 +6,30 @@ For paper Neve-Oz et al., 2021 (name TBD)
 <ADD DETAILS HERE>
   
 ### Metamodel_py:
-Metamodel<br>
+#### Structure:
+Metamodel/<br>
 Folders:<br>
+Surrogate_Models/ - <br>
+Input_Models/ - <br>
+Coupled_Model/ - <br>
+
 Surrogate_Models/<br>
-|--- Model1/<br>
-|----<br>
-|--- Model2/<br>
-|--- Model3/<br>
+Folders:<br>
+Model1/<br>
+Model2/<br>
+Model3/<br>
+
+Surrogate_Models/Model*/<br>
+Folders:<br>
+Code - <br>
+Processing - <br>
+Output (generated) - <br>
+
 Input_Models/<br>
---- Model1/<br>
---- Model2/<br>
---- Model3/<br>
-Coupled_Model<br>
+Folders:<br>
+Model1/<br>
+Model2/<br>
+Model3/<br>
 
 
 Model1/ - Kinetic segregation (KSEG).<br>

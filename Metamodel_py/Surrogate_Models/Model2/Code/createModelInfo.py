@@ -9,7 +9,7 @@ import pandas as pd
 # import pymc3 as pm
 from IPython.display import display
 
-from Model1.Code import definitions
+from Model2.Code import definitions
 
 paths = definitions.paths
 
@@ -185,55 +185,56 @@ class Model:
 # Start model1_depletion:
 
 
-model1_depletion = Model(
-    shortName='KSEG',
-    longName='Kinetic segregation',
-    description='Model1 description',
+model2_decaylength = Model(
+    shortName='LCKA',
+    longName='Lck activation',
+    description='Model2 description',
     model_id='1',
     RV_csv_file=None,
-    data_csv_file=paths['Input']+'df_trainingData_depletion_flatten.csv')
+    data_csv_file=paths['Input']+'df_trainingData_decaylength_flatten.csv')
 
 
 #################################################
 # Define dep untrained table:
 
 
-def model1_depletion_info(df_fitParameters_depletion):
+def model2_decaylength_info(df_fitParameters_decaylength):
 
-    model1_depletion.add_rv(
-        RV(id='fp_t_depletion_KSEG1',
+    model2_decaylength.add_rv(
+        RV(id='fp_Poff_decaylength_LCKA2',
            varType='Free parameter',
-           shortName='t',
-           texName="$$t^{KSEG}$$",
-           description='Time',
-           distribution='Uniform',
-           distributionParameters={'lower': str(0.),
-                                   'upper': str(100.)},
-           units='$$sec$$'))
+           shortName='Poff',
+           texName="$$Poff^{LCKA}$$",
+           description='Decay probability',
+           distribution='Normal',
+           distributionParameters={'mu': str(1E-3),
+                                   'sd': str(1E-2)},
+           units='$$-$$'))
 
-    model1_depletion.add_rv(
-        RV(id='fp_k_depletion_KSEG1',
+    model2_decaylength.add_rv(
+        RV(id='fp_Diff_decaylength_LCKA2',
             varType='Free parameter',
-            shortName='k',
-            texName='$$\kappa^{KSEG}$$',
-            description='Membrane rigidity',
-            distribution='Uniform',
-            distributionParameters={'lower': str(0.), 'upper': str(100.)},
-            units='$$kTnm^2$$'))
+            shortName='Diff',
+            texName='$$Diff^{LCKA}$$',
+            description='Diffusion constant',
+            distribution='Normal',
+            distributionParameters={'mu': str(1E-2),
+                                    'sd': str(1E-2)},
+            units='$$mum^2/sec$$'))
 
-    model1_depletion.add_rv(
-        RV(id='rv_intercept_depletion_KSEG1',
+    model2_decaylength.add_rv(
+        RV(id='rv_intercept_decaylength_LCKA2',
             varType='Random variable',
             shortName='intercept',
             texName='$$dep^{KSEG}_{intercept}$$',
             description='Interception with z axis',
             distribution='Normal',
             distributionParameters={
-                'mu': str(df_fitParameters_depletion.loc['intercept', 'mu']),
-                'sd': str(df_fitParameters_depletion.loc['intercept', 'sd'])},
+                'mu': str(df_fitParameters_decaylength.loc['intercept', 'mu']),
+                'sd': str(df_fitParameters_decaylength.loc['intercept', 'sd'])},
             units='$$nm$$'))
 
-    model1_depletion.add_rv(
+    model2_decaylength.add_rv(
         RV(id='rv_tSlope_depletion_KSEG1',
             varType='Random variable',
             shortName='tSlope',
@@ -241,11 +242,11 @@ def model1_depletion_info(df_fitParameters_depletion):
             description='Slope in t direction',
             distribution='Normal',
             distributionParameters={
-                'mu': str(df_fitParameters_depletion.loc['xSlope', 'mu']),
-                'sd': str(df_fitParameters_depletion.loc['xSlope', 'sd'])},
+                'mu': str(df_fitParameters_decaylength.loc['xSlope', 'mu']),
+                'sd': str(df_fitParameters_decaylength.loc['xSlope', 'sd'])},
             units='$$sec$$'))
 
-    model1_depletion.add_rv(
+    model2_decaylength.add_rv(
         RV(id='rv_kSlope_depletion_KSEG1',
             varType='Random variable',
             shortName='kSlope',
@@ -253,11 +254,11 @@ def model1_depletion_info(df_fitParameters_depletion):
             description='Slope in k direction',
             distribution='Normal',
             distributionParameters={
-                'mu': str(df_fitParameters_depletion.loc['ySlope', 'mu']),
-                'sd': str(df_fitParameters_depletion.loc['ySlope', 'sd'])},
+                'mu': str(df_fitParameters_decaylength.loc['ySlope', 'mu']),
+                'sd': str(df_fitParameters_decaylength.loc['ySlope', 'sd'])},
             units='$$kTnm^2$$'))
 
-    model1_depletion.add_rv(
+    model2_decaylength.add_rv(
         RV(id='rv_output_depletion_KSEG1',
            varType='Random variable',
            shortName='output',
@@ -270,22 +271,22 @@ def model1_depletion_info(df_fitParameters_depletion):
 
     # model1_depletion.to_csv(
     #     "Model1_Info_depletion.csv")
-    model1_depletion.to_csv(paths['Processing'] +
-                            "Model1_Info_depletion.csv")
+    model2_decaylength.to_csv(paths['Processing'] +
+                              "Model2_Info_decaylength.csv")
 
-    return(model1_depletion_info)
+    return(model2_decaylength_info)
 #################################################
 # Display table:
 
 
-def displayInfo(model1_depletion):
+def displayInfo(model2_decaylength):
 
-    df_model1_untrainedTable = model1_depletion.get_dataframe()
-    df_model1_untrainedTable = df_model1_untrainedTable.set_index('ID')
+    df_model2_untrainedTable = model2_decaylength.get_dataframe()
+    df_model2_untrainedTable = df_model2_untrainedTable.set_index('ID')
 
-    display(df_model1_untrainedTable.style.set_properties(
+    display(df_model2_untrainedTable.style.set_properties(
         **{'text-align': 'left',
-           'background-color': 'rgba(200, 150, 255, 0.65)',
+           'background-color': 'rgba(200, 150, 0, 0.65)',
            'border': '1px black solid'}))
 
 #################################################

@@ -8,7 +8,7 @@ Created on Sun Feb  6 16:24:26 2022
 # import numpy as np
 import matplotlib.pyplot as plt
 
-from Model1.Code import definitions
+from Model2.Code import definitions
 
 plots = definitions.plots
 #################################################
@@ -22,12 +22,12 @@ def plotData(DataToPlot, plotWhat):
     yLabel = plots['yLabel']
 
     # Titles for the subplots:
-    colTitles = plots['Depletion']['title']
+    colTitles = plots['DecayLength']['title']
     rowTitles = plots['rowTitles']
 
     # min and max values for the different heatmaps:
-    vmins = plots['Depletion']['vmin']
-    vmaxs = plots['Depletion']['vmax']
+    vmins = plots['DecayLength']['vmin']
+    vmaxs = plots['DecayLength']['vmax']
 
     # Number of rows and columns of subplots:
     nRows = plots['nRoWs']
@@ -74,8 +74,8 @@ def plotHeatmaps(
 
     max_plotWhat = 4  # np.max(np.where(plotWhat))
 
-    colormap = plots['Depletion']['colormap']
-    dep_contour_levels = plots['Depletion']['contourLevels']
+    colormap = plots['DecayLength']['colormap']
+    decaylength_contour_levels = plots['DecayLength']['contourLevels']
     fontsize1 = plots['fontSizes']['1']
 
     # plot the nRows x nCols subplots with labels, titles at
@@ -83,12 +83,17 @@ def plotHeatmaps(
     for iCol in range(nCols):
         fig.add_subplot(nRows, nCols, iRow*nCols + iCol+1)
         im[iCol] = plt.pcolor(x1, x2, f[iCol],
-                              vmin=vmins[iCol], vmax=vmaxs[iCol],
-                              shading='auto', cmap=colormap)
-        if True:  # iRow > 0:
-            cs = plt.contour(x1, x2, f[iCol], dep_contour_levels, colors='k',
-                             vmin=vmins[iCol], vmax=vmaxs[iCol])
-            plt.clabel(cs, dep_contour_levels, inline=True, fmt='%.0f',
+                              vmin=vmins[iCol],
+                              vmax=vmaxs[iCol],
+                              shading='auto',
+                              cmap=colormap)
+        if 1:  # iRow > 0:
+            cs = plt.contour(x1, x2, f[iCol],
+                             decaylength_contour_levels,
+                             colors='k',
+                             vmin=vmins[iCol],
+                             vmax=vmaxs[iCol])
+            plt.clabel(cs, decaylength_contour_levels, inline=True, fmt='%.1f',
                        fontsize=fontsize1)
 
         fig.colorbar(im[iCol])
