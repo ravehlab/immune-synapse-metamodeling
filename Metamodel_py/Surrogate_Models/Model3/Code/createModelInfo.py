@@ -9,8 +9,13 @@ import pandas as pd
 # import pymc3 as pm
 from IPython.display import display
 
+from Model1.Code import definitions
+
+paths = definitions.paths
+
+
 """
-Every entity is a column header in the table.
+Every variable is a column header in the table:
 
 id: str, # Unique, cross models, variable name.
 type2: str,  # Type of variable, e.g. 'Free parameter', 'Random variable'.
@@ -23,10 +28,10 @@ units: str):  # Units of the variable, e.g. 'sec'.
 """
 
 
-class RV:
+class RV:  # Random variable
     def __init__(self,
                  id: str,
-                 type2: str,
+                 varType: str,
                  shortName: str,
                  texName: str,
                  description: str,
@@ -35,7 +40,7 @@ class RV:
                  units: str):
 
         self.id = id
-        self.type2 = type2
+        self.varType = varType
         self.shortName = shortName
         self.texName = texName
         self.description = description
@@ -45,7 +50,7 @@ class RV:
 
     def get_as_dictionary(self):
         return {'ID': self.id,
-                'Type': self.type2,
+                'Variable type': self.varType,
                 'Short Name': self.shortName,
                 'Latex Name': self.texName,
                 'Description': self.description,
@@ -79,12 +84,13 @@ class RV:
         # TODO: WRITE-ME
 #       return
 
-    @staticmethod
+    #  @staticmethod
+
     def RV_from_dictionary(d: dict):
-        ''' generates an RV object from a dictionary produced by
-        get_as_dictionary() '''
+        """generates an RV object from a dictionary produced by
+        get_as_dictionary() """
         return RV(id=d['ID'],
-                  type2=d['Type'],
+                  varType=d['Variable type'],
                   shortName=d['Short Name'],
                   texName=d['Latex Name'],
                   description=d['Description'],
@@ -96,12 +102,8 @@ class RV:
 # Class model:
 
 
-model1_description = """Distributions and inter distances of TCR and CD45
-molecules that result from the early contact of a T cell and APC
-(Antigen Presenting Cell)."""
-
-
 class Model:
+
     #  Constructor
     def __init__(self,
                  shortName: str,
@@ -116,9 +118,7 @@ class Model:
         self.description = description
         self.model_id = model_id
         self.set_RVs_from_csv(RV_csv_file)
-        # from CSV file
         self.set_data_from_csv(data_csv_file)
-        # from CSV file
 
     # add a random variable to the model
     def add_rv(self, rv):
@@ -182,34 +182,38 @@ class Model:
         # statements for all RVs
         return
 #################################################
-# Start model1_dep:
+# Start model1_depletion:
 
 
-model1_dep = Model(shortName='KSEG',
-                   longName='Kinetic segregation',
-                   description='Model1 description',
-                   model_id='1',
-                   RV_csv_file=None,
-                   data_csv_file='trainingData_model1.csv')
+model1_depletion = Model(
+    shortName='KSEG',
+    longName='Kinetic segregation',
+    description='Model1 description',
+    model_id='1',
+    RV_csv_file=None,
+    data_csv_file=paths['Input']+'df_trainingData_depletion_flatten.csv')
+
+
 #################################################
 # Define dep untrained table:
 
 
-def model1Dep(df_fitParameters_dep):
+def model1_depletion_info(df_fitParameters_depletion):
 
-    model1_dep.add_rv(
-        RV(id='fp_t_dep_KSEG1',
-           type2='Free parameter',
+    model1_depletion.add_rv(
+        RV(id='fp_t_depletion_KSEG1',
+           varType='Free parameter',
            shortName='t',
            texName="$$t^{KSEG}$$",
            description='Time',
            distribution='Uniform',
-           distributionParameters={'lower': str(0.), 'upper': str(100.)},
+           distributionParameters={'lower': str(0.),
+                                   'upper': str(100.)},
            units='$$sec$$'))
 
-    model1_dep.add_rv(
-        RV(id='fp_k_dep_KSEG1',
-            type2='Free parameter',
+    model1_depletion.add_rv(
+        RV(id='fp_k_depletion_KSEG1',
+            varType='Free parameter',
             shortName='k',
             texName='$$\kappa^{KSEG}$$',
             description='Membrane rigidity',
@@ -217,56 +221,66 @@ def model1Dep(df_fitParameters_dep):
             distributionParameters={'lower': str(0.), 'upper': str(100.)},
             units='$$kTnm^2$$'))
 
-    model1_dep.add_rv(
-        RV(id='rv_intercept_dep_KSEG1',
-            type2='Random variable',
+    model1_depletion.add_rv(
+        RV(id='rv_intercept_depletion_KSEG1',
+            varType='Random variable',
             shortName='intercept',
             texName='$$dep^{KSEG}_{intercept}$$',
             description='Interception with z axis',
             distribution='Normal',
             distributionParameters={
-                'mu': str(df_fitParameters_dep.loc['intercept', 'mu']),
-                'sd': str(df_fitParameters_dep.loc['intercept', 'sd'])},
+                'mu': str(df_fitParameters_depletion.loc['intercept', 'mu']),
+                'sd': str(df_fitParameters_depletion.loc['intercept', 'sd'])},
             units='$$nm$$'))
 
-    model1_dep.add_rv(
-        RV(id='rv_tSlope_dep_KSEG1',
-            type2='Random variable',
+    model1_depletion.add_rv(
+        RV(id='rv_tSlope_depletion_KSEG1',
+            varType='Random variable',
             shortName='tSlope',
             texName='$$dep^{KSEG}_{tSlope}$$',
             description='Slope in t direction',
             distribution='Normal',
             distributionParameters={
-                'mu': str(df_fitParameters_dep.loc['tSlope', 'mu']),
-                'sd': str(df_fitParameters_dep.loc['tSlope', 'sd'])},
+                'mu': str(df_fitParameters_depletion.loc['xSlope', 'mu']),
+                'sd': str(df_fitParameters_depletion.loc['xSlope', 'sd'])},
             units='$$sec$$'))
 
-    model1_dep.add_rv(
-        RV(id='rv_kSlope_dep_KSEG1',
-            type2='Random variable',
+    model1_depletion.add_rv(
+        RV(id='rv_kSlope_depletion_KSEG1',
+            varType='Random variable',
             shortName='kSlope',
             texName='$$dep^{KSEG}_{kSlope}$$',
             description='Slope in k direction',
             distribution='Normal',
             distributionParameters={
-                'mu': str(df_fitParameters_dep.loc['kSlope', 'mu']),
-                'sd': str(df_fitParameters_dep.loc['kSlope', 'sd'])},
+                'mu': str(df_fitParameters_depletion.loc['ySlope', 'mu']),
+                'sd': str(df_fitParameters_depletion.loc['ySlope', 'sd'])},
             units='$$kTnm^2$$'))
 
-    model1_dep.to_csv("model1/Model1_dep.csv")
+    model1_depletion.add_rv(
+        RV(id='rv_output_depletion_KSEG1',
+           varType='Random variable',
+           shortName='output',
+           texName='$$dep^{KSEG}_{output}$$',
+           description='dep output',
+           distribution='Normal',
+           distributionParameters={'mu': '',
+                                   'sd': str(20.)},
+           units="$$nm$$"))
 
-    return(model1_dep)
+    # model1_depletion.to_csv(
+    #     "Model1_Info_depletion.csv")
+    model1_depletion.to_csv(paths['Processing'] +
+                            "Model1_Info_depletion.csv")
+
+    return(model1_depletion_info)
 #################################################
-# Display RVs tables as DataFrames:
-# Display untrained table:
-# df_model1_untrainedTable = model1_dep.get_dataframe()
-# df_model1_untrainedTable = df_model1_untrainedTable.set_index('ID')
-# display(df_model1_dep_untrainedTable):
+# Display table:
 
 
-def displayInfo(model1_dep):
+def displayInfo(model1_depletion):
 
-    df_model1_untrainedTable = model1_dep.get_dataframe()
+    df_model1_untrainedTable = model1_depletion.get_dataframe()
     df_model1_untrainedTable = df_model1_untrainedTable.set_index('ID')
 
     display(df_model1_untrainedTable.style.set_properties(
