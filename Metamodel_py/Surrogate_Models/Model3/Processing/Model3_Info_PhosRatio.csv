@@ -1,0 +1,7 @@
+,ID,Variable type,Short Name,Latex Name,Description,Distribution,Distribution parameters,Units
+0,fp_decaylength_TCRP3,Free parameter,decaylength,$$Decaylength^{TCRP}$$,Decay length of active Lck,Normal,"{'mu': '100.0', 'sd': '50.0'}",$$nm$$
+1,fp_depletion_TCRP3,Free parameter,Depletion,$$Depletion^{TCRP}$$,Depletion distance between TCR and CD45,Normal,"{'mu': '100.0', 'sd': '50.0'}",$$nm$$
+2,rv_intercept_PhosRatio_TCRP3,Random variable,intercept,$$PhosRatio^{TCRP}_{intercept}$$,Interception with z axis,Normal,"{'mu': '-0.016174349193258043', 'sd': '0.009140003821630105'}",$$nm$$
+3,rv_decaylengthSlope_PhosRatio_TCRP3,Random variable,decaylengthSlope,$$PhosRatio^{KSEG}_{decaylengthSlope}$$,Slope in decaylength direction,Normal,"{'mu': '0.003997529102405923', 'sd': '5.972687156199003e-05'}",$$-$$
+4,rv_depletionSlope_PhosRatio_TCRP3,Random variable,depletionSlope,$$PhosRatio^{TCRP}_{depletionSlope}$$,Slope in depletion direction,Normal,"{'mu': '-0.001301116758444405', 'sd': '5.68761170664272e-05'}",$$-$$
+5,rv_output_PhosRatio_TCRP3,Random variable,output,$$PhosRatio^{TCRP}_{output}$$,PhosRatio output,Normal,"{'mu': '', 'sd': '20.0'}",$$nm$$

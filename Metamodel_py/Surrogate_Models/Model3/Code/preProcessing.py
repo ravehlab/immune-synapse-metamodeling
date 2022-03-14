@@ -8,8 +8,8 @@ Created on Sat Feb  5 17:08:06 2022
 import numpy as np
 import pandas as pd
 
-from Model1.Code import definitions
-from Model1.Code import plotting
+from Model3.Code import definitions
+from Model3.Code import plotting
 
 plots = definitions.plots
 data = definitions.data
@@ -35,22 +35,22 @@ def rawDataToDataFramePivot(df_z_raw_data):
     size_y, size_x = np.shape(z_raw_data)
 
     # x_axis:
-    min_x = 0
-    max_x = 100
+    min_x = 10.
+    max_x = 200.
     x0 = np.linspace(min_x, max_x, size_x)
 
     # y_axis:
-    min_y = 5
-    max_y = 100
+    min_y = 0
+    max_y = 200
     y0 = np.linspace(min_y, max_y, size_y)
 
     # select start indices for x and y:
-    x_start_index = 1
-    y_start_index = 1
+    x_start_index = 0
+    y_start_index = 0
 
     # Indices steps:
     x_step = 1
-    y_step = 2
+    y_step = 1
 
     # Get selected x and y indices:
     selected_x_indices = np.arange(x_start_index, size_x, x_step)

@@ -48,59 +48,62 @@ submodels = definitions.submodels
 
 # Create the directory 'Output' in '/Metamodel_py/Surrogate_Models/Model3/'
 outputDirectory = 'Output'
-path = os.path.join(paths['Model'], outputDirectory)
-os.rmdir(path)
-os.mkdir(path)
-print("Directory '% s' created in /Metamodel_py/Surrogate_Models/Model3/"
+Output_path = os.path.join(paths['Model'], outputDirectory)
+try:
+    os.rmdir(Output_path)
+except:
+    print("Output Directory does not exist.")
+os.mkdir(Output_path)
+print("% s directory created in /Metamodel_py/Surrogate_Models/Model3/"
       % outputDirectory)
 
 #################################################
 # 1. Get training data:
 # 1.0 Read raw data as dataFrame:
-raw_data_name = 'raw_data_array_depletion.csv'
-df_raw_data_depletion =\
+raw_data_name = 'raw_data_PhosRatio.csv'
+df_raw_data_PhosRatio =\
     pd.read_csv(paths['Input']+raw_data_name, header=None)
 
 # 1.0.1 Crop and scale raw data:
 # x_array, y_array, z_array =\
 #     preProcessing.cropAndScaleRawData(df_raw_data_depletion)
 
-df_trainingData_depletion_pivot =\
-    preProcessing.rawDataToDataFramePivot(df_raw_data_depletion)
+df_trainingData_PhosRatio_pivot =\
+    preProcessing.rawDataToDataFramePivot(df_raw_data_PhosRatio)
 
 # Save dataFrame pivot as .csv:
-df_trainingData_depletion_pivot.to_csv(
-    paths['Input']+"/df_trainingData_depletion_pivot.csv")
+df_trainingData_PhosRatio_pivot.to_csv(
+    paths['Input']+"/df_trainingData_PhosRatio_pivot.csv")
 
 # Get trainingData aranged as dataFrame in columns (flatten):
-df_trainingData_depletion_flatten =\
-    preProcessing.pivotToFlatten(df_trainingData_depletion_pivot)
+df_trainingData_PhosRatio_flatten =\
+    preProcessing.pivotToFlatten(df_trainingData_PhosRatio_pivot)
 
 # Save dataFrame flatten as .csv:
-df_trainingData_depletion_flatten.to_csv(
-    paths['Input']+"/df_trainingData_depletion_flatten.csv")
+df_trainingData_PhosRatio_flatten.to_csv(
+    paths['Input']+"/df_trainingData_PhosRatio_flatten.csv")
 
 # 1.1 Read trainingData from Input/:
-df_trainingData_depletion_pivot_r =\
-    pd.read_csv(paths['Input']+"/df_trainingData_depletion_pivot.csv",
+df_trainingData_PhosRatio_pivot_r =\
+    pd.read_csv(paths['Input']+"/df_trainingData_PhosRatio_pivot.csv",
                 index_col=0)
 
 # 1.2 Plot training data:
-preProcessing.plotTrainingData(df_trainingData_depletion_pivot_r)
+preProcessing.plotTrainingData(df_trainingData_PhosRatio_pivot_r)
 
 #################################################
 # 2. Parameters Fitting (to be used as initial parameters
 # for the untrained model):
 # 2.1 Get fit parameters:
-df_fitParameters_depletion = parametersFitting.setFitFunction(
-    df_trainingData_depletion_flatten)
+df_fitParameters_PhosRatio = parametersFitting.setFitFunction(
+    df_trainingData_PhosRatio_flatten)
 
 # 2.2 Create fitted data from fit parameters:
-df_fittedData_depletion_pivot = parametersFitting.getFittedData(
-    df_trainingData_depletion_flatten, df_fitParameters_depletion)
+df_fittedData_PhosRatio_pivot = parametersFitting.getFittedData(
+    df_trainingData_PhosRatio_flatten, df_fitParameters_PhosRatio)
 
 # 2.3 Plot fitted data:
-parametersFitting.plotFittedData(df_fittedData_depletion_pivot)
+parametersFitting.plotFittedData(df_fittedData_PhosRatio_pivot)
 
 #################################################
 # 3. Create table for model info:
@@ -111,22 +114,22 @@ createModelInfo.RV
 createModelInfo.Model
 
 # 3.3 Get untrained info:
-model1_depletion_info = createModelInfo.model1_depletion_info(
-    df_fitParameters_depletion)
+model3_PhosRatio_info = createModelInfo.model3_PhosRatio_info(
+    df_fitParameters_PhosRatio)
 
 # Get untrained table:
-df_model1_untrainedTable = createModelInfo.model1_depletion.get_dataframe()
+df_model3_untrainedTable = createModelInfo.model3_PhosRatio.get_dataframe()
 
 # Untrained table with 'ID' as index:
-df_model1_untrainedTable_ID = df_model1_untrainedTable.set_index('ID')
+df_model3_untrainedTable_ID = df_model3_untrainedTable.set_index('ID')
 
 # 3.4 Display untrained table:
-display(df_model1_untrainedTable_ID.style.set_properties(
+display(df_model3_untrainedTable_ID.style.set_properties(
     **{'text-align': 'left',
-       'background-color': submodels['Depletion']['tableBackgroundColor'],
+       'background-color': submodels['PhosRatio']['tableBackgroundColor'],
        'border': '1px black solid'}))
 
-print(df_model1_untrainedTable_ID)
+print(df_model3_untrainedTable_ID)
 
 # 3.5 Output (temp) save displayed table as figure.
 
@@ -134,16 +137,16 @@ print(df_model1_untrainedTable_ID)
 # 4. Training with pymc3:
 
 # 4.1 df_model1_untrainedTabled
-pm_model1_untrained = training.get_pm_model1_untrained(
-     df_trainingData_depletion_flatten, df_model1_untrainedTable_ID)
+pm_model3_untrained = training.get_pm_model3_untrained(
+     df_trainingData_PhosRatio_flatten, df_model3_untrainedTable_ID)
 
-gv_untrained = pm.model_to_graphviz(pm_model1_untrained)
+gv_untrained = pm.model_to_graphviz(pm_model3_untrained)
 
 gv_untrained_filename =\
     gv_untrained.render(filename='gv_untrained',
                         directory=outputDirectory)
 
-with pm_model1_untrained:
+with pm_model3_untrained:
     trace = pm.sample(2000, chains=4)
 
 pm.traceplot(trace)
@@ -156,7 +159,7 @@ trace_summary_r = pd.read_pickle(paths['Output']+"trace_summary")
 
 mean_sd_r = trace_summary_r.loc[:, ['mean', 'sd']]
 
-df_model1_trainedTable_ID = df_model1_untrainedTable_ID
+df_model3_trainedTable_ID = df_model3_untrainedTable_ID
 
 DP = 'Distribution parameters'
 for rv in mean_sd_r.index:

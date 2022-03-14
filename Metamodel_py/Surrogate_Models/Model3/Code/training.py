@@ -10,67 +10,66 @@ import pymc3 as pm
 # Untrained model:
 
 
-def get_pm_model1_untrained(df_trainingData_model1,
-                            df_model1_untrainedTable):
+def get_pm_model3_untrained(df_trainingData_model3,
+                            df_model3_untrainedTable):
 
-    pm_model1_untrained = pm.Model()
-    with pm_model1_untrained:
+    pm_model3_untrained = pm.Model()
+    with pm_model3_untrained:
 
-        dfRV = df_model1_untrainedTable
+        dfRV = df_model3_untrainedTable
         DP = 'Distribution parameters'
 
-        t_KSEG1_obs = df_trainingData_model1.loc[:, 'time_sec'].values
-        k_KSEG1_obs = df_trainingData_model1.loc[:, 'k0_kTnm2'].values
-        depletion_KSEG1_obs =\
-            df_trainingData_model1.loc[:, 'depletion_nm'].values
+        x_obs = df_trainingData_model3.loc[:, 'Decaylength'].values
+        y_obs = df_trainingData_model3.loc[:, 'Depletion'].values
+        z_obs = df_trainingData_model3.loc[:, 'PhosRatio'].values
 
-        # rv_t
-        ID = 'fp_t_depletion_KSEG1'
-        rv_t = pm.Uniform('rv_t',
-                          lower=dfRV.loc[ID, DP]['lower'],
-                          upper=dfRV.loc[ID, DP]['upper'],
-                          observed=t_KSEG1_obs)
+        # rv_decaylength
+        ID = 'fp_decaylength_TCRP3'
+        rv_decaylength = pm.Normal('rv_decaylength',
+                                   mu=eval(dfRV.loc[ID, DP]['lower']),
+                                   sd=eval(dfRV.loc[ID, DP]['upper']),
+                                   observed=x_obs)
 
-        # rv_k
-        ID = 'fp_k_depletion_KSEG1'
-        rv_k = pm.Uniform('rv_k',
-                          lower=dfRV.loc[ID, DP]['lower'],
-                          upper=dfRV.loc[ID, DP]['upper'],
-                          observed=k_KSEG1_obs)
+        # rv_depletion
+        ID = 'fp_depletion_TCRP3'
+        rv_depletion = pm.Normal('rv_depletion',
+                                 mu=eval(dfRV.loc[ID, DP]['mu']),
+                                 sd=eval(dfRV.loc[ID, DP]['sd']),
+                                 observed=y_obs)
 
         # depletion_KSEG
         """TODO: read parameters values from RV table"""
-        # rv_intercept_depletion_KSEG1
-        ID = 'rv_intercept_depletion_KSEG1'
-        rv_intercept_depletion_KSEG1 = pm.Normal(
+        # rv_intercept_PhosRatio_TCRP3
+        ID = 'rv_intercept_PhosRatio_TCRP3'
+        rv_intercept_PhosRatio_TCRP3 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_tSlope_depletion_KSEG1
-        ID = 'rv_tSlope_depletion_KSEG1'
-        rv_tSlope_depletion_KSEG1 = pm.Normal(
+        # rv_decaylangthSlope_PhosRatio_TCRP3
+        ID = 'rv_decaylangthSlope_PhosRatio_TCRP3'
+        rv_decaylangthSlope_PhosRatio_TCRP3 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_kSlope_depletion_KSEG1
-        ID = 'rv_kSlope_depletion_KSEG1'
-        rv_kSlope_depletion_KSEG1 = pm.Normal(
+        # rv_depletionSlope_PhosRatio_TCRP3
+        ID = 'rv_depletionSlope_PhosRatio_TCRP3'
+        rv_depletionSlope_PhosRatio_TCRP3 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        ID = 'rv_output_depletion_KSEG1'
-        rv_output_depletion_KSEG1 = pm.Normal(
+        ID = 'rv_output_PhosRatio_KSEG1'
+        rv_output_PhosRatio_KSEG1 = pm.Normal(
             ID,
-            mu=rv_intercept_depletion_KSEG1 +
-            rv_tSlope_depletion_KSEG1*rv_t +
-            rv_kSlope_depletion_KSEG1*rv_k,
+            mu=rv_intercept_PhosRatio_TCRP3 +
+            rv_decaylangthSlope_PhosRatio_TCRP3*rv_decaylength +
+            rv_depletionSlope_PhosRatio_TCRP3*rv_depletion,
             sd=eval(dfRV.loc[ID, DP]['sd']),
-            observed=depletion_KSEG1_obs)
+            observed=z_obs)
 
-    return pm_model1_untrained
+    return pm_model3_untrained
 #################################################
 
 # Trained model:

@@ -46,15 +46,15 @@ model['Description'] = """Model3 description."""
 """For every output of the same free parameters there is a different
 submodel."""
 
-submodelsNames = ['Pratio']
+submodelsNames = ['PhosRatio']
 submodelName = submodelsNames[0]
 submodels = {}
-# submodels['names'] = ['Depletion']
+# submodels['names'] = ['PhosRatio']
 submodels[submodelName] = {}
 submodels[submodelName]['fitParametersNames'] =\
     ['intercept', 'xSlope', 'ySlope']
 
-# Fit equation Depletion:
+# Fit equation PhosRatio:
 submodels[submodelName]['equation'] =\
     submodels[submodelName]['fitParametersNames'][0] +\
     "+" +\
@@ -75,18 +75,18 @@ submodels[submodelName]['fitParametersDescriptions'] =\
 # Fit parameters units:
 submodels[submodelName]['fitParametersUnits'] =\
     ["nm",
-     "sec",
-     "kTnm^2"]
+     "-",
+     "-"]
 
 # Initial fit parameters
 submodels[submodelName]['p0'] = [0., 0., 0.]
-submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
+submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 0, 0.65)'
 
 #################################################
 # Define data names:
 data = {}
 data['flatten_columns_names'] = {}
-data['flatten_columns_names']['x'] = 'Decalength_nm'
+data['flatten_columns_names']['x'] = 'Decaylength_nm'
 data['flatten_columns_names']['y'] = 'Depletion_nm'
 data['flatten_columns_names']['z'] = 'PhosRatio'
 
@@ -94,8 +94,8 @@ data['flatten_columns_names']['z'] = 'PhosRatio'
 # Define plots:
 plots = {}
 plots['figSize'] = [4., len(submodelName)*4.]
-plots['xLabel'] = "$t(sec)$"
-plots['yLabel'] = "$\kappa(kTnm^2)$"
+plots['xLabel'] = "$Decaylength(nm)$"
+plots['yLabel'] = "$Depletion(nm)$"
 plots['rowTitles'] = ["Training data",
                       "Data fit",
                       "Trained parameters",
@@ -111,54 +111,54 @@ plots['nCols'] = len(submodelsNames)
 # For Depletion plots:
 plots[submodelName] = {}
 plots[submodelName]['title'] = submodelName
-plots[submodelName]['vmin'] = [0]
-plots[submodelName]['vmax'] = [250]
-plots[submodelName]['contourLevels'] = np.arange(25., 250., 25.)
-plots[submodelName]['colormap'] = 'Purples'
+plots[submodelName]['vmin'] = [0.]
+plots[submodelName]['vmax'] = [1.]
+plots[submodelName]['contourLevels'] = np.arange(0.1, 1., 0.1)
+plots[submodelName]['colormap'] = 'Oranges'
 
 #################################################
 # Define free parameters for all submodels in the Model:
 x = {}
 x['varType'] = 'Free parameter'
 x['shortVarType'] = 'fp'
-x['shortName'] = 't'
-x['description'] = 'Time'
+x['shortName'] = 'Decaylength'
+x['description'] = 'Decay length of active Lck'
 x['texName'] =\
     "$$" +\
     x['shortName'] +\
     "^{" +\
     model['ShortName'] +\
     "}$$"
-x['units'] = '$$sec$$'
+x['units'] = '$$nm$$'
 x['ID'] =\
     x['shortVarType'] + '_' +\
     x['shortName'] + '_' +\
     model['ShortName'] +\
     model['Index']
-x['distribution'] = 'Uniform'
-x['distributionParameters'] = {'lower': str(0.),
-                               'upper': str(100.)}
+x['distribution'] = 'Normal'
+x['distributionParameters'] = {'mu': str(200.),
+                               'sd': str(50.)}
 
 y = {}
 y['varType'] = 'Free parameter'
 y['shortVarType'] = 'fp'
-y['shortName'] = 'k'
-y['description'] = 'Membrane rigidity'
+y['shortName'] = 'Depletion'
+y['description'] = 'Depletion distsance between TCR and CD45'
 y['texName'] =\
     "$$" +\
     y['shortName'] +\
     "^{" +\
     model['ShortName'] +\
     "}$$"
-y['units'] = '$$kTnm^2$$'
+y['units'] = '$$nm$$'
 y['ID'] =\
     y['shortVarType'] + '_' +\
     y['shortName'] + '_' +\
     model['ShortName'] +\
     model['Index']
-y['distribution'] = 'Uniform'
-y['distributionParameters'] = {'lower': str(0.),
-                               'upper': str(100.)}
+y['distribution'] = 'Normal'
+y['distributionParameters'] = {'mu': str(200.),
+                               'sd': str(100.)}
 
 
 #################################################

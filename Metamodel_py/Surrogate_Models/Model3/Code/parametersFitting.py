@@ -9,8 +9,8 @@ import numpy as np
 import pandas as pd
 from scipy.optimize import curve_fit
 
-from Model1.Code import definitions
-from Model1.Code import plotting
+from Model3.Code import definitions
+from Model3.Code import plotting
 
 submodels = definitions.submodels
 plots = definitions.plots
@@ -54,14 +54,14 @@ def setFitFunction(df_trainingData_flatten):
     flatten_y = df_trainingData_flatten[data['flatten_columns_names']['y']]
     flatten_z = df_trainingData_flatten[data['flatten_columns_names']['z']]
 
-    parametersNames = submodels['Depletion']['fitParametersNames']
+    parametersNames = submodels['PhosRatio']['fitParametersNames']
 
     df_fitParameters_dep = getFitParameters(
         X=(flatten_x, flatten_y),
         fitFunc=linXlinY,
         fXdata=flatten_z,
         parametersNames=parametersNames,
-        p0=submodels['Depletion']['p0'])
+        p0=submodels['PhosRatio']['p0'])
 
     return df_fitParameters_dep
 
@@ -110,13 +110,12 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
     xSlope_fit = df_fitParameters.loc['xSlope', 'mu']
     ySlope_fit = df_fitParameters.loc['ySlope', 'mu']
 
-    flatten_column_name_x = data['flatten_columns_names']['x']
-    flatten_column_name_y = data['flatten_columns_names']['y']
-    flatten_column_name_z = data['flatten_columns_names']['z']
+    # flatten_column_name_x = data['flatten_columns_names']['x']
+    # flatten_column_name_y = data['flatten_columns_names']['y']
+    # flatten_column_name_z = data['flatten_columns_names']['z']
 
-
-    flatten_x = df_trainingData_flatten['time_sec']
-    flatten_y = df_trainingData_flatten['k0_kTnm2']
+    flatten_x = df_trainingData_flatten['Decaylength_nm']
+    flatten_y = df_trainingData_flatten['Depletion_nm']
 
     fitted_data_flatten =\
         intercept_fit +\
@@ -124,11 +123,12 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
         ySlope_fit*flatten_y
 
     df_fitted_data_flatten = df_trainingData_flatten
-    df_fitted_data_flatten['depletion_nm'] = fitted_data_flatten
+    df_fitted_data_flatten['PhosRatio'] = fitted_data_flatten
 
-    df_fitted_data_pivot = df_fitted_data_flatten.pivot(index='k0_kTnm2',
-                                                        columns='time_sec',
-                                                        values='depletion_nm')
+    df_fitted_data_pivot = df_fitted_data_flatten.pivot(
+        index='Depletion_nm',
+        columns='Decaylength_nm',
+        values='PhosRatio')
 
     return df_fitted_data_pivot
 

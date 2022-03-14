@@ -9,7 +9,7 @@ import pandas as pd
 # import pymc3 as pm
 from IPython.display import display
 
-from Model1.Code import definitions
+from Model3.Code import definitions
 
 paths = definitions.paths
 
@@ -185,95 +185,96 @@ class Model:
 # Start model1_depletion:
 
 
-model1_depletion = Model(
-    shortName='KSEG',
-    longName='Kinetic segregation',
-    description='Model1 description',
-    model_id='1',
+model3_PhosRatio = Model(
+    shortName='TCRP',
+    longName='TCR phosphorylation',
+    description='Model3 description',
+    model_id='3',
     RV_csv_file=None,
-    data_csv_file=paths['Input']+'df_trainingData_depletion_flatten.csv')
+    data_csv_file=paths['Input']+'df_trainingData_PhosRatio_flatten.csv')
 
 
 #################################################
-# Define dep untrained table:
+# Define untrained table:
 
 
-def model1_depletion_info(df_fitParameters_depletion):
+def model3_PhosRatio_info(df_fitParameters_PhosRatio):
 
-    model1_depletion.add_rv(
-        RV(id='fp_t_depletion_KSEG1',
+    model3_PhosRatio.add_rv(
+        RV(id='fp_decaylength_TCRP3',
            varType='Free parameter',
-           shortName='t',
-           texName="$$t^{KSEG}$$",
-           description='Time',
-           distribution='Uniform',
-           distributionParameters={'lower': str(0.),
-                                   'upper': str(100.)},
-           units='$$sec$$'))
+           shortName='decaylength',
+           texName="$$Decaylength^{TCRP}$$",
+           description='Decay length of active Lck',
+           distribution='Normal',
+           distributionParameters={'mu': str(100.),
+                                   'sd': str(50.)},
+           units='$$nm$$'))
 
-    model1_depletion.add_rv(
-        RV(id='fp_k_depletion_KSEG1',
+    model3_PhosRatio.add_rv(
+        RV(id='fp_depletion_TCRP3',
             varType='Free parameter',
-            shortName='k',
-            texName='$$\kappa^{KSEG}$$',
-            description='Membrane rigidity',
-            distribution='Uniform',
-            distributionParameters={'lower': str(0.), 'upper': str(100.)},
-            units='$$kTnm^2$$'))
+            shortName='Depletion',
+            texName='$$Depletion^{TCRP}$$',
+            description='Depletion distance between TCR and CD45',
+            distribution='Normal',
+            distributionParameters={'mu': str(100.),
+                                    'sd': str(50.)},
+            units='$$nm$$'))
 
-    model1_depletion.add_rv(
-        RV(id='rv_intercept_depletion_KSEG1',
+    model3_PhosRatio.add_rv(
+        RV(id='rv_intercept_PhosRatio_TCRP3',
             varType='Random variable',
             shortName='intercept',
-            texName='$$dep^{KSEG}_{intercept}$$',
+            texName='$$PhosRatio^{TCRP}_{intercept}$$',
             description='Interception with z axis',
             distribution='Normal',
             distributionParameters={
-                'mu': str(df_fitParameters_depletion.loc['intercept', 'mu']),
-                'sd': str(df_fitParameters_depletion.loc['intercept', 'sd'])},
+                'mu': str(df_fitParameters_PhosRatio.loc['intercept', 'mu']),
+                'sd': str(df_fitParameters_PhosRatio.loc['intercept', 'sd'])},
             units='$$nm$$'))
 
-    model1_depletion.add_rv(
-        RV(id='rv_tSlope_depletion_KSEG1',
+    model3_PhosRatio.add_rv(
+        RV(id='rv_decaylengthSlope_PhosRatio_TCRP3',
             varType='Random variable',
-            shortName='tSlope',
-            texName='$$dep^{KSEG}_{tSlope}$$',
-            description='Slope in t direction',
+            shortName='decaylengthSlope',
+            texName='$$PhosRatio^{KSEG}_{decaylengthSlope}$$',
+            description='Slope in decaylength direction',
             distribution='Normal',
             distributionParameters={
-                'mu': str(df_fitParameters_depletion.loc['xSlope', 'mu']),
-                'sd': str(df_fitParameters_depletion.loc['xSlope', 'sd'])},
-            units='$$sec$$'))
+                'mu': str(df_fitParameters_PhosRatio.loc['xSlope', 'mu']),
+                'sd': str(df_fitParameters_PhosRatio.loc['xSlope', 'sd'])},
+            units='$$-$$'))
 
-    model1_depletion.add_rv(
-        RV(id='rv_kSlope_depletion_KSEG1',
+    model3_PhosRatio.add_rv(
+        RV(id='rv_depletionSlope_PhosRatio_TCRP3',
             varType='Random variable',
-            shortName='kSlope',
-            texName='$$dep^{KSEG}_{kSlope}$$',
-            description='Slope in k direction',
+            shortName='depletionSlope',
+            texName='$$PhosRatio^{TCRP}_{depletionSlope}$$',
+            description='Slope in depletion direction',
             distribution='Normal',
             distributionParameters={
-                'mu': str(df_fitParameters_depletion.loc['ySlope', 'mu']),
-                'sd': str(df_fitParameters_depletion.loc['ySlope', 'sd'])},
-            units='$$kTnm^2$$'))
+                'mu': str(df_fitParameters_PhosRatio.loc['ySlope', 'mu']),
+                'sd': str(df_fitParameters_PhosRatio.loc['ySlope', 'sd'])},
+            units='$$-$$'))
 
-    model1_depletion.add_rv(
-        RV(id='rv_output_depletion_KSEG1',
+    model3_PhosRatio.add_rv(
+        RV(id='rv_output_PhosRatio_TCRP3',
            varType='Random variable',
            shortName='output',
-           texName='$$dep^{KSEG}_{output}$$',
-           description='dep output',
+           texName='$$PhosRatio^{TCRP}_{output}$$',
+           description='PhosRatio output',
            distribution='Normal',
            distributionParameters={'mu': '',
                                    'sd': str(20.)},
            units="$$nm$$"))
 
-    # model1_depletion.to_csv(
-    #     "Model1_Info_depletion.csv")
-    model1_depletion.to_csv(paths['Processing'] +
-                            "Model1_Info_depletion.csv")
+    # model3_depletion.to_csv(
+    #     "Model3_Info_PhosRatio.csv")
+    model3_PhosRatio.to_csv(paths['Processing'] +
+                            "Model3_Info_PhosRatio.csv")
 
-    return(model1_depletion_info)
+    return(model3_PhosRatio)
 #################################################
 # Display table:
 
