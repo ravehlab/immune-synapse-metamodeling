@@ -163,23 +163,23 @@ df_model3_trainedTable_ID = df_model3_untrainedTable_ID
 
 DP = 'Distribution parameters'
 for rv in mean_sd_r.index:
-    df_model1_trainedTable_ID.loc[rv, DP]['mu'] =\
+    df_model3_trainedTable_ID.loc[rv, DP]['mu'] =\
         str(mean_sd_r.loc[rv]['mean'])
 
-    df_model1_trainedTable_ID.loc[rv]['sd'] =\
+    df_model3_trainedTable_ID.loc[rv]['sd'] =\
         str(mean_sd_r.loc[rv]['sd'])
 
 # Display trained table:
-display(df_model1_trainedTable_ID.style.set_properties(
+display(df_model3_trainedTable_ID.style.set_properties(
     **{'text-align': 'left',
        'background-color': submodels['Depletion']['tableBackgroundColor'],
        'border': '1px black solid'}))
 
 # 4.3 Set trained model:
-pm_model1_trained = training.get_pm_model1_trained(
-    df_model1_trainedTable_ID)
+pm_model3_trained = training.get_pm_model3_trained(
+    df_model3_trainedTable_ID)
 
-gv_trained = pm.model_to_graphviz(pm_model1_trained)
+gv_trained = pm.model_to_graphviz(pm_model3_trained)
 gv_trained_filename =\
     gv_trained.render(filename='gv_trained', directory=paths['Output'])
 
@@ -190,17 +190,17 @@ run_prediction = False
 
 if run_prediction:
     df_prediction_mean, df_prediction_std =\
-        predicting.predict(df_model1_trainedTable_ID)
+        predicting.predict(df_model3_trainedTable_ID)
 
     df_prediction_mean.to_pickle(
-        paths['Output']+"/df_model1_predicted_dep_mean")
+        paths['Output']+"/df_model3_predicted_PhosRatio_mean")
     df_prediction_std.to_pickle(
-        paths['Output']+"/df_model1_predicted_dep_std")
+        paths['Output']+"/df_model3_predicted_PhosRatio_std")
 
 df_prediction_mean_r = pd.read_pickle(
-    paths['Output']+"/df_model1_predicted_dep_mean")
+    paths['Output']+"/df_model3_predicted_PhosRatio_mean")
 df_prediction_std_r = pd.read_pickle(
-    paths['Output']+"/df_model1_predicted_dep_std")
+    paths['Output']+"/df_model3_predicted_PhosRatio_std")
 
 # 5.2 Plot prediction data:
 predicting.plotPredictionData(df_prediction_mean_r,

@@ -19,15 +19,15 @@ def get_pm_model3_untrained(df_trainingData_model3,
         dfRV = df_model3_untrainedTable
         DP = 'Distribution parameters'
 
-        x_obs = df_trainingData_model3.loc[:, 'Decaylength'].values
-        y_obs = df_trainingData_model3.loc[:, 'Depletion'].values
+        x_obs = df_trainingData_model3.loc[:, 'Decaylength_nm'].values
+        y_obs = df_trainingData_model3.loc[:, 'Depletion_nm'].values
         z_obs = df_trainingData_model3.loc[:, 'PhosRatio'].values
 
         # rv_decaylength
         ID = 'fp_decaylength_TCRP3'
         rv_decaylength = pm.Normal('rv_decaylength',
-                                   mu=eval(dfRV.loc[ID, DP]['lower']),
-                                   sd=eval(dfRV.loc[ID, DP]['upper']),
+                                   mu=eval(dfRV.loc[ID, DP]['mu']),
+                                   sd=eval(dfRV.loc[ID, DP]['sd']),
                                    observed=x_obs)
 
         # rv_depletion
@@ -47,8 +47,8 @@ def get_pm_model3_untrained(df_trainingData_model3,
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_decaylangthSlope_PhosRatio_TCRP3
-        ID = 'rv_decaylangthSlope_PhosRatio_TCRP3'
-        rv_decaylangthSlope_PhosRatio_TCRP3 = pm.Normal(
+        ID = 'rv_decaylengthSlope_PhosRatio_TCRP3'
+        rv_decaylengthSlope_PhosRatio_TCRP3 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
@@ -60,11 +60,11 @@ def get_pm_model3_untrained(df_trainingData_model3,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        ID = 'rv_output_PhosRatio_KSEG1'
-        rv_output_PhosRatio_KSEG1 = pm.Normal(
+        ID = 'rv_output_PhosRatio_TCRP3'
+        rv_output_PhosRatio_TCRP3 = pm.Normal(
             ID,
             mu=rv_intercept_PhosRatio_TCRP3 +
-            rv_decaylangthSlope_PhosRatio_TCRP3*rv_decaylength +
+            rv_decaylengthSlope_PhosRatio_TCRP3*rv_decaylength +
             rv_depletionSlope_PhosRatio_TCRP3*rv_depletion,
             sd=eval(dfRV.loc[ID, DP]['sd']),
             observed=z_obs)

@@ -5,33 +5,30 @@ Created on Sun Feb  6 16:24:26 2022
 @author: yairn
 """
 
-# import numpy as np
+import numpy as np
 import matplotlib.pyplot as plt
 
-from Model1.Code import definitions
-
-plots = definitions.plots
 #################################################
 # Set what data to plot:
 
 
 def plotData(DataToPlot, plotWhat):
-
     # titles and labels:
-    xLabel = plots['xLabel']
-    yLabel = plots['yLabel']
+    xLabel = "$t(sec)$"
+    yLabel = "$\kappa(kTnm^2)$"
 
-    # Titles for the subplots:
-    colTitles = plots['PhosRatio']['title']
-    rowTitles = plots['rowTitles']
+    dep_Title = "Depletion \n"
+    colTitles = [dep_Title]
+
+    rowTitles = ["Training data", "Data fit",
+                 "Trained parameters", "Surrogate"]
 
     # min and max values for the different heatmaps:
-    vmins = plots['PhosRatio']['vmin']
-    vmaxs = plots['PhosRatio']['vmax']
+    vmins = [0]
+    vmaxs = [250]
 
-    # Number of rows and columns of subplots:
-    nRows = plots['nRoWs']
-    nCols = plots['nCols']
+    nRows = 4  # Todo: fix
+    nCols = 1  # Todo: fix
 
     # Plot a row of subplot if the data is not empty and if value is 'True':
     for iRow in range(nRows):
@@ -62,7 +59,7 @@ def plotHeatmaps(
         vmaxs,
         iRow):
 
-    fig = plt.figure(figsize=plots['figSize'])
+    fig = plt.figure(figsize=[4., 12.])
 
     # im identifier:
     im = [None]*nCols
@@ -74,22 +71,18 @@ def plotHeatmaps(
 
     max_plotWhat = 4  # np.max(np.where(plotWhat))
 
-    colormap = plots['PhosRatio']['colormap']
-    contour_levels = plots['PhosRatio']['contourLevels']
-    fontsize1 = plots['fontSizes']['1']
-
     # plot the nRows x nCols subplots with labels, titles at
     # sceciefic locations. iCol is Column index, iRow is Row index:
     for iCol in range(nCols):
         fig.add_subplot(nRows, nCols, iRow*nCols + iCol+1)
         im[iCol] = plt.pcolor(x1, x2, f[iCol],
                               vmin=vmins[iCol], vmax=vmaxs[iCol],
-                              shading='auto', cmap=colormap)
-        if True:  # iRow > 0:
-            cs = plt.contour(x1, x2, f[iCol], contour_levels, colors='k',
+                              shading='auto', cmap='Purples')
+        if 1:  # iRow > 0:
+            dep_levels = np.arange(25., 250., 25.)
+            cs = plt.contour(x1, x2, f[iCol], dep_levels, colors='k',
                              vmin=vmins[iCol], vmax=vmaxs[iCol])
-            plt.clabel(cs, contour_levels, inline=True, fmt='%.1f',
-                       fontsize=fontsize1)
+            plt.clabel(cs, dep_levels, inline=True, fmt='%.0f', fontsize=10)
 
         fig.colorbar(im[iCol])
 
