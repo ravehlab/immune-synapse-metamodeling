@@ -48,9 +48,9 @@ submodels = definitions.submodels
 
 # Create the directory 'Output' in '/Metamodel_py/Surrogate_Models/Model1/'
 outputDirectory = 'Output'
-path = os.path.join(paths['Model'], outputDirectory)
-os.rmdir(path)
-os.mkdir(path)
+Output_path = os.path.join(paths['Model'], outputDirectory)
+os.rmdir(Output_path)
+os.mkdir(Output_path)
 print("Directory '% s' created in /Metamodel_py/Surrogate_Models/Model2/"
       % outputDirectory)
 
@@ -132,7 +132,8 @@ print(df_model2_untrainedTable_ID)
 
 # 4.1 df_model_untrainedTabled
 pm_model_untrained = training.get_pm_model_untrained(
-     df_trainingData_decaylength_flatten, df_model2_untrainedTable_ID)
+     df_trainingData_decaylength_flatten,
+     df_model2_untrainedTable_ID)
 
 gv_untrained = pm.model_to_graphviz(pm_model_untrained)
 
@@ -147,9 +148,9 @@ pm.traceplot(trace)
 
 trace_summary = pm.summary(trace)
 
-trace_summary.to_pickle(paths['Output']+"trace_summary")
+trace_summary.to_pickle(Output_path+"trace_summary")
 
-trace_summary_r = pd.read_pickle(paths['Output']+"trace_summary")
+trace_summary_r = pd.read_pickle(Output_path+"trace_summary")
 
 mean_sd_r = trace_summary_r.loc[:, ['mean', 'sd']]
 
@@ -166,7 +167,7 @@ for rv in mean_sd_r.index:
 # Display trained table:
 display(df_model2_trainedTable_ID.style.set_properties(
     **{'text-align': 'left',
-       'background-color': submodels['decaylength']['tableBackgroundColor'],
+       'background-color': submodels['DecayLength']['tableBackgroundColor'],
        'border': '1px black solid'}))
 
 # 4.3 Set trained model:
@@ -175,7 +176,7 @@ pm_model_trained = training.get_pm_model_trained(
 
 gv_trained = pm.model_to_graphviz(pm_model_trained)
 gv_trained_filename =\
-    gv_trained.render(filename='gv_trained', directory=paths['Output'])
+    gv_trained.render(filename='gv_trained', directory=Output_path)
 
 #################################################
 # 5 Predictions based on the trained parameters:
@@ -187,14 +188,14 @@ if run_prediction:
         predicting.predict(df_model2_trainedTable_ID)
 
     df_prediction_mean.to_pickle(
-        paths['Output']+"/df_model_predicted_dep_mean")
+        paths['Output']+"/df_model_predicted_decaylength_mean")
     df_prediction_std.to_pickle(
-        paths['Output']+"/df_model_predicted_dep_std")
+        paths['Output']+"/df_model_predicted_decaylength_std")
 
 df_prediction_mean_r = pd.read_pickle(
-    paths['Output']+"/df_model_predicted_dep_mean")
+    paths['Output']+"/df_model_predicted_decaylength_mean")
 df_prediction_std_r = pd.read_pickle(
-    paths['Output']+"/df_model_predicted_dep_std")
+    paths['Output']+"/df_model_predicted_decaylength_std")
 
 # 5.2 Plot prediction data:
 predicting.plotPredictionData(df_prediction_mean_r,

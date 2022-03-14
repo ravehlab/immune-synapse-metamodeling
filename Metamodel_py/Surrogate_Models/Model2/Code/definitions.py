@@ -136,8 +136,8 @@ x['ID'] =\
     model['ShortName'] +\
     model['Index']
 x['distribution'] = 'Normal'
-x['distributionParameters'] = {'mu': str(-2.),
-                               'sd': str(1.)}
+x['distributionParameters'] = {'mu': -2.,  # str(-2.)
+                               'sd': 1.}  # str(1.)
 
 y = {}
 y['varType'] = 'Free parameter'
@@ -190,9 +190,9 @@ for i, fitParametersName in enumerate(
         fitParameters[fitParametersName]['shortName'] + '_' +\
         model['ShortName'] +\
         model['Index']
-    # fitParametersName['distribution'] = 'Uniform'
-    # fitParametersName['distributionParameters'] = {'lower': str(0.),
-    #                                'upper': str(100.)}
+    # fitParametersName['distribution'] = 'Normal'
+    # fitParametersName['distributionParameters'] = {'mu': str(0.),
+    #                                                'sd': str(2.)}
 
     print(fitParameters[fitParametersName])
 

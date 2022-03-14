@@ -207,7 +207,7 @@ def model2_decaylength_info(df_fitParameters_decaylength):
            texName="$$Poff^{LCKA}$$",
            description='Decay probability',
            distribution='Normal',
-           distributionParameters={'mu': str(2.),
+           distributionParameters={'mu': str(-2.),
                                    'sd': str(1.)},
            units='$$-$$'))
 
@@ -218,7 +218,7 @@ def model2_decaylength_info(df_fitParameters_decaylength):
             texName='$$Diff^{LCKA}$$',
             description='Diffusion constant',
             distribution='Normal',
-            distributionParameters={'mu': str(2.),
+            distributionParameters={'mu': str(-2.),
                                     'sd': str(1.)},
             units='$$mum^2/sec$$'))
 
@@ -265,7 +265,7 @@ def model2_decaylength_info(df_fitParameters_decaylength):
            texName='$$decaylength^{LCKA}_{output}$$',
            description='Decaylength output',
            distribution='Normal',
-           distributionParameters={'mu': '',
+           distributionParameters={'mu': str(2.),
                                    'sd': str(1.)},
            units="$$nm$$"))
 

@@ -23,19 +23,21 @@ def get_pm_model_untrained(df_trainingData_model,
         y_obs = df_trainingData_model.loc[:, 'Diff'].values
         z_obs = df_trainingData_model.loc[:, 'Decaylength_nm'].values
 
-        # rv_t
+        # rv_Poff
         ID = 'fp_Poff_decaylength_LCKA2'
-        rv_Poff = pm.Normal('rv_Poff',
-                            mu=dfRV.loc[ID, DP]['mu'],
-                            sd=dfRV.loc[ID, DP]['sd'],
-                            observed=x_obs)
+        rv_Poff = pm.Normal(
+            'rv_Poff',
+            mu=eval(dfRV.loc[ID, DP]['mu']),
+            sd=eval(dfRV.loc[ID, DP]['sd']),
+            observed=x_obs)
 
-        # rv_k
+        # rv_Diff
         ID = 'fp_Diff_decaylength_LCKA2'
-        rv_Diff = pm.Normal('rv_Diff',
-                            mu=dfRV.loc[ID, DP]['mu'],
-                            sd=dfRV.loc[ID, DP]['sd'],
-                            observed=y_obs)
+        rv_Diff = pm.Normal(
+            'rv_Diff',
+            mu=eval(dfRV.loc[ID, DP]['mu']),
+            sd=eval(dfRV.loc[ID, DP]['sd']),
+            observed=y_obs)
 
         # decaylength_LCKA2
         """TODO: read parameters values from RV table"""
