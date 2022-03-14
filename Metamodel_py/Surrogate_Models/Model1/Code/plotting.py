@@ -22,12 +22,12 @@ def plotData(DataToPlot, plotWhat):
     yLabel = plots['yLabel']
 
     # Titles for the subplots:
-    colTitles = plots['PhosRatio']['title']
+    colTitles = plots['Depletion']['title']
     rowTitles = plots['rowTitles']
 
     # min and max values for the different heatmaps:
-    vmins = plots['PhosRatio']['vmin']
-    vmaxs = plots['PhosRatio']['vmax']
+    vmins = plots['Depletion']['vmin']
+    vmaxs = plots['Depletion']['vmax']
 
     # Number of rows and columns of subplots:
     nRows = plots['nRoWs']
@@ -74,8 +74,8 @@ def plotHeatmaps(
 
     max_plotWhat = 4  # np.max(np.where(plotWhat))
 
-    colormap = plots['PhosRatio']['colormap']
-    contour_levels = plots['PhosRatio']['contourLevels']
+    colormap = plots['Depletion']['colormap']
+    contour_levels = plots['Depletion']['contourLevels']
     fontsize1 = plots['fontSizes']['1']
 
     # plot the nRows x nCols subplots with labels, titles at

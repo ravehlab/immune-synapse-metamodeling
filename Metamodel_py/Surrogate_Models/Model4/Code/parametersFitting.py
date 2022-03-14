@@ -9,8 +9,8 @@ import numpy as np
 import pandas as pd
 from scipy.optimize import curve_fit
 
-from Model3.Code import definitions
-from Model3.Code import plotting
+from Model4.Code import definitions
+from Model4.Code import plotting
 
 submodels = definitions.submodels
 plots = definitions.plots
@@ -34,7 +34,7 @@ def linXlinY(xy, intercept, xSlope, ySlope):
     return f
 
 #################################################
-# 2.2 Set fit function for dep:
+# 2.2 Set fit function:
 
 
 def setFitFunction(df_trainingData_flatten):
@@ -47,23 +47,21 @@ def setFitFunction(df_trainingData_flatten):
     columns=['mu', 'sd'], values=fitParameters.
     """
 
-    # parametersNames_depletion = definitions.parametersNames_depletion
-
     # Read x, y, z data from dataFrame:
     flatten_x = df_trainingData_flatten[data['flatten_columns_names']['x']]
     flatten_y = df_trainingData_flatten[data['flatten_columns_names']['y']]
     flatten_z = df_trainingData_flatten[data['flatten_columns_names']['z']]
 
-    parametersNames = submodels['PhosRatio']['fitParametersNames']
+    parametersNames = submodels['RgRatio']['fitParametersNames']
 
-    df_fitParameters_dep = getFitParameters(
+    df_fitParameters = getFitParameters(
         X=(flatten_x, flatten_y),
         fitFunc=linXlinY,
         fXdata=flatten_z,
         parametersNames=parametersNames,
-        p0=submodels['PhosRatio']['p0'])
+        p0=submodels['RgRatio']['p0'])
 
-    return df_fitParameters_dep
+    return df_fitParameters
 
 #################################################
 # 2.3 Get fit parameters:
@@ -123,12 +121,12 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
         ySlope_fit*flatten_y
 
     df_fitted_data_flatten = df_trainingData_flatten
-    df_fitted_data_flatten['PhosRatio'] = fitted_data_flatten
+    df_fitted_data_flatten['RgRatio'] = fitted_data_flatten
 
     df_fitted_data_pivot = df_fitted_data_flatten.pivot(
         index='Depletion_nm',
         columns='Decaylength_nm',
-        values='PhosRatio')
+        values='RgRatio')
 
     return df_fitted_data_pivot
 

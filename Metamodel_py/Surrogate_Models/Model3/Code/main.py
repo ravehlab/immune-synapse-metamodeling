@@ -91,6 +91,41 @@ df_trainingData_PhosRatio_pivot_r =\
 # 1.2 Plot training data:
 preProcessing.plotTrainingData(df_trainingData_PhosRatio_pivot_r)
 
+#############################
+#############################
+# 1. Get training data:
+# 1.0 Read raw data as dataFrame:
+# raw_data_name = 'raw_data_RgRatio.csv'
+# df_raw_data_RgRatio =\
+#     pd.read_csv(paths['Input']+raw_data_name, header=None)
+
+# # 1.0.1 Crop and scale raw data:
+# # x_array, y_array, z_array =\
+# #     preProcessing.cropAndScaleRawData(df_raw_data_depletion)
+
+# df_trainingData_RgRatio_pivot =\
+#     preProcessing.rawDataToDataFramePivot(df_raw_data_RgRatio)
+
+# # Save dataFrame pivot as .csv:
+# df_trainingData_RgRatio_pivot.to_csv(
+#     paths['Input']+"/df_trainingData_RgRatio_pivot.csv")
+
+# # Get trainingData aranged as dataFrame in columns (flatten):
+# df_trainingData_RgRatio_flatten =\
+#     preProcessing.pivotToFlatten(df_trainingData_PhosRatio_pivot)
+
+# # Save dataFrame flatten as .csv:
+# df_trainingData_RgRatio_flatten.to_csv(
+#     paths['Input']+"/df_trainingData_PhosRatio_flatten.csv")
+
+# # 1.1 Read trainingData from Input/:
+# df_trainingData_RgRatio_pivot_r =\
+#     pd.read_csv(paths['Input']+"/df_trainingData_RgRatio_pivot.csv",
+#                 index_col=0)
+
+# # 1.2 Plot training data:
+# preProcessing.plotTrainingData(df_trainingData_RgRatio_pivot_r)
+
 #################################################
 # 2. Parameters Fitting (to be used as initial parameters
 # for the untrained model):
@@ -153,9 +188,9 @@ pm.traceplot(trace)
 
 trace_summary = pm.summary(trace)
 
-trace_summary.to_pickle(paths['Output']+"trace_summary")
+trace_summary.to_pickle(Output_path+"trace_summary")
 
-trace_summary_r = pd.read_pickle(paths['Output']+"trace_summary")
+trace_summary_r = pd.read_pickle(Output_path+"trace_summary")
 
 mean_sd_r = trace_summary_r.loc[:, ['mean', 'sd']]
 
@@ -181,7 +216,7 @@ pm_model3_trained = training.get_pm_model3_trained(
 
 gv_trained = pm.model_to_graphviz(pm_model3_trained)
 gv_trained_filename =\
-    gv_trained.render(filename='gv_trained', directory=paths['Output'])
+    gv_trained.render(filename='gv_trained', directory=Output_path)
 
 #################################################
 # 5 Predictions based on the trained parameters:
@@ -193,14 +228,14 @@ if run_prediction:
         predicting.predict(df_model3_trainedTable_ID)
 
     df_prediction_mean.to_pickle(
-        paths['Output']+"/df_model3_predicted_PhosRatio_mean")
+        Output_path+"/df_model3_predicted_PhosRatio_mean")
     df_prediction_std.to_pickle(
-        paths['Output']+"/df_model3_predicted_PhosRatio_std")
+        Output_path+"/df_model3_predicted_PhosRatio_std")
 
 df_prediction_mean_r = pd.read_pickle(
-    paths['Output']+"/df_model3_predicted_PhosRatio_mean")
+    Output_path+"/df_model3_predicted_PhosRatio_mean")
 df_prediction_std_r = pd.read_pickle(
-    paths['Output']+"/df_model3_predicted_PhosRatio_std")
+    Output_path+"/df_model3_predicted_PhosRatio_std")
 
 # 5.2 Plot prediction data:
 predicting.plotPredictionData(df_prediction_mean_r,

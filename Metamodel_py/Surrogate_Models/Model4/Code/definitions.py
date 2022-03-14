@@ -48,14 +48,14 @@ data = {}
 data['flatten_columns_names'] = {}
 data['flatten_columns_names']['x'] = 'Decaylength_nm'
 data['flatten_columns_names']['y'] = 'Depletion_nm'
-data['flatten_columns_names']['z'] = 'PhosRatio'
-data['flatten_columns_names']['z2'] = 'RgRatio'
+# data['flatten_columns_names']['z'] = 'PhosRatio'
+data['flatten_columns_names']['z'] = 'RgRatio'
 
 #################################################
 # Define plots:
 figSize0 = 4.
 plots = {}
-plots['figSize'] = [figSize0, 1*figSize0]
+plots['figSize'] = [figSize0, 2*figSize0]
 plots['xLabel'] = "$Decaylength(nm)$"
 plots['yLabel'] = "$Depletion(nm)$"
 plots['rowTitles'] = ["Training data",
@@ -122,7 +122,7 @@ submodel."""
 
 submodelsNames = ['PhosRatio', 'RgRatio']
 #################################################
-submodelName = submodelsNames[0]
+submodelName = submodelsNames[1]
 submodels = {}
 # submodels['names'] = ['PhosRatio']
 submodels[submodelName] = {}
@@ -202,13 +202,13 @@ plots[submodelName]['contourLevels'] = np.arange(0.1, 1., 0.1)
 plots[submodelName]['colormap'] = 'Oranges'
 
 
-# submodelName = submodelsNames[1]
-# plots[submodelName] = {}
-# plots[submodelName]['title'] = submodelName
-# plots[submodelName]['vmin'] = [0.]
-# plots[submodelName]['vmax'] = [1.5]
-# plots[submodelName]['contourLevels'] = np.arange(0.1, 1.5, 0.1)
-# plots[submodelName]['colormap'] = 'Oranges'
+submodelName = submodelsNames[1]
+plots[submodelName] = {}
+plots[submodelName]['title'] = submodelName
+plots[submodelName]['vmin'] = [0.]
+plots[submodelName]['vmax'] = [1.5]
+plots[submodelName]['contourLevels'] = np.arange(0.1, 1.5, 0.1)
+plots[submodelName]['colormap'] = 'Oranges'
 
 #################################################
 # Define fit parameters:

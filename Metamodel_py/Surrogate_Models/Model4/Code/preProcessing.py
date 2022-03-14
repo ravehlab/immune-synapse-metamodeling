@@ -8,8 +8,8 @@ Created on Sat Feb  5 17:08:06 2022
 import numpy as np
 import pandas as pd
 
-from Model3.Code import definitions
-from Model3.Code import plotting
+from Model4.Code import definitions
+from Model4.Code import plotting
 
 plots = definitions.plots
 data = definitions.data
@@ -30,6 +30,7 @@ def rawDataToDataFramePivot(df_z_raw_data):
 
     # Scale data to preferred units:
     z_array0 = z_raw_data
+    z_array0[z_array0 == 0] = 1.5
 
     # Get size of original array:
     size_y, size_x = np.shape(z_raw_data)

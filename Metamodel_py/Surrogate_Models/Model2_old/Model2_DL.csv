@@ -1,7 +1,0 @@
-,ID,Type,Short Name,Latex Name,Description,Distribution,Distribution parameters,Units
-0,fp_Poff_DL_LCKA2,Free parameter,Poff,$$Poff^{LCKA}$$,Decay probability,Normal,"{'mu': '-3.0', 'sd': '1.0'}",$$-$$
-1,fp_Diff_DL_LCKA2,Free parameter,Diff,$$Diff^{LCKA}$$,Diffusion constant,Normal,"{'mu': '-2.0', 'sd': '1.0'}",$$\mum^2/sec$$
-2,rv_intercept_DL_LCKA2,Random variable,intercept,$$DL^{LCKA}_{intercept}$$,Interception with z axis,Normal,"{'mu': '1.9722760832457074', 'sd': '0.08005553140114381'}",$$nm$$
-3,rv_PoffSlope_DL_LCKA2,Random variable,PoffSlope,$$Poff^{LCKA}_{PoffSlope}$$,Slope in Poff direction,Normal,"{'mu': '-0.2796149091876233', 'sd': '0.01644870537065969'}",$$-$$
-4,rv_DiffSlope_DL_LCKA2,Random variable,DiffSlope,$$Diff^{LCKA}_{DiffSlope}$$,Slope in Diff direction,Normal,"{'mu': '0.42203273557841', 'sd': '0.032897411768221904'}",$$\mum^2/sec$$
-5,rv_output_DL_LCKA2,Random variable,output,$$Diff^{LCKA}_{output}$$,Decay length output,Normal,"{'mu': '500.0', 'sd': '100.0'}",$$nm$$
