@@ -5,7 +5,7 @@ Created on Tue Feb  8 10:58:29 2022
 """
 
 import numpy as np
-# import pandas as pd
+import pandas as pd
 
 """
 Contains definitions for:
@@ -42,93 +42,13 @@ paths['Model'] = paths['Surrogate']+'Model'+model['Index']+'/'
 paths['Input'] = paths['Metamodel']+'Input_Models/Model'+model['Index']+'/'
 paths['Processing'] = paths['Model']+'Processing/'
 
-
-#################################################
-# Define data names:
-data = {}
-data['flatten_columns_names'] = ['time_sec', 'k0_kTnm2', 'depletion_nm']
-data['shortNames'] = ['t', 'k', 'dep']
-data['units'] = ['sec', 'kTnm^2', 'nm']
-data['description'] = ['Time',
-                       'Membrane rigidity',
-                       'Depletion between TCR and CD45']
-data['x_min'] = str(0.)
-data['x_max'] = str(100.)
-data['y_min'] = str(0.)
-data['y_max'] = str(100.)
-data['distributions'] = ['Uniform', 'Uniform']
-
-#################################################
-# Define plots:
-figSizeX = 4.  #
-figSizeY = 4.  #
-plots = {}
-plots['figSize'] = [figSizeX, 1*figSizeY]
-plots['colormap'] = 'Purples'
-plots['xLabel'] = data['shortNames'][0]+'('+data['units'][0]+')'
-plots['yLabel'] = data['shortNames'][1]+'('+data['units'][1]+')'
-plots['rowTitles'] = ["Training data",
-                      "Data fit",
-                      "Trained parameters",
-                      "Prediction"]
-plots['fontSizes1'] = 10
-plots['fontSizes2'] = 12
-plots['fontSizes3'] = 14
-plots['fontSizes4'] = 16
-plots['nRoWs'] = len(plots['rowTitles'])
-plots['nCols'] = 1  # len(submodelsNames)
-
-#################################################
-# Define free parameters for all submodels in the Model:
-fp_x = {}
-fp_x['varType'] = 'Free parameter'
-fp_x['shortVarType'] = 'fp'
-fp_x['shortName'] = data['shortNames'][0]
-fp_x['description'] = data['description'][0]
-fp_x['texName'] =\
-    "$$" +\
-    fp_x['shortName'] +\
-    "^{" +\
-    model['ShortName'] +\
-    "}$$"
-fp_x['units'] = data['units'][0]
-fp_x['ID'] =\
-    fp_x['shortVarType'] + '_' +\
-    fp_x['shortName'] + '_' +\
-    model['ShortName'] +\
-    model['Index']
-fp_x['distribution'] = 'Uniform'
-fp_x['distributionParameters'] = {'lower': data['x_min'],
-                                  'upper': data['x_max']}
-
-fp_y = {}
-fp_y['varType'] = 'Free parameter'
-fp_y['shortVarType'] = 'fp'
-fp_y['shortName'] = data['shortNames'][1]
-fp_y['description'] = data['description'][1]
-fp_y['texName'] =\
-    "$$" +\
-    fp_y['shortName'] +\
-    "^{" +\
-    model['ShortName'] +\
-    "}$$"
-fp_y['units'] = data['units'][1]
-fp_y['ID'] =\
-    fp_y['shortVarType'] + '_' +\
-    fp_y['shortName'] + '_' +\
-    model['ShortName'] +\
-    model['Index']
-fp_y['distribution'] = 'Uniform'
-fp_y['distributionParameters'] = {'lower': data['y_min'],
-                                  'upper': data['y_max']}
-
 #################################################
 # Define submodels:
 """For every different output of the free parameters there is a different
 submodel."""
 
-submodelsNames = ['WTCR', 'WCD45', 'Depletion']
-submodelName = submodelsNames[2]
+submodelsNames = ['Depletion']
+submodelName = submodelsNames[0]
 submodels = {}
 # submodels['names'] = ['Depletion']
 submodels[submodelName] = {}
@@ -136,16 +56,6 @@ submodels[submodelName]['fitParametersNames'] =\
     ['intercept', 'xSlope', 'ySlope']
 
 # Fit equation Depletion:
-submodels[submodelName]['bareEquation'] = 'b + ax*x + ay*y'
-###
-b = submodels[submodelName]['fitParametersNames'][0]
-ax = submodels[submodelName]['fitParametersNames'][1]
-ay = submodels[submodelName]['fitParametersNames'][2]
-
-# E =
-
-###
-
 submodels[submodelName]['equation'] =\
     submodels[submodelName]['fitParametersNames'][0] +\
     "+" +\
@@ -159,7 +69,7 @@ submodels[submodelName]['equation'] =\
 
 # Fit parameters description Depletion:
 submodels[submodelName]['fitParametersDescriptions'] =\
-    ["Intersept with z axis (nm)",
+    ["Intersection with z axis (nm)",
      "Slope in x direction",
      "Slope in y direction"]
 
@@ -172,6 +82,85 @@ submodels[submodelName]['fitParametersUnits'] =\
 # Initial fit parameters
 submodels[submodelName]['p0'] = [100., 0., 0.]
 submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
+
+#################################################
+# Define data names:
+data = {}
+data['flatten_columns_names'] = {}
+data['flatten_columns_names']['x'] = 'time_sec'
+data['flatten_columns_names']['y'] = 'k0_kTnm2'
+data['flatten_columns_names']['z'] = 'depletion_nm'
+
+#################################################
+# Define plots:
+plots = {}
+plots['figSize'] = [4., len(submodelName)*4.]
+plots['xLabel'] = "$t(sec)$"
+plots['yLabel'] = "$\kappa(kTnm^2)$"
+plots['rowTitles'] = ["Training data",
+                      "Data fit",
+                      "Trained parameters",
+                      "Prediction"]
+plots['fontSizes'] = {}
+plots['fontSizes']['1'] = 10
+plots['fontSizes']['2'] = 12
+plots['fontSizes']['3'] = 14
+plots['fontSizes']['4'] = 16
+plots['nRoWs'] = len(plots['rowTitles'])
+plots['nCols'] = len(submodelsNames)
+
+# For Depletion plots:
+plots[submodelName] = {}
+plots[submodelName]['title'] = submodelName
+plots[submodelName]['vmin'] = [0]
+plots[submodelName]['vmax'] = [250]
+plots[submodelName]['contourLevels'] = np.arange(25., 250., 25.)
+plots[submodelName]['colormap'] = 'Purples'
+
+#################################################
+# Define free parameters for all submodels in the Model:
+x = {}
+x['varType'] = 'Free parameter'
+x['shortVarType'] = 'fp'
+x['shortName'] = 't'
+x['description'] = 'Time'
+x['texName'] =\
+    "$$" +\
+    x['shortName'] +\
+    "^{" +\
+    model['ShortName'] +\
+    "}$$"
+x['units'] = '$$sec$$'
+x['ID'] =\
+    x['shortVarType'] + '_' +\
+    x['shortName'] + '_' +\
+    model['ShortName'] +\
+    model['Index']
+x['distribution'] = 'Uniform'
+x['distributionParameters'] = {'lower': str(0.),
+                               'upper': str(100.)}
+
+y = {}
+y['varType'] = 'Free parameter'
+y['shortVarType'] = 'fp'
+y['shortName'] = 'k'
+y['description'] = 'Membrane rigidity'
+y['texName'] =\
+    "$$" +\
+    y['shortName'] +\
+    "^{" +\
+    model['ShortName'] +\
+    "}$$"
+y['units'] = '$$kTnm^2$$'
+y['ID'] =\
+    y['shortVarType'] + '_' +\
+    y['shortName'] + '_' +\
+    model['ShortName'] +\
+    model['Index']
+y['distribution'] = 'Uniform'
+y['distributionParameters'] = {'lower': str(0.),
+                               'upper': str(100.)}
+
 
 #################################################
 # Define fit parameters:
@@ -203,22 +192,17 @@ for i, fitParametersName in enumerate(
         model['ShortName'] +\
         model['Index']
     # fitParametersName['distribution'] = 'Uniform'
-    # fitParametersName['distributionParameters'] ={
-    #    'lower': str(0.),
-    #    'upper': str(100.)}
+    # fitParametersName['distributionParameters'] = {'lower': str(0.),
+    #                                'upper': str(100.)}
 
     print(fitParameters[fitParametersName])
 
-################################################
-# For Depletion plots:
-plots[submodelName] = {}
-plots[submodelName]['title'] = submodelName
-plots[submodelName]['vmin'] = [0.]
-plots[submodelName]['vmax'] = [250.]
-plots[submodelName]['contourLevels'] = np.arange(25., 250., 25.)
 
 #################################################
 # crateModelInfo:
+
+
+
 
 #################################################
 # 4. Training:

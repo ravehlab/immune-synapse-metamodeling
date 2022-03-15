@@ -50,9 +50,9 @@ def setFitFunction(df_trainingData_flatten):
     # parametersNames_depletion = definitions.parametersNames_depletion
 
     # Read x, y, z data from dataFrame:
-    flatten_x = df_trainingData_flatten[data['flatten_columns_names']['x']]
-    flatten_y = df_trainingData_flatten[data['flatten_columns_names']['y']]
-    flatten_z = df_trainingData_flatten[data['flatten_columns_names']['z']]
+    flatten_x = df_trainingData_flatten[data['flatten_columns_names'][0]]
+    flatten_y = df_trainingData_flatten[data['flatten_columns_names'][1]]
+    flatten_z = df_trainingData_flatten[data['flatten_columns_names'][2]]
 
     parametersNames = submodels['Depletion']['fitParametersNames']
 
@@ -110,13 +110,12 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
     xSlope_fit = df_fitParameters.loc['xSlope', 'mu']
     ySlope_fit = df_fitParameters.loc['ySlope', 'mu']
 
-    flatten_column_name_x = data['flatten_columns_names']['x']
-    flatten_column_name_y = data['flatten_columns_names']['y']
-    flatten_column_name_z = data['flatten_columns_names']['z']
+    flatten_column_name_x = data['flatten_columns_names'][0]
+    flatten_column_name_y = data['flatten_columns_names'][1]
+    # flatten_column_name_z = data['flatten_columns_names'][2]
 
-
-    flatten_x = df_trainingData_flatten['time_sec']
-    flatten_y = df_trainingData_flatten['k0_kTnm2']
+    flatten_x = df_trainingData_flatten[flatten_column_name_x]
+    flatten_y = df_trainingData_flatten[flatten_column_name_y]
 
     fitted_data_flatten =\
         intercept_fit +\
@@ -154,4 +153,4 @@ def plotFittedData(df_pivot):
 
     plotWhat = [True, False, False, False]
 
-    plotting.plotData(DataToPlot, plotWhat)
+    plotting.plotData(DataToPlot, plotWhat, 'Depletion')
