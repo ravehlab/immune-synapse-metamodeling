@@ -191,14 +191,14 @@ if run_prediction:
         predicting.predict(df_model2_trainedTable_ID)
 
     df_prediction_mean.to_pickle(
-        paths['Output']+"/df_model_predicted_decaylength_mean")
+        Output_path+"/df_model_predicted_decaylength_mean")
     df_prediction_std.to_pickle(
-        paths['Output']+"/df_model_predicted_decaylength_std")
+        Output_path+"/df_model_predicted_decaylength_std")
 
 df_prediction_mean_r = pd.read_pickle(
-    paths['Output']+"/df_model_predicted_decaylength_mean")
+    Output_path+"/df_model_predicted_decaylength_mean")
 df_prediction_std_r = pd.read_pickle(
-    paths['Output']+"/df_model_predicted_decaylength_std")
+    Output_path+"/df_model_predicted_decaylength_std")
 
 # 5.2 Plot prediction data:
 predicting.plotPredictionData(df_prediction_mean_r,

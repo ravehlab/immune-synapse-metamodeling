@@ -44,21 +44,21 @@ def get_pm_model4_untrained(df_trainingData_model4,
         rv_intercept_RgRatio_TCRP3 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=0.2)  # eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_decaylangthSlope_RgRatio_TCRP3
         ID = 'rv_decaylengthSlope_RgRatio_TCRP3'
         rv_decaylengthSlope_RgRatio_TCRP3 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=0.2)  # eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_depletionSlope_RgRatio_TCRP3
         ID = 'rv_depletionSlope_RgRatio_TCRP3'
         rv_depletionSlope_RgRatio_TCRP3 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=0.2)  # eval(dfRV.loc[ID, DP]['sd']))
 
         ID = 'rv_output_RgRatio_TCRP3'
         rv_output_RgRatio_TCRP3 = pm.Normal(
@@ -66,7 +66,7 @@ def get_pm_model4_untrained(df_trainingData_model4,
             mu=rv_intercept_RgRatio_TCRP3 +
             rv_decaylengthSlope_RgRatio_TCRP3*rv_decaylength +
             rv_depletionSlope_RgRatio_TCRP3*rv_depletion,
-            sd=eval(dfRV.loc[ID, DP]['sd']),
+            sd=0.2,  # eval(dfRV.loc[ID, DP]['sd']),
             observed=z_obs)
 
     return pm_model4_untrained

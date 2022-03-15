@@ -1,0 +1,7 @@
+Variable type,Short name,Descriction,Distribution,Distribution parameters,Units
+Free parameter,Poff,,Normal,"mu, sd",None
+Free parameter,Diff,,Normal,"mu, sd",mum^2/sec
+Random variable,intercept,,Normal,"mu, sd",nm
+Random variable,PoffSlope,,Normal,"mu, sd",None
+Random variable,DiffSlope,,Normal,"mu, sd",None
+Random variable,output,,Normal,"mu, sd",nm

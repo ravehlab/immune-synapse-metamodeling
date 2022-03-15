@@ -1,0 +1,7 @@
+ID,Variable type,Short name,Latex name,Descriction,Distribution,Distribution parameters,Units
+fp_t_KSEG1,Free parameter,t,,Time,"Uniform(“lower”: lower, “upper”: upper)","{“lower”: “0.”, “upper”: “100.”}",sec
+fp_k_KSEG1,Free parameter,k,,Membrane rigidity,"Uniform(“lower”: lower, “upper”: upper)","{“lower”: “0.”, “upper”: “100.”}",Ktnm^2
+rv_intercept_depletion_KSEG1,Random variable,intercept,,,,,nm
+rv_tSlope_depletion_KSEG1,Random variable,tSlope,,,,,#
+rv_kSlope_depletion_KSEG1,Random variable,kSlope,,,,,#
+rv_output_depletion_KSEG1,Random variable,output,,,,,nm

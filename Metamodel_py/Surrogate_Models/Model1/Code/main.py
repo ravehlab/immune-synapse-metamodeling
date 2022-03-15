@@ -48,9 +48,9 @@ submodels = definitions.submodels
 
 # Create the directory 'Output' in '/Metamodel_py/Surrogate_Models/Model1/'
 outputDirectory = 'Output'
-path = os.path.join(paths['Model'], outputDirectory)
-os.rmdir(path)
-os.mkdir(path)
+Output_path = os.path.join(paths['Model'], outputDirectory)
+os.rmdir(Output_path)
+os.mkdir(Output_path)
 print("Directory '% s' created in /Metamodel_py/Surrogate_Models/Model1/"
       % outputDirectory)
 
@@ -150,9 +150,9 @@ pm.traceplot(trace)
 
 trace_summary = pm.summary(trace)
 
-trace_summary.to_pickle(paths['Output']+"trace_summary")
+trace_summary.to_pickle(Output_path+"trace_summary")
 
-trace_summary_r = pd.read_pickle(paths['Output']+"trace_summary")
+trace_summary_r = pd.read_pickle(Output_path+"trace_summary")
 
 mean_sd_r = trace_summary_r.loc[:, ['mean', 'sd']]
 
@@ -178,7 +178,7 @@ pm_model1_trained = training.get_pm_model1_trained(
 
 gv_trained = pm.model_to_graphviz(pm_model1_trained)
 gv_trained_filename =\
-    gv_trained.render(filename='gv_trained', directory=paths['Output'])
+    gv_trained.render(filename='gv_trained', directory=Output_path)
 
 #################################################
 # 5 Predictions based on the trained parameters:
@@ -190,14 +190,14 @@ if run_prediction:
         predicting.predict(df_model1_trainedTable_ID)
 
     df_prediction_mean.to_pickle(
-        paths['Output']+"/df_model1_predicted_dep_mean")
+        Output_path+"/df_model1_predicted_dep_mean")
     df_prediction_std.to_pickle(
-        paths['Output']+"/df_model1_predicted_dep_std")
+        Output_path+"/df_model1_predicted_dep_std")
 
 df_prediction_mean_r = pd.read_pickle(
-    paths['Output']+"/df_model1_predicted_dep_mean")
+    Output_path+"/df_model1_predicted_dep_mean")
 df_prediction_std_r = pd.read_pickle(
-    paths['Output']+"/df_model1_predicted_dep_std")
+    Output_path+"/df_model1_predicted_dep_std")
 
 # 5.2 Plot prediction data:
 predicting.plotPredictionData(df_prediction_mean_r,

@@ -1,16 +1,16 @@
 digraph {
 	subgraph cluster420 {
 		rv_output_RgRatio_TCRP3 [label="rv_output_RgRatio_TCRP3 ~ Normal" style=filled]
-		rv_depletion [label="rv_depletion ~ Normal" style=filled]
 		rv_decaylength [label="rv_decaylength ~ Normal" style=filled]
+		rv_depletion [label="rv_depletion ~ Normal" style=filled]
 		label=420 labeljust=r labelloc=b style=rounded
 	}
 	rv_depletionSlope_RgRatio_TCRP3 [label="rv_depletionSlope_RgRatio_TCRP3 ~ Normal"]
-	rv_decaylengthSlope_RgRatio_TCRP3 [label="rv_decaylengthSlope_RgRatio_TCRP3 ~ Normal"]
 	rv_intercept_RgRatio_TCRP3 [label="rv_intercept_RgRatio_TCRP3 ~ Normal"]
+	rv_decaylengthSlope_RgRatio_TCRP3 [label="rv_decaylengthSlope_RgRatio_TCRP3 ~ Normal"]
 	rv_depletionSlope_RgRatio_TCRP3 -> rv_output_RgRatio_TCRP3
-	rv_decaylengthSlope_RgRatio_TCRP3 -> rv_output_RgRatio_TCRP3
 	rv_decaylength -> rv_output_RgRatio_TCRP3
-	rv_depletion -> rv_output_RgRatio_TCRP3
 	rv_intercept_RgRatio_TCRP3 -> rv_output_RgRatio_TCRP3
+	rv_decaylengthSlope_RgRatio_TCRP3 -> rv_output_RgRatio_TCRP3
+	rv_depletion -> rv_output_RgRatio_TCRP3
 }

@@ -4,4 +4,4 @@
 2,rv_intercept_RgRatio_TCRP3,Random variable,intercept,$$RgRatio^{TCRP}_{intercept}$$,Interception with z axis,Normal,"{'mu': '1.466259982915025', 'sd': '0.005298968276283045'}",$$nm$$
 3,rv_decaylengthSlope_RgRatio_TCRP3,Random variable,decaylengthSlope,$$RgRatio^{KSEG}_{decaylengthSlope}$$,Slope in decaylength direction,Normal,"{'mu': '-0.0028306473326234365', 'sd': '3.462698870967035e-05'}",$$-$$
 4,rv_depletionSlope_RgRatio_TCRP3,Random variable,depletionSlope,$$RgRatio^{TCRP}_{depletionSlope}$$,Slope in depletion direction,Normal,"{'mu': '0.0007071512987028314', 'sd': '3.297424347751439e-05'}",$$-$$
-5,rv_output_RgRatio_TCRP3,Random variable,output,$$RgRatio^{TCRP}_{output}$$,RgRatio output,Normal,"{'mu': '', 'sd': '20.0'}",$$nm$$
+5,rv_output_RgRatio_TCRP3,Random variable,output,$$RgRatio^{TCRP}_{output}$$,RgRatio output,Normal,"{'mu': '', 'sd': '0.5'}",$$nm$$

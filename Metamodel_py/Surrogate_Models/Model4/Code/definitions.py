@@ -34,13 +34,11 @@ paths['Processing'] = paths['Model']+'Processing/'
 
 #################################################
 # Model definitions:
-
 model = {}
 model['LongName'] = 'TCR phosphorylation'
 model['ShortName'] = 'TCRP'
 model['Index'] = '3'
 model['Description'] = """Model3 description."""
-
 
 #################################################
 # Define data names:
