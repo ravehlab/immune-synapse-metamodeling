@@ -133,42 +133,57 @@ submodels = {}
 # submodels['names'] = ['Depletion']
 submodels[submodelName] = {}
 submodels[submodelName]['fitParametersNames'] =\
-    ['intercept', 'xSlope', 'ySlope']
+    ['tScale', 'tCen', 'tDev', 'kScale', 'kCen', 'kDev']
 
 # Fit equation Depletion:
-submodels[submodelName]['bareEquation'] = 'b + ax*x + ay*y'
+# submodels[submodelName]['bareEquation'] = 'b + ax*x + ay*y'
 ###
-b = submodels[submodelName]['fitParametersNames'][0]
-ax = submodels[submodelName]['fitParametersNames'][1]
-ay = submodels[submodelName]['fitParametersNames'][2]
+# b = submodels[submodelName]['fitParametersNames'][0]
+# ax = submodels[submodelName]['fitParametersNames'][1]
+# ay = submodels[submodelName]['fitParametersNames'][2]
 
 ###
+# "tScale/(1 + np.exp(-(x-tCen)/tDev)) +
+# kScale/(1 + np.exp(-(y-kCen)/kDev))"
 
-submodels[submodelName]['equation'] =\
-    submodels[submodelName]['fitParametersNames'][0] +\
-    "+" +\
-    submodels[submodelName]['fitParametersNames'][1] +\
-    "*" +\
-    "x" +\
-    "+" +\
-    submodels[submodelName]['fitParametersNames'][2] +\
-    "*" +\
-    "y"
+# submodels[submodelName]['equation'] =\
+#     submodels[submodelName]['fitParametersNames'][0] +\
+#     "+" +\
+#     submodels[submodelName]['fitParametersNames'][1] +\
+#     "*" +\
+#     "x" +\
+#     "+" +\
+#     submodels[submodelName]['fitParametersNames'][2] +\
+#     "*" +\
+#     "y"
 
 # Fit parameters description Depletion:
 submodels[submodelName]['fitParametersDescriptions'] =\
-    ["Intersept with z axis (nm)",
-     "Slope in x direction",
-     "Slope in y direction"]
+    ["xScale",
+     "xCen",
+     "xDev",
+     "xScale",
+     "yCen",
+     "yDev"]
 
 # Fit parameters units:
 submodels[submodelName]['fitParametersUnits'] =\
-    ["nm",
-     "sec",
-     "kTnm^2"]
+    ["None",
+     "nm",
+     "nm",
+     "None",
+     "nm",
+     "nm"]
 
 # Initial fit parameters
-submodels[submodelName]['p0'] = [100., 0., 0.]
+#          mu	     sd
+# tScale	229.519	6.587
+# tCen	19.219	1.938
+# tDev	34.224	2.737
+# kScale	-81.990	19.952
+# kCen	22.729	6.665
+# kDev	-12.818	3.199
+submodels[submodelName]['p0'] = [230., 34., 22., -80., 20., -12.]
 submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
 
 submodels[submodelName]['fitFunction'] = None
@@ -200,6 +215,7 @@ for i, fitParametersName in enumerate(
     fitParameters[fitParametersName]['ID'] =\
         fitParameters[fitParametersName]['shortVarType'] + '_' +\
         fitParameters[fitParametersName]['shortName'] + '_' +\
+        submodelName + '_' +\
         model['ShortName'] +\
         model['Index']
     fitParameters[fitParametersName]['distribution'] = 'Normal'

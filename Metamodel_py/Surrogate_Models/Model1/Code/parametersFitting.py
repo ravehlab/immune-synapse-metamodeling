@@ -19,19 +19,26 @@ data = definitions.data
 # 2.1 Set fit equation for dep:
 
 
-def linXlinY(xy, intercept, xSlope, ySlope):
-    """
-    Gets: xy, intercept, xSlope, ySlope.
-    Returns: f.
-    Calling: None.
-    Called by:
-    Description:
-    """
-
+def sigXsigY(xy, xScale, xCen, xDev, yScale, yCen, yDev):
     x, y = xy
-    f = intercept + xSlope*x + ySlope*y
+    fx = xScale/(1 + np.exp(-(x-xCen)/xDev))
+    fy = yScale/(1 + np.exp(-(y-yCen)/yDev))
+    f = fx + fy
+    # strf = "tScale/(1 + np.exp(-(x-tCen)/tDev)) +
+    # kScale/(1 + np.exp(-(y-kCen)/kDev))"
 
     return f
+
+# def sigXsigY(xy, xyParameters):
+#     x, y = xy
+
+#     fx = xyParameters[0]/(1 + np.exp(-(x-xyParameters[1])/xyParameters[2]))
+#     fy = xyParameters[3]/(1 + np.exp(-(x-xyParameters[4])/xyParameters[5]))
+#     f = fx + fy
+#     # strf = "tScale/(1 + np.exp(-(x-tCen)/tDev)) +
+#     # kScale/(1 + np.exp(-(y-kCen)/kDev))"
+
+#     return f
 
 #################################################
 # 2.2 Set fit function for dep:
@@ -58,7 +65,7 @@ def setFitFunction(df_trainingData_flatten):
 
     df_fitParameters_dep = getFitParameters(
         X=(flatten_x, flatten_y),
-        fitFunc=linXlinY,
+        fitFunc=sigXsigY,
         fXdata=flatten_z,
         parametersNames=parametersNames,
         p0=submodels['Depletion']['p0'])
@@ -80,9 +87,13 @@ def getFitParameters(X, fitFunc, fXdata, parametersNames, p0):
     are 'mu' and 'sd'.
     """
 
-    popt, pcov = curve_fit(fitFunc, X, fXdata, p0)
-    mu = popt
-    sd = np.sqrt(np.diag(pcov))
+    try:
+        popt, pcov = curve_fit(fitFunc, X, fXdata, p0)
+        mu = popt
+        sd = np.sqrt(np.diag(pcov))
+
+    except RuntimeError:
+        print("Error - curve_fit failed")
 
     data = {'mu': mu, 'sd': sd}
     index = parametersNames
@@ -104,11 +115,21 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
     Description: Returns fitted data created by the fit parameters and the
     x, y data.
     """
+    submodelName = 'Depletion'
 
     # Read fit parameters from df_fitParameters:
-    intercept_fit = df_fitParameters.loc['intercept', 'mu']
-    xSlope_fit = df_fitParameters.loc['xSlope', 'mu']
-    ySlope_fit = df_fitParameters.loc['ySlope', 'mu']
+    xScale_fit = df_fitParameters.loc[
+        submodels[submodelName]['fitParametersNames'][0], 'mu']
+    xCen_fit = df_fitParameters.loc[
+        submodels[submodelName]['fitParametersNames'][1], 'mu']
+    xDev_fit = df_fitParameters.loc[
+        submodels[submodelName]['fitParametersNames'][2], 'mu']
+    yScale_fit = df_fitParameters.loc[
+        submodels[submodelName]['fitParametersNames'][3], 'mu']
+    yCen_fit = df_fitParameters.loc[
+        submodels[submodelName]['fitParametersNames'][4], 'mu']
+    yDev_fit = df_fitParameters.loc[
+        submodels[submodelName]['fitParametersNames'][5], 'mu']
 
     flatten_column_name_x = data['flatten_columns_names'][0]
     flatten_column_name_y = data['flatten_columns_names'][1]
@@ -119,13 +140,13 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
 
     ###
     submodelName = 'Depletion'
-    submodels[submodelName]['equation']
+    # submodels[submodelName]['equation']
     ###
 
+    ""
     fitted_data_flatten =\
-        intercept_fit +\
-        xSlope_fit*flatten_x +\
-        ySlope_fit*flatten_y
+        xScale_fit/(1 + np.exp(-(flatten_x-xCen_fit)/xDev_fit)) +\
+        yScale_fit/(1 + np.exp(-(flatten_y-yCen_fit)/yDev_fit))
 
     df_fitted_data_flatten = df_trainingData_flatten
     df_fitted_data_flatten[
