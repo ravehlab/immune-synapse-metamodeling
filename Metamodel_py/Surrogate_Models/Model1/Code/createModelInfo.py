@@ -12,7 +12,10 @@ from IPython.display import display
 from Model1.Code import definitions
 
 paths = definitions.paths
-
+model = definitions.model
+data = definitions.data
+fp_x = definitions.fp_x
+fp_y = definitions.fp_y
 
 """
 Every variable is a column header in the table:
@@ -182,43 +185,75 @@ class Model:
         # statements for all RVs
         return
 #################################################
-# Start model1_depletion:
+# Start model1_depletion:  # !!
 
 
 model1_depletion = Model(
-    shortName='KSEG',
-    longName='Kinetic segregation',
-    description='Model1 description',
-    model_id='1',
+    shortName=model['ShortName'],
+    longName=model['LongName'],
+    description=model['Description'],
+    model_id=model['Index'],
     RV_csv_file=None,
     data_csv_file=paths['Input']+'df_trainingData_depletion_flatten.csv')
 
-
 #################################################
+
 # Define dep untrained table:
+# for i, fitParametersName in enumerate(
+#         submodels[submodelName]['fitParametersNames']):
+#     #
+#     fitParameters[fitParametersName] = {}
+#     fitParameters[fitParametersName]['varType'] = 'Random variable'
+#     fitParameters[fitParametersName]['shortVarType'] = 'rv'
+#     fitParameters[fitParametersName]['shortName'] =\
+#         submodels[submodelName]['fitParametersNames'][i]
+#     fitParameters[fitParametersName]['description'] = \
+#         submodels[submodelName]['fitParametersDescriptions'][i]
+#     fitParameters[fitParametersName]['texName'] =\
+#         "$$" +\
+#         fitParameters[fitParametersName]['shortName'] +\
+#         "^{" +\
+#         model['ShortName'] +\
+#         submodelName +\
+#         "}$$"
+#     # fitParametersName['units'] = '$$kTnm^2$$'
+#     fitParameters[fitParametersName]['texName'] =\
+#         submodels[submodelName]['fitParametersUnits'][i]
+#     fitParameters[fitParametersName]['ID'] =\
+#         fitParameters[fitParametersName]['shortVarType'] + '_' +\
+#         fitParameters[fitParametersName]['shortName'] + '_' +\
+#         model['ShortName'] +\
+#         model['Index']
+#     fitParameters[fitParametersName]['distribution'] = 'Normal'
+#     fitParameters[fitParametersName]['distributionParameters'] = {
+#         'mu': str(0.),
+#         'sd': str(1.)}
 
 
 def model1_depletion_info(df_fitParameters_depletion):
 
     model1_depletion.add_rv(
-        RV(id='fp_t_depletion_KSEG1',
-           varType='Free parameter',
-           shortName='t',
-           texName="$$t^{KSEG}$$",
-           description='Time',
-           distribution='Uniform',
-           distributionParameters={'lower': str(0.),
-                                   'upper': str(100.)},
-           units='$$sec$$'))
+        RV(id=fp_x['ID'],
+           varType=fp_x['varType'],
+           shortName=fp_x['shortName'],
+           texName=fp_x['texName'],
+           description=fp_x['description'],
+           distribution=fp_x['distribution'],
+           distributionParameters={
+               'lower': str(0.),
+               'upper': str(100.)},
+           units=fp_x['units']))
 
     model1_depletion.add_rv(
-        RV(id='fp_k_depletion_KSEG1',
-            varType='Free parameter',
-            shortName='k',
-            texName='$$\kappa^{KSEG}$$',
-            description='Membrane rigidity',
-            distribution='Uniform',
-            distributionParameters={'lower': str(0.), 'upper': str(100.)},
+        RV(id=fp_y['ID'],
+           varType=fp_y['varType'],
+           shortName=fp_y['shortName'],
+           texName=fp_y['texName'],
+           description=fp_y['description'],
+           distribution=fp_y['distribution'],
+            distributionParameters={
+                'lower': fp_x['distributionParameters']['lower'],
+                'upper': fp_x['distributionParameters']['upper']},
             units='$$kTnm^2$$'))
 
     model1_depletion.add_rv(
@@ -280,10 +315,10 @@ def model1_depletion_info(df_fitParameters_depletion):
 
 def displayInfo(model1_depletion):
 
-    df_model1_untrainedTable = model1_depletion.get_dataframe()
-    df_model1_untrainedTable = df_model1_untrainedTable.set_index('ID')
+    df_untrainedTable = model1_depletion.get_dataframe()
+    df_untrainedTable = df_untrainedTable.set_index('ID')
 
-    display(df_model1_untrainedTable.style.set_properties(
+    display(df_untrainedTable.style.set_properties(
         **{'text-align': 'left',
            'background-color': 'rgba(200, 150, 255, 0.65)',
            'border': '1px black solid'}))

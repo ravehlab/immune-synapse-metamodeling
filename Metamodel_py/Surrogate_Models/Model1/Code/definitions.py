@@ -29,8 +29,7 @@ molecules that result from the early contact of a T-cell and an activating
 surface."""
 
 #################################################
-# 0. Define paths:
-# Define pahts:
+# Define paths:
 # '/home/yair/
 # C:/Users/Owner/
 
@@ -40,11 +39,11 @@ paths['Metamodel'] = paths['Git']+'Metamodel_py/'
 paths['Surrogate'] = paths['Metamodel']+'Surrogate_Models/'
 paths['Model'] = paths['Surrogate']+'Model'+model['Index']+'/'
 paths['Input'] = paths['Metamodel']+'Input_Models/Model'+model['Index']+'/'
+paths['Output'] = paths['Model']+'Output/'
 paths['Processing'] = paths['Model']+'Processing/'
 
-
 #################################################
-# Define data names:
+# Define data:
 data = {}
 data['flatten_columns_names'] = ['time_sec', 'k0_kTnm2', 'depletion_nm']
 data['shortNames'] = ['t', 'k', 'dep']
@@ -129,6 +128,7 @@ submodel."""
 
 submodelsNames = ['WTCR', 'WCD45', 'Depletion']
 submodelName = submodelsNames[2]
+
 submodels = {}
 # submodels['names'] = ['Depletion']
 submodels[submodelName] = {}
@@ -141,8 +141,6 @@ submodels[submodelName]['bareEquation'] = 'b + ax*x + ay*y'
 b = submodels[submodelName]['fitParametersNames'][0]
 ax = submodels[submodelName]['fitParametersNames'][1]
 ay = submodels[submodelName]['fitParametersNames'][2]
-
-# E =
 
 ###
 
@@ -173,6 +171,8 @@ submodels[submodelName]['fitParametersUnits'] =\
 submodels[submodelName]['p0'] = [100., 0., 0.]
 submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
 
+submodels[submodelName]['fitFunction'] = None
+
 #################################################
 # Define fit parameters:
 fitParameters = {}
@@ -202,10 +202,10 @@ for i, fitParametersName in enumerate(
         fitParameters[fitParametersName]['shortName'] + '_' +\
         model['ShortName'] +\
         model['Index']
-    # fitParametersName['distribution'] = 'Uniform'
-    # fitParametersName['distributionParameters'] ={
-    #    'lower': str(0.),
-    #    'upper': str(100.)}
+    fitParameters[fitParametersName]['distribution'] = 'Normal'
+    fitParameters[fitParametersName]['distributionParameters'] = {
+        'mu': str(0.),
+        'sd': str(1.)}
 
     print(fitParameters[fitParametersName])
 

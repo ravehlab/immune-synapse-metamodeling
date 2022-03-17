@@ -131,7 +131,7 @@ def pivotToFlatten(df_pivot):
 # 1.3 Plot training data:
 
 
-def plotTrainingData(df_pivot):
+def plotTrainingData(df_pivot, submodelName):
     """
     Gets: df_pivot.
     Returns: None.
@@ -149,7 +149,7 @@ def plotTrainingData(df_pivot):
 
     plotWhat = [True, False, False, False]
 
-    plotting.plotData(DataToPlot, plotWhat, 'Depletion')
+    plotting.plotData(DataToPlot, plotWhat, submodelName)
 
 #################################################
 

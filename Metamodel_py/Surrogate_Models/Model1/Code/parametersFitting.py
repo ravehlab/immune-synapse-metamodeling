@@ -117,17 +117,24 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
     flatten_x = df_trainingData_flatten[flatten_column_name_x]
     flatten_y = df_trainingData_flatten[flatten_column_name_y]
 
+    ###
+    submodelName = 'Depletion'
+    submodels[submodelName]['equation']
+    ###
+
     fitted_data_flatten =\
         intercept_fit +\
         xSlope_fit*flatten_x +\
         ySlope_fit*flatten_y
 
     df_fitted_data_flatten = df_trainingData_flatten
-    df_fitted_data_flatten['depletion_nm'] = fitted_data_flatten
+    df_fitted_data_flatten[
+        data['flatten_columns_names'][2]] = fitted_data_flatten
 
-    df_fitted_data_pivot = df_fitted_data_flatten.pivot(index='k0_kTnm2',
-                                                        columns='time_sec',
-                                                        values='depletion_nm')
+    df_fitted_data_pivot = df_fitted_data_flatten.pivot(
+        index=data['flatten_columns_names'][0],
+        columns=data['flatten_columns_names'][1],
+        values=data['flatten_columns_names'][2])
 
     return df_fitted_data_pivot
 
@@ -135,7 +142,7 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
 # Plot fitted data:
 
 
-def plotFittedData(df_pivot):
+def plotFittedData(df_pivot, submodelName):
     """
     Gets: df_pivot.
     Returns: None.
@@ -153,4 +160,4 @@ def plotFittedData(df_pivot):
 
     plotWhat = [True, False, False, False]
 
-    plotting.plotData(DataToPlot, plotWhat, 'Depletion')
+    plotting.plotData(DataToPlot, plotWhat, submodelName)

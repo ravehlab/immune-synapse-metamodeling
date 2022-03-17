@@ -6,6 +6,11 @@ Processing/ - File for aranging the input data so it can be use by the surrogate
 Surrogate/ - Files for learning and training the model.<br>
 Output/ - Files to be used by the coupled model.<br>
 
+Model1/<br>
+├── Code/<br>
+├── Output/<br>
+└── Processing/<br>
+
 ### Process:
 1. Pre-processing<br>
 1.1 Reading raw training data from 'Input/'.<br>

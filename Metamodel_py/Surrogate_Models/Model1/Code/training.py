@@ -11,12 +11,12 @@ import pymc3 as pm
 
 
 def get_pm_model1_untrained(df_trainingData_model1,
-                            df_model1_untrainedTable):
+                            df_untrainedTable):
 
     pm_model1_untrained = pm.Model()
     with pm_model1_untrained:
 
-        dfRV = df_model1_untrainedTable
+        dfRV = df_untrainedTable
         DP = 'Distribution parameters'
 
         t_KSEG1_obs = df_trainingData_model1.loc[:, 'time_sec'].values
@@ -25,14 +25,14 @@ def get_pm_model1_untrained(df_trainingData_model1,
             df_trainingData_model1.loc[:, 'depletion_nm'].values
 
         # rv_t
-        ID = 'fp_t_depletion_KSEG1'
+        ID = 'fp_t_KSEG1'  # 'fp_t_depletion_KSEG1'
         rv_t = pm.Uniform('rv_t',
                           lower=dfRV.loc[ID, DP]['lower'],
                           upper=dfRV.loc[ID, DP]['upper'],
                           observed=t_KSEG1_obs)
 
         # rv_k
-        ID = 'fp_k_depletion_KSEG1'
+        ID = 'fp_k_KSEG1'
         rv_k = pm.Uniform('rv_k',
                           lower=dfRV.loc[ID, DP]['lower'],
                           upper=dfRV.loc[ID, DP]['upper'],
