@@ -184,6 +184,7 @@ submodels[submodelName]['fitParametersUnits'] =\
 # kCen	22.729	6.665
 # kDev	-12.818	3.199
 submodels[submodelName]['p0'] = [230., 34., 22., -80., 20., -12.]
+submodels[submodelName]['sd'] = [30., 10., 10., -30., 20., 10.]
 submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
 
 submodels[submodelName]['fitFunction'] = None

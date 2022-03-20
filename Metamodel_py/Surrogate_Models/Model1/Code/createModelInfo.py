@@ -70,17 +70,17 @@ class RV:  # Random variable
         to a pymc3 statment for creating this random variable
         (to be used as input for eval)
         '''
-#         if RV.distribution == "Normal":
-#             mu = RV.distributionParameters["mu"]
-#             sd = RV.distributionParameters["sd"]
-#             s0 = RV.id
-#             if RV.shortName == "output":
-#                 print(RV.shortName)
-#             s1 = ("pm." + RV.distribution + "('" + RV.id  + "'" + \
-#                                       ", mu=" + str(mu) + \
-#                                       ", sd=" + str(sd) + ")")
-#             s = (s0,s1)
-#             print(eval("s[0]"),"=",eval("s[1]"))
+        if RV.distribution == "Normal":
+            mu = RV.distributionParameters["mu"]
+            sd = RV.distributionParameters["sd"]
+            s0 = RV.id
+            if RV.shortName == "output":
+                print(RV.shortName)
+            s1 = ("pm." + RV.distribution + "('" + RV.id + "'" +
+                  ", mu=" + str(mu) +
+                  ", sd=" + str(sd) + ")")
+            s = (s0, s1)
+            # print(eval("s[0]"), "=", eval("s[1]"))
         '''
         Example: return tuple :
         s = ('rv_alpha', 'pm.Normal("rv_alpha", mu=354, sigma=a*10+b*20)')
@@ -202,37 +202,6 @@ model1_depletion = Model(
 
 #################################################
 
-# Define dep untrained table:
-# for i, fitParametersName in enumerate(
-#         submodels[submodelName]['fitParametersNames']):
-#     #
-#     fitParameters[fitParametersName] = {}
-#     fitParameters[fitParametersName]['varType'] = 'Random variable'
-#     fitParameters[fitParametersName]['shortVarType'] = 'rv'
-#     fitParameters[fitParametersName]['shortName'] =\
-#         submodels[submodelName]['fitParametersNames'][i]
-#     fitParameters[fitParametersName]['description'] = \
-#         submodels[submodelName]['fitParametersDescriptions'][i]
-#     fitParameters[fitParametersName]['texName'] =\
-#         "$$" +\
-#         fitParameters[fitParametersName]['shortName'] +\
-#         "^{" +\
-#         model['ShortName'] +\
-#         submodelName +\
-#         "}$$"
-#     # fitParametersName['units'] = '$$kTnm^2$$'
-#     fitParameters[fitParametersName]['texName'] =\
-#         submodels[submodelName]['fitParametersUnits'][i]
-#     fitParameters[fitParametersName]['ID'] =\
-#         fitParameters[fitParametersName]['shortVarType'] + '_' +\
-#         fitParameters[fitParametersName]['shortName'] + '_' +\
-#         model['ShortName'] +\
-#         model['Index']
-#     fitParameters[fitParametersName]['distribution'] = 'Normal'
-#     fitParameters[fitParametersName]['distributionParameters'] = {
-#         'mu': str(0.),
-#         'sd': str(1.)}
-
 
 def model1_depletion_info(df_fitParameters_depletion):
 
@@ -277,42 +246,6 @@ def model1_depletion_info(df_fitParameters_depletion):
                         fitParameters[fitParametersName]['shortName'], 'sd'])},
                 units='$$nm$$'))
     ###
-
-    # model1_depletion.add_rv(
-    #     RV(id='rv_intercept_depletion_KSEG1',
-    #         varType='Random variable',
-    #         shortName='intercept',
-    #         texName='$$dep^{KSEG}_{intercept}$$',
-    #         description='Interception with z axis',
-    #         distribution='Normal',
-    #         distributionParameters={
-    #             'mu': str(df_fitParameters_depletion.loc['intercept', 'mu']),
-    #             'sd': str(df_fitParameters_depletion.loc['intercept', 'sd'])},
-    #         units='$$nm$$'))
-
-    # model1_depletion.add_rv(
-    #     RV(id='rv_tSlope_depletion_KSEG1',
-    #         varType='Random variable',
-    #         shortName='tSlope',
-    #         texName='$$dep^{KSEG}_{tSlope}$$',
-    #         description='Slope in t direction',
-    #         distribution='Normal',
-    #         distributionParameters={
-    #             'mu': str(df_fitParameters_depletion.loc['xSlope', 'mu']),
-    #             'sd': str(df_fitParameters_depletion.loc['xSlope', 'sd'])},
-    #         units='$$sec$$'))
-
-    # model1_depletion.add_rv(
-    #     RV(id='rv_kSlope_depletion_KSEG1',
-    #         varType='Random variable',
-    #         shortName='kSlope',
-    #         texName='$$dep^{KSEG}_{kSlope}$$',
-    #         description='Slope in k direction',
-    #         distribution='Normal',
-    #         distributionParameters={
-    #             'mu': str(df_fitParameters_depletion.loc['ySlope', 'mu']),
-    #             'sd': str(df_fitParameters_depletion.loc['ySlope', 'sd'])},
-    #         units='$$kTnm^2$$'))
 
     model1_depletion.add_rv(
         RV(id='rv_output_depletion_KSEG1',
