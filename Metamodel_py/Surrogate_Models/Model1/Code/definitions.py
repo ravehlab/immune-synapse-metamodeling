@@ -135,28 +135,6 @@ submodels[submodelName] = {}
 submodels[submodelName]['fitParametersNames'] =\
     ['tScale', 'tCen', 'tDev', 'kScale', 'kCen', 'kDev']
 
-# Fit equation Depletion:
-# submodels[submodelName]['bareEquation'] = 'b + ax*x + ay*y'
-###
-# b = submodels[submodelName]['fitParametersNames'][0]
-# ax = submodels[submodelName]['fitParametersNames'][1]
-# ay = submodels[submodelName]['fitParametersNames'][2]
-
-###
-# "tScale/(1 + np.exp(-(x-tCen)/tDev)) +
-# kScale/(1 + np.exp(-(y-kCen)/kDev))"
-
-# submodels[submodelName]['equation'] =\
-#     submodels[submodelName]['fitParametersNames'][0] +\
-#     "+" +\
-#     submodels[submodelName]['fitParametersNames'][1] +\
-#     "*" +\
-#     "x" +\
-#     "+" +\
-#     submodels[submodelName]['fitParametersNames'][2] +\
-#     "*" +\
-#     "y"
-
 # Fit parameters description Depletion:
 submodels[submodelName]['fitParametersDescriptions'] =\
     ["xScale",
@@ -176,13 +154,6 @@ submodels[submodelName]['fitParametersUnits'] =\
      "nm"]
 
 # Initial fit parameters
-#          mu	     sd
-# tScale	229.519	6.587
-# tCen	19.219	1.938
-# tDev	34.224	2.737
-# kScale	-81.990	19.952
-# kCen	22.729	6.665
-# kDev	-12.818	3.199
 submodels[submodelName]['p0'] = [230., 34., 22., -80., 20., -12.]
 submodels[submodelName]['sd'] = [30., 10., 10., -30., 20., 10.]
 submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'

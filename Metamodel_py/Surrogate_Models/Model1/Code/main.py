@@ -62,7 +62,6 @@ except:
 os.mkdir(Output_path)
 print("Directory 'Output' created in '% s'" % (paths['Model']))
 
-
 #################################################
 # 1.1 Read trainingData from Input/:
 df_trainingData_depletion_pivot_r =\

@@ -29,17 +29,6 @@ def sigXsigY(xy, xScale, xCen, xDev, yScale, yCen, yDev):
 
     return f
 
-# def sigXsigY(xy, xyParameters):
-#     x, y = xy
-
-#     fx = xyParameters[0]/(1 + np.exp(-(x-xyParameters[1])/xyParameters[2]))
-#     fy = xyParameters[3]/(1 + np.exp(-(x-xyParameters[4])/xyParameters[5]))
-#     f = fx + fy
-#     # strf = "tScale/(1 + np.exp(-(x-tCen)/tDev)) +
-#     # kScale/(1 + np.exp(-(y-kCen)/kDev))"
-
-#     return f
-
 #################################################
 # 2.2 Set fit function for dep:
 

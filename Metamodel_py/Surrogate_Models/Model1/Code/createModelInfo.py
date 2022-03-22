@@ -73,14 +73,14 @@ class RV:  # Random variable
         if RV.distribution == "Normal":
             mu = RV.distributionParameters["mu"]
             sd = RV.distributionParameters["sd"]
-            s0 = RV.id
+            s0 = RV.ID
             if RV.shortName == "output":
                 print(RV.shortName)
             s1 = ("pm." + RV.distribution + "('" + RV.id + "'" +
                   ", mu=" + str(mu) +
                   ", sd=" + str(sd) + ")")
             s = (s0, s1)
-            # print(eval("s[0]"), "=", eval("s[1]"))
+            print(eval("s[0]"), "=", eval("s[1]"))
         '''
         Example: return tuple :
         s = ('rv_alpha', 'pm.Normal("rv_alpha", mu=354, sigma=a*10+b*20)')
@@ -94,7 +94,7 @@ class RV:  # Random variable
     def RV_from_dictionary(d: dict):
         """generates an RV object from a dictionary produced by
         get_as_dictionary() """
-        return RV(id=d['ID'],
+        return RV(ID=d['ID'],
                   varType=d['Variable type'],
                   shortName=d['Short Name'],
                   texName=d['Latex Name'],
@@ -159,8 +159,8 @@ class Model:
 
     def set_data_from_csv(self, data_csv_file):
         # TASK 2
-        # df = pd.read_csv(data_csv_file)
-        # display(df) # Yair
+        df = pd.read_csv(data_csv_file)
+        display(df)  # Yair
         # TODO: code for filling in table of data
         # self.data = ... # WRITE-ME
         self.trainingData = pd.read_csv(data_csv_file)
@@ -172,14 +172,19 @@ class Model:
         and generate a PyMC3 object with cooresponding
         variable names and statistical relations among them
         '''
+        import pymc3 as pm
+
         # TODO (use "eval" command)
-        # pm_model = pm.Model()
-        # with pm_model as pm:
-        #      for rv in self.RVs:
-        #          pass
-        #  s = rv.get_pymc3_statement()
-        #  eval(s[0]) = eval(s[1])
-        # return pm_model
+        pm_model = pm.Model()
+        with pm_model as pm:
+            for rv in self.RVs:
+                pass
+            s = rv.get_pymc3_statement()
+            # print(eval("s[0]"), "=", eval("s[1]"))
+            exec("s[0] = s[1]")
+            # eval(s[0]) = eval(s[1])
+
+            return pm_model
 
     def update_rvs_from_pymc3(self, pymc3):  # BARAK
         # TASK 4
