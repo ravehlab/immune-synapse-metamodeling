@@ -19,22 +19,7 @@ Predicting
 """
 
 #################################################
-# 0. Define paths:
-# Define pahts:
-# '/home/yair/
-# C:/Users/Owner/
-
-paths = {}
-paths['home'] = '/home/yair/Documents/Git/'
-paths['Metamodel'] = paths['home']+'Metamodel_py/'
-paths['Surrogate'] = paths['Metamodel']+'Surrogate_Models/'
-paths['Model'] = paths['Surrogate']+'Model2/'
-paths['Input'] = paths['Metamodel']+'Input_Models/Model2/'
-paths['Processing'] = paths['Model']+'Processing/'
-
-#################################################
 # Define model:
-
 model = {}
 model['LongName'] = 'Lck activation'
 model['ShortName'] = 'LCKA'
@@ -42,45 +27,181 @@ model['Index'] = '2'
 model['Description'] = """Model2 description """
 
 #################################################
+# 0. Define paths:
+# Define pahts:
+# '/home/yair/
+# C:/Users/Owner/
+
+paths = {}
+paths['Git'] = '/home/yair/Documents/Git/'
+paths['Metamodel'] = paths['Git']+'Metamodel_py/'
+paths['Surrogate'] = paths['Metamodel']+'Surrogate_Models/'
+paths['Model'] = paths['Surrogate']+'Model'+model['Index']+'/'
+paths['Input'] = paths['Metamodel']+'Input_Models/Model'+model['Index']+'/'
+paths['Output'] = paths['Model']+'Output/'
+paths['Processing'] = paths['Model']+'Processing/'
+
+#################################################
+# Define data:
+data = {}
+data['flatten_columns_names'] = ['Poff', 'Diff_um^2/sec', 'Decaylength_nm']
+data['shortNames'] = ['Poff', 'Diff', 'Decaylength']
+data['units'] = ['-', 'um^2/sec', 'nm']
+data['description'] = ['Decay probability',
+                       'Diffusion coefficient',
+                       'Decay length of active lck']
+data['x_mu'] = str(-2.)
+data['x_sd'] = str(1.)
+data['y_mu'] = str(-2.)
+data['y_sd'] = str(1.)
+data['distributions'] = ['Normal', 'Normal']
+
+#################################################
+# Define plots:
+figSizeX = 4.  #
+figSizeY = 4.  #
+plots = {}
+plots['figSize'] = [figSizeX, 1*figSizeY]
+plots['colormap'] = 'Blues'
+plots['xLabel'] = data['shortNames'][0]+'('+data['units'][0]+')'
+plots['yLabel'] = data['shortNames'][1]+'('+data['units'][1]+')'
+plots['rowTitles'] = ["Training data",
+                      "Data fit",
+                      "Trained parameters",
+                      "Prediction"]
+plots['fontSizes1'] = 10
+plots['fontSizes2'] = 12
+plots['fontSizes3'] = 14
+plots['fontSizes4'] = 16
+plots['nRoWs'] = len(plots['rowTitles'])
+plots['nCols'] = 1  # len(submodelsNames)
+
+#################################################
+# Define free parameters for all submodels in the Model:
+fp_x = {}
+fp_x['varType'] = 'Free parameter'
+fp_x['shortVarType'] = 'fp'
+fp_x['shortName'] = data['shortNames'][0]
+fp_x['description'] = data['description'][0]
+fp_x['texName'] =\
+    "$$" +\
+    fp_x['shortName'] +\
+    "^{" +\
+    model['ShortName'] +\
+    "}$$"
+fp_x['units'] = data['units'][0]
+fp_x['ID'] =\
+    fp_x['shortVarType'] + '_' +\
+    fp_x['shortName'] + '_' +\
+    model['ShortName'] +\
+    model['Index']
+fp_x['distribution'] = data['distributions'][0]
+fp_x['distributionParameters'] = {'mu': data['x_mu'],
+                                  'sd': data['x_sd']}
+
+fp_y = {}
+fp_y['varType'] = 'Free parameter'
+fp_y['shortVarType'] = 'fp'
+fp_y['shortName'] = data['shortNames'][1]
+fp_y['description'] = data['description'][1]
+fp_y['texName'] =\
+    "$$" +\
+    fp_y['shortName'] +\
+    "^{" +\
+    model['ShortName'] +\
+    "}$$"
+fp_y['units'] = data['units'][1]
+fp_y['ID'] =\
+    fp_y['shortVarType'] + '_' +\
+    fp_y['shortName'] + '_' +\
+    model['ShortName'] +\
+    model['Index']
+fp_y['distribution'] = data['distributions'][1]
+fp_y['distributionParameters'] = {'mu': data['y_mu'],
+                                  'sd': data['y_sd']}
+
+#################################################
 # Define submodels:
 """For every output of the same free parameters there is a different
 submodel."""
 
-submodelsNames = ['DecayLength']
+submodelsNames = ['Decaylength']
 submodelName = submodelsNames[0]
+
 submodels = {}
-# submodels['names'] = ['Depletion']
 submodels[submodelName] = {}
 submodels[submodelName]['fitParametersNames'] =\
-    ['intercept', 'xSlope', 'ySlope']
-
-# Fit equation Depletion:
-submodels[submodelName]['equation'] =\
-    submodels[submodelName]['fitParametersNames'][0] +\
-    "+" +\
-    submodels[submodelName]['fitParametersNames'][1] +\
-    "*" +\
-    "x" +\
-    "+" +\
-    submodels[submodelName]['fitParametersNames'][2] +\
-    "*" +\
-    "y"
+    ['PoffScale', 'PoffMu', 'PoffSigma',
+     'DiffScale', 'DiffMu', 'DiffSigma']
 
 # Fit parameters description Depletion:
 submodels[submodelName]['fitParametersDescriptions'] =\
-    ["Intersection with z axis (nm)",
-     "Slope in x direction",
-     "Slope in y direction"]
+    ['PoffScale',
+     'PoffMu',
+     'PoffSigma',
+     'DiffScale',
+     'DiffMu',
+     'DiffSigma']
 
 # Fit parameters units:
 submodels[submodelName]['fitParametersUnits'] =\
-    ["-",
-     "mum^2/sec",
+    ["nm",
+     "nm",
+     "nm",
+     "nm",
+     "nm",
      "nm"]
 
 # Initial fit parameters
-submodels[submodelName]['p0'] = [0., 0., 0.]
-submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 0, 0.65)'
+#            mu	    sd
+# xScale	1.908	0.103
+# xMu	-4.074	0.109
+# xSigma	2.480	0.162
+# yScale	0.917	0.145
+# yMu	-0.666	0.287
+# ySigma	1.023	0.282
+submodels[submodelName]['p0'] = [1.9, -4., 2.5, 0.9, -0.7, 1.]
+submodels[submodelName]['sd'] = [1., 1., 1., 1., 1., 1.]
+submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
+
+submodels[submodelName]['fitFunction'] = None
+
+#################################################
+# Define fit parameters:
+fitParameters = {}
+
+for i, fitParametersName in enumerate(
+        submodels[submodelName]['fitParametersNames']):
+    #
+    fitParameters[fitParametersName] = {}
+    fitParameters[fitParametersName]['varType'] = 'Random variable'
+    fitParameters[fitParametersName]['shortVarType'] = 'rv'
+    fitParameters[fitParametersName]['shortName'] =\
+        submodels[submodelName]['fitParametersNames'][i]
+    fitParameters[fitParametersName]['description'] = \
+        submodels[submodelName]['fitParametersDescriptions'][i]
+    fitParameters[fitParametersName]['texName'] =\
+        "$$" +\
+        fitParameters[fitParametersName]['shortName'] +\
+        "^{" +\
+        model['ShortName'] +\
+        submodelName +\
+        "}$$"
+    # fitParametersName['units'] = '$$kTnm^2$$'
+    fitParameters[fitParametersName]['texName'] =\
+        submodels[submodelName]['fitParametersUnits'][i]
+    fitParameters[fitParametersName]['ID'] =\
+        fitParameters[fitParametersName]['shortVarType'] + '_' +\
+        fitParameters[fitParametersName]['shortName'] + '_' +\
+        submodelName + '_' +\
+        model['ShortName'] +\
+        model['Index']
+    fitParameters[fitParametersName]['distribution'] = 'Normal'
+    fitParameters[fitParametersName]['distributionParameters'] = {
+        'mu': str(0.),
+        'sd': str(1.)}
+
+    print(fitParameters[fitParametersName])
 
 #################################################
 # Define data names:
@@ -95,7 +216,7 @@ data['flatten_columns_names']['z'] = 'Decaylength_nm'
 plots = {}
 plots['figSize'] = [4., 13.]
 plots['xLabel'] = "$P_{off}()$"
-plots['yLabel'] = "$Diffusion const.(\mu m^2/sec)$"
+plots['yLabel'] = "$Diffusion const.(\mu^2/sec)$"
 plots['rowTitles'] = ["Training data",
                       "Data fit",
                       "Trained parameters",

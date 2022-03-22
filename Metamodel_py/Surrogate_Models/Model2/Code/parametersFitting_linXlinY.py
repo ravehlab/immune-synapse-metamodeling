@@ -19,9 +19,9 @@ data = definitions.data
 # 2.1 Set fit equation for dep:
 
 
-def gaussXgaussY(xy, xScale, xMu, xSigma, yScale, yMu, ySigma):
+def linXlinY(xy, intercept, xSlope, ySlope):
     """
-    Gets: xy, xScale, xMu, xSigma, yScale, yMu, ySigma.
+    Gets: xy, intercept, xSlope, ySlope.
     Returns: f.
     Calling: None.
     Called by:
@@ -29,9 +29,7 @@ def gaussXgaussY(xy, xScale, xMu, xSigma, yScale, yMu, ySigma):
     """
 
     x, y = xy
-    fx = xScale*np.exp(-0.5*((x-xMu)/xSigma)**2)
-    fy = yScale*np.exp(-0.5*((y-yMu)/ySigma)**2)
-    f = fx + fy
+    f = intercept + xSlope*x + ySlope*y
 
     return f
 
@@ -56,16 +54,16 @@ def setFitFunction(df_trainingData_flatten):
     flatten_y = df_trainingData_flatten[data['flatten_columns_names']['y']]
     flatten_z = df_trainingData_flatten[data['flatten_columns_names']['z']]
 
-    parametersNames = submodels['Decaylength']['fitParametersNames']
+    parametersNames = submodels['DecayLength']['fitParametersNames']
 
-    df_fitParameters = getFitParameters(
+    df_fitParameters_dep = getFitParameters(
         X=(flatten_x, flatten_y),
-        fitFunc=gaussXgaussY,
+        fitFunc=linXlinY,
         fXdata=flatten_z,
         parametersNames=parametersNames,
-        p0=submodels['Decaylength']['p0'])
+        p0=submodels['DecayLength']['p0'])
 
-    return df_fitParameters
+    return df_fitParameters_dep
 
 #################################################
 # 2.3 Get fit parameters:
@@ -108,12 +106,9 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
     """
 
     # Read fit parameters from df_fitParameters:
-    xScale_fit = df_fitParameters.loc['xScale', 'mu']
-    xMu_fit = df_fitParameters.loc['xMu', 'mu']
-    xSigma_fit = df_fitParameters.loc['xSigma', 'mu']
-    yScale_fit = df_fitParameters.loc['yScale', 'mu']
-    yMu_fit = df_fitParameters.loc['yMu', 'mu']
-    ySigma_fit = df_fitParameters.loc['ySigma', 'mu']
+    intercept_fit = df_fitParameters.loc['intercept', 'mu']
+    xSlope_fit = df_fitParameters.loc['xSlope', 'mu']
+    ySlope_fit = df_fitParameters.loc['ySlope', 'mu']
 
     # flatten_column_name_x = data['flatten_columns_names']['x']
     # flatten_column_name_y = data['flatten_columns_names']['y']
@@ -123,16 +118,17 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
     flatten_y = df_trainingData_flatten['Diff']
 
     fitted_data_flatten =\
-        xScale_fit*np.exp(*0.5*((flatten_x - xMu_fit)/xSigma_fit)**2) +\
-        yScale_fit*np.exp(*0.5*((flatten_y - yMu_fit)/ySigma_fit)**2)
+        intercept_fit +\
+        xSlope_fit*flatten_x +\
+        ySlope_fit*flatten_y
 
     df_fitted_data_flatten = df_trainingData_flatten
     df_fitted_data_flatten['DecayLength_nm'] = fitted_data_flatten
 
     df_fitted_data_pivot =\
         df_fitted_data_flatten.pivot(index='Diff',
-                                     columns='Poff_um^2/sec',
-                                     values='Decaylength_nm')
+                                     columns='Poff',
+                                     values='DecayLength_nm')
 
     return df_fitted_data_pivot
 

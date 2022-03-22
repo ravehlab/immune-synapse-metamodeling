@@ -31,6 +31,7 @@ import pandas as pd
 import pymc3 as pm
 from IPython.display import display
 import os
+import shutil
 
 # Run from Directory: /home/yair/Documents/Git/Metamodel_py/Surrogate_Models
 # Run command: run Model2/Code/main
@@ -46,21 +47,26 @@ from Model2.Code import predicting
 paths = definitions.paths
 submodels = definitions.submodels
 
-# Create the directory 'Output' in '/Metamodel_py/Surrogate_Models/Model1/'
-outputDirectory = 'Output'
-Output_path = os.path.join(paths['Model'], outputDirectory)
+# Create the directory 'Output' in '/Metamodel_py/Surrogate_Models/Model2/'
+submodelName = 'Decaylength'
+Output_path = paths['Output']
+Input_path = paths['Input']
+
+# Remove all Output directory content:
 try:
-    os.rmdir(Output_path)
+    shutil.rmtree(Output_path)
 except:
-    print("Output Directory does not exist.")
+    print('Error deleting directory')
+
+# os.rmdir(Output_path)
 os.mkdir(Output_path)
-print("% s directory created in /Metamodel_py/Surrogate_Models/Model2/"
-      % outputDirectory)
+print("Directory 'Output' created in '% s'" % (paths['Model']))
 
 #################################################
+submodelName = 'Decaylength'
 # 1. Get training data:
 # 1.0 Read raw data as dataFrame:
-raw_data_name = 'raw_data_array_decaylength.csv'
+raw_data_name = 'raw_data_decaylength.csv'
 df_raw_data_decaylength =\
     pd.read_csv(paths['Input']+raw_data_name, header=None)
 
@@ -86,7 +92,8 @@ df_trainingData_decaylength_pivot_r =\
                 index_col=0)
 
 # 1.2 Plot training data:
-preProcessing.plotTrainingData(df_trainingData_decaylength_pivot_r)
+preProcessing.plotTrainingData(
+    df_trainingData_decaylength_pivot_r, submodelName)
 
 #################################################
 # 2. Parameters Fitting (to be used as initial parameters
@@ -142,7 +149,7 @@ gv_untrained = pm.model_to_graphviz(pm_model_untrained)
 
 gv_untrained_filename =\
     gv_untrained.render(filename='gv_untrained',
-                        directory=outputDirectory)
+                        directory=Output_path)
 
 with pm_model_untrained:
     trace = pm.sample(2000, chains=4)

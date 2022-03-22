@@ -15,19 +15,20 @@ plots = definitions.plots
 # Set what data to plot:
 
 
-def plotData(DataToPlot, plotWhat):
+def plotData(DataToPlot, plotWhat, submodelName):
 
     # titles and labels:
     xLabel = plots['xLabel']
     yLabel = plots['yLabel']
 
     # Titles for the subplots:
-    colTitles = plots['DecayLength']['title']
+    colTitles = plots[submodelName]['title']
     rowTitles = plots['rowTitles']
 
     # min and max values for the different heatmaps:
-    vmins = plots['DecayLength']['vmin']
-    vmaxs = plots['DecayLength']['vmax']
+    vmins = plots[submodelName]['vmin']
+    vmaxs = plots[submodelName]['vmax']
+    contourLevels = plots[submodelName]['contourLevels']
 
     # Number of rows and columns of subplots:
     nRows = plots['nRoWs']
@@ -45,6 +46,7 @@ def plotData(DataToPlot, plotWhat):
                          yLabel=yLabel,
                          vmins=vmins,
                          vmaxs=vmaxs,
+                         contourLevels=contourLevels,
                          iRow=iRow)
 #################################################
 # Plot heatmaps subplots
@@ -60,6 +62,7 @@ def plotHeatmaps(
         nCols,
         vmins,
         vmaxs,
+        contourLevels,
         iRow):
 
     fig = plt.figure(figsize=plots['figSize'])
@@ -74,9 +77,8 @@ def plotHeatmaps(
 
     max_plotWhat = 4  # np.max(np.where(plotWhat))
 
-    colormap = plots['DecayLength']['colormap']
-    decaylength_contour_levels = plots['DecayLength']['contourLevels']
-    fontsize1 = plots['fontSizes']['1']
+    colormap = plots['colormap']
+    fontsize1 = plots['fontSizes1']
 
     # plot the nRows x nCols subplots with labels, titles at
     # sceciefic locations. iCol is Column index, iRow is Row index:
@@ -87,13 +89,13 @@ def plotHeatmaps(
                               vmax=vmaxs[iCol],
                               shading='auto',
                               cmap=colormap)
-        if 0:  # iRow > 0:
+        if True:  # iRow > 0:
             cs = plt.contour(x1, x2, f[iCol],
-                             decaylength_contour_levels,
+                             contourLevels,
                              colors='k',
                              vmin=vmins[iCol],
                              vmax=vmaxs[iCol])
-            plt.clabel(cs, decaylength_contour_levels, inline=True, fmt='%.1f',
+            plt.clabel(cs, contourLevels, inline=True, fmt='%.1f',
                        fontsize=fontsize1)
 
         fig.colorbar(im[iCol])
@@ -107,5 +109,5 @@ def plotHeatmaps(
         if iRow == max_plotWhat:
             plt.xlabel(xLabel)
 
-        # plt.axis('equal')
+        plt.axis('equal')
 #################################################
