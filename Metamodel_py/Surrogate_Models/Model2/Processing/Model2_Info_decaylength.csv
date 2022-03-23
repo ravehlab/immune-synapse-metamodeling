@@ -1,7 +1,10 @@
 ,ID,Variable type,Short Name,Latex Name,Description,Distribution,Distribution parameters,Units
-0,fp_Poff_decaylength_LCKA2,Free parameter,Poff,$$Poff^{LCKA}$$,Decay probability,Normal,"{'mu': '-2.0', 'sd': '1.0'}",$$-$$
-1,fp_Diff_decaylength_LCKA2,Free parameter,Diff,$$Diff^{LCKA}$$,Diffusion constant,Normal,"{'mu': '-2.0', 'sd': '1.0'}",$$mum^2/sec$$
-2,rv_intercept_decaylength_LCKA2,Random variable,intercept,$$decaylength^{LCKA}_{intercept}$$,Interception with z axis,Normal,"{'mu': '2.3453181758897075', 'sd': '0.07725035205739728'}",$$nm$$
-3,rv_PoffSlope_decaylength_LCKA2,Random variable,PoffSlope,$$decaylength^{LCKA}_{KoffSlope}$$,Slope in x direction,Normal,"{'mu': '-0.2561881510666374', 'sd': '0.018974213136411087'}",$$sec$$
-4,rv_DiffSlope_decaylength_LCKA2,Random variable,DiffSlope,$$decaylength^{LCKA}_{DiffSlope}$$,Slope in y direction,Normal,"{'mu': '0.5495772395873879', 'sd': '0.028383813387136466'}",$$kTnm^2$$
-5,rv_output_decaylength_LCKA2,Random variable,output,$$decaylength^{LCKA}_{output}$$,Decaylength output,Normal,"{'mu': '2.0', 'sd': '1.0'}",$$nm$$
+0,fp_Poff_LCKA2,Free parameter,Poff,$$Poff^{LCKA}$$,Decay probability,Normal,"{'mu': '-2.0', 'sd': '1.0'}",-
+1,fp_Diff_LCKA2,Free parameter,Diff,$$Diff^{LCKA}$$,Diffusion coefficient,Normal,"{'mu': '-2.0', 'sd': '1.0'}",$$kTnm^2$$
+2,rv_PoffScale_Decaylength_LCKA2,Random variable,PoffScale,nm,PoffScale,Normal,"{'mu': '1.7099366153901334', 'sd': '0.3439316032818104'}",$$nm$$
+3,rv_PoffMu_Decaylength_LCKA2,Random variable,PoffMu,nm,PoffMu,Normal,"{'mu': '-4.0446630854957535', 'sd': '0.09125636269083587'}",$$nm$$
+4,rv_PoffSigma_Decaylength_LCKA2,Random variable,PoffSigma,nm,PoffSigma,Normal,"{'mu': '2.180435492698198', 'sd': '0.3759922765627022'}",$$nm$$
+5,rv_DiffScale_Decaylength_LCKA2,Random variable,DiffScale,nm,DiffScale,Normal,"{'mu': '72.8937243331518', 'sd': '1200.0330150636182'}",$$nm$$
+6,rv_DiffMu_Decaylength_LCKA2,Random variable,DiffMu,nm,DiffMu,Normal,"{'mu': '12.02483746839085', 'sd': '54.762445066294056'}",$$nm$$
+7,rv_DiffSigma_Decaylength_LCKA2,Random variable,DiffSigma,nm,DiffSigma,Normal,"{'mu': '4.522162636290856', 'sd': '10.199102039651219'}",$$nm$$
+8,rv_output_decaylength_LCKA2,Random variable,output,$$decaylength^{LCKA}_{output}$$,Decaylength output,Normal,"{'mu': '2.0', 'sd': '0.4'}",$$nm$$

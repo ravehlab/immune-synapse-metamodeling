@@ -12,7 +12,12 @@ from IPython.display import display
 from Model2.Code import definitions
 
 paths = definitions.paths
-
+model = definitions.model
+data = definitions.data
+fp_x = definitions.fp_x
+fp_y = definitions.fp_y
+fitParameters = definitions.fitParameters
+submodels = definitions.submodels
 
 """
 Every variable is a column header in the table:
@@ -182,14 +187,16 @@ class Model:
         # statements for all RVs
         return
 #################################################
-# Start model1_depletion:
+# Start model:
 
+
+submodelName = 'Decaylength'
 
 model2_decaylength = Model(
-    shortName='LCKA',
-    longName='Lck activation',
-    description='Model2 description',
-    model_id='1',
+    shortName=model['ShortName'],
+    longName=model['LongName'],
+    description=model['Description'],
+    model_id=model['Index'],
     RV_csv_file=None,
     data_csv_file=paths['Input']+'df_trainingData_decaylength_flatten.csv')
 
@@ -201,62 +208,46 @@ model2_decaylength = Model(
 def model2_decaylength_info(df_fitParameters_decaylength):
 
     model2_decaylength.add_rv(
-        RV(id='fp_Poff_decaylength_LCKA2',
-           varType='Free parameter',
-           shortName='Poff',
-           texName="$$Poff^{LCKA}$$",
-           description='Decay probability',
-           distribution='Normal',
-           distributionParameters={'mu': str(-2.),
-                                   'sd': str(1.)},
-           units='$$-$$'))
+        RV(id=fp_x['ID'],
+           varType=fp_x['varType'],
+           shortName=fp_x['shortName'],
+           texName=fp_x['texName'],
+           description=fp_x['description'],
+           distribution=fp_x['distribution'],
+           distributionParameters={
+               'mu': fp_x['distributionParameters']['mu'],
+               'sd': fp_x['distributionParameters']['sd']},
+           units=fp_x['units']))
 
     model2_decaylength.add_rv(
-        RV(id='fp_Diff_decaylength_LCKA2',
-            varType='Free parameter',
-            shortName='Diff',
-            texName='$$Diff^{LCKA}$$',
-            description='Diffusion constant',
-            distribution='Normal',
-            distributionParameters={'mu': str(-2.),
-                                    'sd': str(1.)},
-            units='$$mum^2/sec$$'))
-
-    model2_decaylength.add_rv(
-        RV(id='rv_intercept_decaylength_LCKA2',
-            varType='Random variable',
-            shortName='intercept',
-            texName='$$decaylength^{LCKA}_{intercept}$$',
-            description='Interception with z axis',
-            distribution='Normal',
+        RV(id=fp_y['ID'],
+           varType=fp_y['varType'],
+           shortName=fp_y['shortName'],
+           texName=fp_y['texName'],
+           description=fp_y['description'],
+           distribution=fp_y['distribution'],
             distributionParameters={
-                'mu': str(df_fitParameters_decaylength.loc['intercept', 'mu']),
-                'sd': str(df_fitParameters_decaylength.loc['intercept', 'sd'])},
-            units='$$nm$$'))
-
-    model2_decaylength.add_rv(
-        RV(id='rv_PoffSlope_decaylength_LCKA2',
-            varType='Random variable',
-            shortName='PoffSlope',
-            texName='$$decaylength^{LCKA}_{KoffSlope}$$',
-            description='Slope in x direction',
-            distribution='Normal',
-            distributionParameters={
-                'mu': str(df_fitParameters_decaylength.loc['xSlope', 'mu']),
-                'sd': str(df_fitParameters_decaylength.loc['xSlope', 'sd'])},
-            units='$$sec$$'))
-
-    model2_decaylength.add_rv(
-        RV(id='rv_DiffSlope_decaylength_LCKA2',
-            varType='Random variable',
-            shortName='DiffSlope',
-            texName='$$decaylength^{LCKA}_{DiffSlope}$$',
-            description='Slope in y direction',
-            distribution='Normal',
-            distributionParameters={
-                'mu': str(df_fitParameters_decaylength.loc['ySlope', 'mu']),
-                'sd': str(df_fitParameters_decaylength.loc['ySlope', 'sd'])},
+                'mu': fp_y['distributionParameters']['mu'],
+                'sd': fp_y['distributionParameters']['sd']},
             units='$$kTnm^2$$'))
+    ###
+    for i, fitParametersName in enumerate(
+            submodels[submodelName]['fitParametersNames']):
+
+        model2_decaylength.add_rv(
+            RV(id=fitParameters[fitParametersName]['ID'],
+                varType=fitParameters[fitParametersName]['varType'],
+                shortName=fitParameters[fitParametersName]['shortName'],
+                texName=fitParameters[fitParametersName]['texName'],
+                description=fitParameters[fitParametersName]['description'],
+                distribution=fitParameters[fitParametersName]['distribution'],
+                distributionParameters={
+                    'mu': str(df_fitParameters_decaylength.loc[
+                        fitParameters[fitParametersName]['shortName'], 'mu']),
+                    'sd': str(df_fitParameters_decaylength.loc[
+                        fitParameters[fitParametersName]['shortName'], 'sd'])},
+                units='$$nm$$'))
+    ###
 
     model2_decaylength.add_rv(
         RV(id='rv_output_decaylength_LCKA2',
@@ -266,7 +257,7 @@ def model2_decaylength_info(df_fitParameters_decaylength):
            description='Decaylength output',
            distribution='Normal',
            distributionParameters={'mu': str(2.),
-                                   'sd': str(1.)},
+                                   'sd': str(0.4)},
            units="$$nm$$"))
 
     # model1_depletion.to_csv(

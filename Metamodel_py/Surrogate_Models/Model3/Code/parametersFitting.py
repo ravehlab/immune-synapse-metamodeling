@@ -50,9 +50,9 @@ def setFitFunction(df_trainingData_flatten):
     # parametersNames_depletion = definitions.parametersNames_depletion
 
     # Read x, y, z data from dataFrame:
-    flatten_x = df_trainingData_flatten[data['flatten_columns_names']['x']]
-    flatten_y = df_trainingData_flatten[data['flatten_columns_names']['y']]
-    flatten_z = df_trainingData_flatten[data['flatten_columns_names']['z']]
+    flatten_x = df_trainingData_flatten[data['flatten_columns_names'][0]]
+    flatten_y = df_trainingData_flatten[data['flatten_columns_names'][1]]
+    flatten_z = df_trainingData_flatten[data['flatten_columns_names'][2]]
 
     parametersNames = submodels['PhosRatio']['fitParametersNames']
 
@@ -136,7 +136,7 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
 # Plot fitted data:
 
 
-def plotFittedData(df_pivot):
+def plotFittedData(df_pivot, submodelName):
     """
     Gets: df_pivot.
     Returns: None.
@@ -154,4 +154,4 @@ def plotFittedData(df_pivot):
 
     plotWhat = [True, False, False, False]
 
-    plotting.plotData(DataToPlot, plotWhat)
+    plotting.plotData(DataToPlot, plotWhat, submodelName)

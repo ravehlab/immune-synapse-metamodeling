@@ -187,7 +187,6 @@ for i, fitParametersName in enumerate(
         model['ShortName'] +\
         submodelName +\
         "}$$"
-    # fitParametersName['units'] = '$$kTnm^2$$'
     fitParameters[fitParametersName]['texName'] =\
         submodels[submodelName]['fitParametersUnits'][i]
     fitParameters[fitParametersName]['ID'] =\
@@ -201,7 +200,7 @@ for i, fitParametersName in enumerate(
         'mu': str(0.),
         'sd': str(1.)}
 
-    print(fitParameters[fitParametersName])
+    # print(fitParameters[fitParametersName])
 
 #################################################
 # Define data names:
@@ -215,17 +214,17 @@ data['flatten_columns_names']['z'] = 'Decaylength_nm'
 # Define plots:
 plots = {}
 plots['figSize'] = [4., 13.]
+plots['colormap'] = 'Blues'
 plots['xLabel'] = "$P_{off}()$"
 plots['yLabel'] = "$Diffusion const.(\mu^2/sec)$"
 plots['rowTitles'] = ["Training data",
                       "Data fit",
                       "Trained parameters",
                       "Prediction"]
-plots['fontSizes'] = {}
-plots['fontSizes']['1'] = 10
-plots['fontSizes']['2'] = 12
-plots['fontSizes']['3'] = 14
-plots['fontSizes']['4'] = 16
+plots['fontSizes1'] = 10
+plots['fontSizes2'] = 12
+plots['fontSizes3'] = 14
+plots['fontSizes4'] = 16
 plots['nRoWs'] = len(plots['rowTitles'])
 plots['nCols'] = len(submodelsNames)
 
@@ -235,7 +234,6 @@ plots[submodelName]['title'] = submodelName
 plots[submodelName]['vmin'] = [1.]
 plots[submodelName]['vmax'] = [3.5]
 plots[submodelName]['contourLevels'] = np.arange(1., 3.5, 0.25)
-plots[submodelName]['colormap'] = 'Blues'
 
 #################################################
 # Define free parameters for all submodels in the Model:
@@ -271,7 +269,7 @@ y['texName'] =\
     "^{" +\
     model['ShortName'] +\
     "}$$"
-y['units'] = '$$\mu m^2/sec$$'
+y['units'] = '$$\mu^2/sec$$'
 y['ID'] =\
     y['shortVarType'] + '_' +\
     y['shortName'] + '_' +\
@@ -309,19 +307,19 @@ for i, fitParametersName in enumerate(
     fitParameters[fitParametersName]['ID'] =\
         fitParameters[fitParametersName]['shortVarType'] + '_' +\
         fitParameters[fitParametersName]['shortName'] + '_' +\
+        submodelName + '_' +\
         model['ShortName'] +\
         model['Index']
-    # fitParametersName['distribution'] = 'Normal'
-    # fitParametersName['distributionParameters'] = {'mu': str(0.),
-    #                                                'sd': str(2.)}
+    fitParameters[fitParametersName]['distribution'] = 'Normal'
+    fitParameters[fitParametersName]['distributionParameters'] = {
+        'mu': str(2.),
+        'sd': str(1.)}
 
     print(fitParameters[fitParametersName])
 
 
 #################################################
 # crateModelInfo:
-
-
 
 
 #################################################

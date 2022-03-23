@@ -107,7 +107,8 @@ df_fittedData_decaylength_pivot = parametersFitting.getFittedData(
     df_trainingData_decaylength_flatten, df_fitParameters_decaylength)
 
 # 2.3 Plot fitted data:
-parametersFitting.plotFittedData(df_fittedData_decaylength_pivot)
+parametersFitting.plotFittedData(
+    df_fittedData_decaylength_pivot, submodelName)
 
 #################################################
 # 3. Create table for model info:
@@ -130,7 +131,7 @@ df_model2_untrainedTable_ID = df_model2_untrainedTable.set_index('ID')
 # 3.4 Display untrained table:
 display(df_model2_untrainedTable_ID.style.set_properties(
     **{'text-align': 'left',
-       'background-color': submodels['DecayLength']['tableBackgroundColor'],
+       'background-color': submodels['Decaylength']['tableBackgroundColor'],
        'border': '1px black solid'}))
 
 print(df_model2_untrainedTable_ID)
@@ -141,7 +142,7 @@ print(df_model2_untrainedTable_ID)
 # 4. Training with pymc3:
 
 # 4.1 df_model_untrainedTabled
-pm_model_untrained = training.get_pm_model_untrained(
+pm_model_untrained = training.get_pm_model2_untrained(
      df_trainingData_decaylength_flatten,
      df_model2_untrainedTable_ID)
 

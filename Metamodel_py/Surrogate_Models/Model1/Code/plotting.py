@@ -85,11 +85,16 @@ def plotHeatmaps(
     for iCol in range(nCols):
         fig.add_subplot(nRows, nCols, iRow*nCols + iCol+1)
         im[iCol] = plt.pcolor(x1, x2, f[iCol],
-                              vmin=vmins[iCol], vmax=vmaxs[iCol],
-                              shading='auto', cmap=colormap)
+                              vmin=vmins[iCol],
+                              vmax=vmaxs[iCol],
+                              shading='auto',
+                              cmap=colormap)
         if True:  # iRow > 0:
-            cs = plt.contour(x1, x2, f[iCol], contourLevels, colors='k',
-                             vmin=vmins[iCol], vmax=vmaxs[iCol])
+            cs = plt.contour(x1, x2, f[iCol],
+                             contourLevels,
+                             colors='k',
+                             vmin=vmins[iCol],
+                             vmax=vmaxs[iCol])
             plt.clabel(cs, contourLevels, inline=True, fmt='%.1f',
                        fontsize=fontsize1)
 
@@ -104,5 +109,5 @@ def plotHeatmaps(
         if iRow == max_plotWhat:
             plt.xlabel(xLabel)
 
-        plt.axis('equal')
+        # plt.axis('equal')
 #################################################

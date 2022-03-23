@@ -108,12 +108,12 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
     """
 
     # Read fit parameters from df_fitParameters:
-    xScale_fit = df_fitParameters.loc['xScale', 'mu']
-    xMu_fit = df_fitParameters.loc['xMu', 'mu']
-    xSigma_fit = df_fitParameters.loc['xSigma', 'mu']
-    yScale_fit = df_fitParameters.loc['yScale', 'mu']
-    yMu_fit = df_fitParameters.loc['yMu', 'mu']
-    ySigma_fit = df_fitParameters.loc['ySigma', 'mu']
+    xScale_fit = df_fitParameters.loc['PoffScale', 'mu']
+    xMu_fit = df_fitParameters.loc['PoffMu', 'mu']
+    xSigma_fit = df_fitParameters.loc['PoffSigma', 'mu']
+    yScale_fit = df_fitParameters.loc['DiffScale', 'mu']
+    yMu_fit = df_fitParameters.loc['DiffMu', 'mu']
+    ySigma_fit = df_fitParameters.loc['DiffSigma', 'mu']
 
     # flatten_column_name_x = data['flatten_columns_names']['x']
     # flatten_column_name_y = data['flatten_columns_names']['y']
@@ -123,15 +123,15 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
     flatten_y = df_trainingData_flatten['Diff']
 
     fitted_data_flatten =\
-        xScale_fit*np.exp(*0.5*((flatten_x - xMu_fit)/xSigma_fit)**2) +\
-        yScale_fit*np.exp(*0.5*((flatten_y - yMu_fit)/ySigma_fit)**2)
+        xScale_fit*np.exp(-0.5*((flatten_x - xMu_fit)/xSigma_fit)**2) +\
+        yScale_fit*np.exp(-0.5*((flatten_y - yMu_fit)/ySigma_fit)**2)
 
     df_fitted_data_flatten = df_trainingData_flatten
-    df_fitted_data_flatten['DecayLength_nm'] = fitted_data_flatten
+    df_fitted_data_flatten['Decaylength_nm'] = fitted_data_flatten
 
     df_fitted_data_pivot =\
         df_fitted_data_flatten.pivot(index='Diff',
-                                     columns='Poff_um^2/sec',
+                                     columns='Poff',
                                      values='Decaylength_nm')
 
     return df_fitted_data_pivot
@@ -140,7 +140,7 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
 # Plot fitted data:
 
 
-def plotFittedData(df_pivot):
+def plotFittedData(df_pivot, submodelName):
     """
     Gets: df_pivot.
     Returns: None.
@@ -158,4 +158,4 @@ def plotFittedData(df_pivot):
 
     plotWhat = [True, False, False, False]
 
-    plotting.plotData(DataToPlot, plotWhat)
+    plotting.plotData(DataToPlot, plotWhat, submodelName)

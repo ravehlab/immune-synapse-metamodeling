@@ -109,5 +109,5 @@ def plotHeatmaps(
         if iRow == max_plotWhat:
             plt.xlabel(xLabel)
 
-        plt.axis('equal')
+        # plt.axis('equal')
 #################################################

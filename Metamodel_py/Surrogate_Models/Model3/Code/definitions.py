@@ -19,102 +19,116 @@ Predicting
 """
 
 #################################################
-# 0. Define paths:
-# Define pahts:
-# '/home/yair/
-# C:/Users/Owner/
-
-paths = {}
-paths['home'] = '/home/yair/Documents/Git/'
-paths['Metamodel'] = paths['home']+'Metamodel_py/'
-paths['Surrogate'] = paths['Metamodel']+'Surrogate_Models/'
-paths['Model'] = paths['Surrogate']+'Model3/'
-paths['Input'] = paths['Metamodel']+'Input_Models/Model3/'
-paths['Processing'] = paths['Model']+'Processing/'
-
-#################################################
-# Model definitions:
-
+# Define model:
 model = {}
 model['LongName'] = 'TCR phosphorylation'
 model['ShortName'] = 'TCRP'
 model['Index'] = '3'
 model['Description'] = """Model3 description."""
 
+#################################################
+# 0. Define paths:
+# Define pahts:
+# '/home/yair/
+# C:/Users/Owner/
+
+paths = {}
+paths['Git'] = '/home/yair/Documents/Git/'
+paths['Metamodel'] = paths['Git']+'Metamodel_py/'
+paths['Surrogate'] = paths['Metamodel']+'Surrogate_Models/'
+paths['Model'] = paths['Surrogate']+'Model'+model['Index']+'/'
+paths['Input'] = paths['Metamodel']+'Input_Models/Model'+model['Index']+'/'
+paths['Output'] = paths['Model']+'Output/'
+paths['Processing'] = paths['Model']+'Processing/'
 
 #################################################
-# Define data names:
+# Define data:  (Specific)
 data = {}
-data['flatten_columns_names'] = {}
-data['flatten_columns_names']['x'] = 'Decaylength_nm'
-data['flatten_columns_names']['y'] = 'Depletion_nm'
-data['flatten_columns_names']['z'] = 'PhosRatio'
-data['flatten_columns_names']['z2'] = 'RgRatio'
+data['flatten_columns_names'] = ['Decaylength_nm',
+                                 'Depletion_nm',
+                                 'PhosRatio',
+                                 'RgRatio']
+
+data['shortNames'] = ['Decaylength',
+                      'Depletion',
+                      'PhosRatio',
+                      'RgRatio']
+data['units'] = ['nm', 'nm', '-', '-']
+data['description'] = ['Decay length of active Lck in nm.',
+                       'Depletion distance between TCR and CD45',
+                       'Ratio between the number of phosphorylated TCRs'
+                       'to the total number of TCRs',
+                       'Ratio between the radii of gyration of the'
+                       'phosphorylated TCRs and all the TCRs']
+data['x_mu'] = str(100.)
+data['x_sd'] = str(50.)
+data['y_mu'] = str(100.)
+data['y_sd'] = str(50.)
+data['distributions'] = ['Normal', 'Normal']
 
 #################################################
-# Define plots:
-figSize0 = 4.
+# Define plots: (General)
+figSizeX = 4.  #
+figSizeY = 4.  #
 plots = {}
-plots['figSize'] = [figSize0, 1*figSize0]
-plots['xLabel'] = "$Decaylength(nm)$"
-plots['yLabel'] = "$Depletion(nm)$"
+plots['figSize'] = [figSizeX, 1*figSizeY]
+plots['colormap'] = 'Oranges'
+plots['xLabel'] = data['shortNames'][0]+'('+data['units'][0]+')'
+plots['yLabel'] = data['shortNames'][1]+'('+data['units'][1]+')'
 plots['rowTitles'] = ["Training data",
                       "Data fit",
                       "Trained parameters",
                       "Prediction"]
+plots['fontSizes1'] = 10
+plots['fontSizes2'] = 12
+plots['fontSizes3'] = 14
+plots['fontSizes4'] = 16
 plots['nRows'] = len(plots['rowTitles'])
-plots['nCols'] = 1
-
-plots['fontSizes'] = {}
-plots['fontSizes']['1'] = 10
-plots['fontSizes']['2'] = 12
-plots['fontSizes']['3'] = 14
-plots['fontSizes']['4'] = 16
-
+plots['nCols'] = 1  # len(submodelsNames)
 
 #################################################
 # Define free parameters for all submodels in the Model:
-x = {}
-x['varType'] = 'Free parameter'
-x['shortVarType'] = 'fp'
-x['shortName'] = 'Decaylength'
-x['description'] = 'Decay length of active Lck'
-x['texName'] =\
+fp_x = {}
+fp_x['varType'] = 'Free parameter'
+fp_x['shortVarType'] = 'fp'
+fp_x['shortName'] = data['shortNames'][0]
+fp_x['description'] = data['description'][0]
+fp_x['texName'] =\
     "$$" +\
-    x['shortName'] +\
+    fp_x['shortName'] +\
     "^{" +\
     model['ShortName'] +\
     "}$$"
-x['units'] = '$$nm$$'
-x['ID'] =\
-    x['shortVarType'] + '_' +\
-    x['shortName'] + '_' +\
+fp_x['units'] = data['units'][0]
+fp_x['ID'] =\
+    fp_x['shortVarType'] + '_' +\
+    fp_x['shortName'] + '_' +\
     model['ShortName'] +\
     model['Index']
-x['distribution'] = 'Normal'
-x['distributionParameters'] = {'mu': str(100.),
-                               'sd': str(50.)}
+fp_x['distribution'] = 'Normal'
+fp_x['distributionParameters'] = {'mu': data['x_mu'],
+                                  'sd': data['x_sd']}
 
-y = {}
-y['varType'] = 'Free parameter'
-y['shortVarType'] = 'fp'
-y['shortName'] = 'Depletion'
-y['description'] = 'Depletion distsance between TCR and CD45'
-y['texName'] =\
+fp_y = {}
+fp_y['varType'] = 'Free parameter'
+fp_y['shortVarType'] = 'fp'
+fp_y['shortName'] = 'Depletion'
+fp_y['description'] = 'Depletion distsance between TCR and CD45'
+fp_y['texName'] =\
     "$$" +\
-    y['shortName'] +\
+    fp_y['shortName'] +\
     "^{" +\
     model['ShortName'] +\
     "}$$"
-y['units'] = '$$nm$$'
-y['ID'] =\
-    y['shortVarType'] + '_' +\
-    y['shortName'] + '_' +\
+fp_y['units'] = data['units'][1]
+fp_y['ID'] =\
+    fp_y['shortVarType'] + '_' +\
+    fp_y['shortName'] + '_' +\
     model['ShortName'] +\
     model['Index']
-y['distribution'] = 'Normal'
-y['distributionParameters'] = {'mu': str(100.),
-                               'sd': str(50.)}
+fp_y['distribution'] = 'Normal'
+fp_y['distributionParameters'] = {'mu': data['y_mu'],
+                                  'sd': data['y_sd']}
 #################################################
 # Define submodels:
 """For every output of the same free parameters there is a different
@@ -159,39 +173,6 @@ submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 0, 0.65)'
 
 #################################################
 
-# submodelName = submodelsNames[1]
-# submodels[submodelName] = {}
-# submodels[submodelName]['fitParametersNames'] =\
-#     ['intercept', 'xSlope', 'ySlope']
-
-# # Fit equation PhosRatio:
-# submodels[submodelName]['equation'] =\
-#     submodels[submodelName]['fitParametersNames'][0] +\
-#     "+" +\
-#     submodels[submodelName]['fitParametersNames'][1] +\
-#     "*" +\
-#     "x" +\
-#     "+" +\
-#     submodels[submodelName]['fitParametersNames'][2] +\
-#     "*" +\
-#     "y"
-
-# # Fit parameters description Depletion:
-# submodels[submodelName]['fitParametersDescriptions'] =\
-#     ["Intersection with z axis (nm)",
-#      "Slope in x direction",
-#      "Slope in y direction"]
-
-# # Fit parameters units:
-# submodels[submodelName]['fitParametersUnits'] =\
-#     ["nm",
-#      "-",
-#      "-"]
-
-# # Initial fit parameters
-# submodels[submodelName]['p0'] = [0., 0., 0.]
-# submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 0, 0.65)'
-
 # For Depletion plots:
 submodelName = submodelsNames[0]
 plots[submodelName] = {}
@@ -199,16 +180,14 @@ plots[submodelName]['title'] = submodelName
 plots[submodelName]['vmin'] = [0.]
 plots[submodelName]['vmax'] = [1.]
 plots[submodelName]['contourLevels'] = np.arange(0.1, 1., 0.1)
-plots[submodelName]['colormap'] = 'Oranges'
 
 
 # submodelName = submodelsNames[1]
 # plots[submodelName] = {}
 # plots[submodelName]['title'] = submodelName
-# plots[submodelName]['vmin'] = [0.]
+# plots[submodelName]['vmin'] = [1.0]
 # plots[submodelName]['vmax'] = [1.5]
-# plots[submodelName]['contourLevels'] = np.arange(0.1, 1.5, 0.1)
-# plots[submodelName]['colormap'] = 'Oranges'
+# plots[submodelName]['contourLevels'] = np.arange(1.0, 1.5, 0.1)
 
 #################################################
 # Define fit parameters:
@@ -248,9 +227,6 @@ for i, fitParametersName in enumerate(
 
 #################################################
 # crateModelInfo:
-
-
-
 
 #################################################
 # 4. Training:

@@ -31,9 +31,10 @@ import pandas as pd
 import pymc3 as pm
 from IPython.display import display
 import os
+import shutil
 
 # Run from Directory: /home/yair/Documents/Git/Metamodel_py/Surrogate_Models
-# Run command: run Model1/Code/main
+# Run command: run Model3/Code/main
 
 # Import Model packages:
 from Model3.Code import definitions
@@ -46,18 +47,23 @@ from Model3.Code import predicting
 paths = definitions.paths
 submodels = definitions.submodels
 
-# Create the directory 'Output' in '/Metamodel_py/Surrogate_Models/Model3/'
-outputDirectory = 'Output'
-Output_path = os.path.join(paths['Model'], outputDirectory)
+# Create the directory 'Output' in '/Metamodel_py/Surrogate_Models/Model1/'
+submodelName = 'phosRatio'
+Output_path = paths['Output']
+Input_path = paths['Input']
+
+# Remove all Output directory content:
 try:
-    os.rmdir(Output_path)
+    shutil.rmtree(Output_path)
 except:
-    print("Output Directory does not exist.")
+    print('Error deleting directory')
+
+# os.rmdir(Output_path)
 os.mkdir(Output_path)
-print("% s directory created in /Metamodel_py/Surrogate_Models/Model3/"
-      % outputDirectory)
+print("Directory 'Output' created in '% s'" % (paths['Model']))
 
 #################################################
+submodelName = 'PhosRatio'
 # 1. Get training data:
 # 1.0 Read raw data as dataFrame:
 raw_data_name = 'raw_data_PhosRatio.csv'
@@ -89,42 +95,8 @@ df_trainingData_PhosRatio_pivot_r =\
                 index_col=0)
 
 # 1.2 Plot training data:
-preProcessing.plotTrainingData(df_trainingData_PhosRatio_pivot_r)
-
-#############################
-#############################
-# 1. Get training data:
-# 1.0 Read raw data as dataFrame:
-# raw_data_name = 'raw_data_RgRatio.csv'
-# df_raw_data_RgRatio =\
-#     pd.read_csv(paths['Input']+raw_data_name, header=None)
-
-# # 1.0.1 Crop and scale raw data:
-# # x_array, y_array, z_array =\
-# #     preProcessing.cropAndScaleRawData(df_raw_data_depletion)
-
-# df_trainingData_RgRatio_pivot =\
-#     preProcessing.rawDataToDataFramePivot(df_raw_data_RgRatio)
-
-# # Save dataFrame pivot as .csv:
-# df_trainingData_RgRatio_pivot.to_csv(
-#     paths['Input']+"/df_trainingData_RgRatio_pivot.csv")
-
-# # Get trainingData aranged as dataFrame in columns (flatten):
-# df_trainingData_RgRatio_flatten =\
-#     preProcessing.pivotToFlatten(df_trainingData_PhosRatio_pivot)
-
-# # Save dataFrame flatten as .csv:
-# df_trainingData_RgRatio_flatten.to_csv(
-#     paths['Input']+"/df_trainingData_PhosRatio_flatten.csv")
-
-# # 1.1 Read trainingData from Input/:
-# df_trainingData_RgRatio_pivot_r =\
-#     pd.read_csv(paths['Input']+"/df_trainingData_RgRatio_pivot.csv",
-#                 index_col=0)
-
-# # 1.2 Plot training data:
-# preProcessing.plotTrainingData(df_trainingData_RgRatio_pivot_r)
+preProcessing.plotTrainingData(
+    df_trainingData_PhosRatio_pivot_r, submodelName)
 
 #################################################
 # 2. Parameters Fitting (to be used as initial parameters
@@ -179,7 +151,7 @@ gv_untrained = pm.model_to_graphviz(pm_model3_untrained)
 
 gv_untrained_filename =\
     gv_untrained.render(filename='gv_untrained',
-                        directory=outputDirectory)
+                        directory=Output_path)
 
 with pm_model3_untrained:
     trace = pm.sample(2000, chains=4)

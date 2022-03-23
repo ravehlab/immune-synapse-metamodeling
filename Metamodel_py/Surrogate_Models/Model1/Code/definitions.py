@@ -195,7 +195,7 @@ for i, fitParametersName in enumerate(
         'mu': str(0.),
         'sd': str(1.)}
 
-    print(fitParameters[fitParametersName])
+    # print(fitParameters[fitParametersName])
 
 ################################################
 # For Depletion plots:
