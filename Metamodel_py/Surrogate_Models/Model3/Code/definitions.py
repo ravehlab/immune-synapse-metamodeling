@@ -141,34 +141,42 @@ submodels = {}
 # submodels['names'] = ['PhosRatio']
 submodels[submodelName] = {}
 submodels[submodelName]['fitParametersNames'] =\
-    ['intercept', 'xSlope', 'ySlope']
-
-# Fit equation PhosRatio:
-submodels[submodelName]['equation'] =\
-    submodels[submodelName]['fitParametersNames'][0] +\
-    "+" +\
-    submodels[submodelName]['fitParametersNames'][1] +\
-    "*" +\
-    "x" +\
-    "+" +\
-    submodels[submodelName]['fitParametersNames'][2] +\
-    "*" +\
-    "y"
+    ['DecaylengthScale',
+     'DecaylengthMu',
+     'DecaylengthSigma',
+     'DepletionScale',
+     'DepletionMu',
+     'DepletionSigma']
 
 # Fit parameters description Depletion:
 submodels[submodelName]['fitParametersDescriptions'] =\
-    ["Intersection with z axis (nm)",
-     "Slope in x direction",
-     "Slope in y direction"]
+    ['Decaylengthcale',
+     'DecaylengthMu',
+     'DecaylengthSigma',
+     'DepletionScale',
+     'DepletionMu',
+     'DepletionSigma']
 
 # Fit parameters units:
 submodels[submodelName]['fitParametersUnits'] =\
-    ["nm",
+    ["-",
+     "nm",
+     "nm",
      "-",
-     "-"]
+     "nm",
+     "nm"]
 
 # Initial fit parameters
-submodels[submodelName]['p0'] = [0., 0., 0.]
+# p0_phosRatio = 1., 100., 100., 1., 100., 100.
+# mu	sd
+# xScale	0.959	0.065
+# xMu	263.251	13.893
+# xSigma	113.371	7.837
+# yScale	-0.228	0.018
+# yMu	192.868	11.107
+# ySigma	85.407	12.065
+submodels[submodelName]['p0'] = [1., 260., 100, 0.2, 200., 100.]
+submodels[submodelName]['sd'] = [1., 50., 50., 1., 50., 50.]
 submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 0, 0.65)'
 
 #################################################
@@ -218,12 +226,21 @@ for i, fitParametersName in enumerate(
         fitParameters[fitParametersName]['shortName'] + '_' +\
         model['ShortName'] +\
         model['Index']
-    # fitParametersName['distribution'] = 'Uniform'
-    # fitParametersName['distributionParameters'] = {'lower': str(0.),
-    #                                'upper': str(100.)}
+    fitParameters[fitParametersName]['distribution'] = 'Normal'
+    fitParameters[fitParametersName]['distributionParameters'] =\
+        {'mu': submodels[submodelName]['p0'][i],
+         'sd': submodels[submodelName]['sd'][i]}
 
     print(fitParameters[fitParametersName])
 
+
+# p0_RgRatio = 1., 200., 100., 1., 0.
+# mu	sd
+# xScale	-0.564	0.023
+# xMu	197.729	4.257
+# xSigma	96.988	5.777
+# yIntercept	1.516	0.021
+# ySlope	0.001	0.000
 
 #################################################
 # crateModelInfo:

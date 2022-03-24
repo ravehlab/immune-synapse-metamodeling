@@ -12,7 +12,12 @@ from IPython.display import display
 from Model3.Code import definitions
 
 paths = definitions.paths
-
+model = definitions.model
+data = definitions.data
+fp_x = definitions.fp_x
+fp_y = definitions.fp_y
+fitParameters = definitions.fitParameters
+submodels = definitions.submodels
 
 """
 Every variable is a column header in the table:
@@ -182,17 +187,18 @@ class Model:
         # statements for all RVs
         return
 #################################################
-# Start model1_depletion:
+# Start model3_PhosRatio:
 
+
+submodelName = 'PhosRatio'
 
 model3_PhosRatio = Model(
-    shortName='TCRP',
-    longName='TCR phosphorylation',
-    description='Model3 description',
-    model_id='3',
+    shortName=model['ShortName'],
+    longName=model['LongName'],
+    description=model['Description'],
+    model_id=model['Index'],
     RV_csv_file=None,
     data_csv_file=paths['Input']+'df_trainingData_PhosRatio_flatten.csv')
-
 
 #################################################
 # Define untrained table:
@@ -201,76 +207,58 @@ model3_PhosRatio = Model(
 def model3_PhosRatio_info(df_fitParameters_PhosRatio):
 
     model3_PhosRatio.add_rv(
-        RV(id='fp_decaylength_TCRP3',
-           varType='Free parameter',
-           shortName='decaylength',
-           texName="$$Decaylength^{TCRP}$$",
-           description='Decay length of active Lck',
-           distribution='Normal',
-           distributionParameters={'mu': str(100.),
-                                   'sd': str(50.)},
-           units='$$nm$$'))
+        RV(id=fp_x['ID'],
+           varType=fp_x['varType'],
+           shortName=fp_x['shortName'],
+           texName=fp_x['texName'],
+           description=fp_x['description'],
+           distribution=fp_x['distribution'],
+           distributionParameters={
+               'mu': fp_x['distributionParameters']['mu'],
+               'sd': fp_x['distributionParameters']['sd']},
+           units=fp_x['units']))
 
     model3_PhosRatio.add_rv(
-        RV(id='fp_depletion_TCRP3',
-            varType='Free parameter',
-            shortName='Depletion',
-            texName='$$Depletion^{TCRP}$$',
-            description='Depletion distance between TCR and CD45',
-            distribution='Normal',
-            distributionParameters={'mu': str(100.),
-                                    'sd': str(50.)},
-            units='$$nm$$'))
-
-    model3_PhosRatio.add_rv(
-        RV(id='rv_intercept_PhosRatio_TCRP3',
-            varType='Random variable',
-            shortName='intercept',
-            texName='$$PhosRatio^{TCRP}_{intercept}$$',
-            description='Interception with z axis',
-            distribution='Normal',
+        RV(id=fp_y['ID'],
+           varType=fp_y['varType'],
+           shortName=fp_y['shortName'],
+           texName=fp_y['texName'],
+           description=fp_y['description'],
+           distribution=fp_y['distribution'],
             distributionParameters={
-                'mu': str(df_fitParameters_PhosRatio.loc['intercept', 'mu']),
-                'sd': str(df_fitParameters_PhosRatio.loc['intercept', 'sd'])},
-            units='$$nm$$'))
+                'mu': fp_y['distributionParameters']['mu'],
+                'sd': fp_y['distributionParameters']['sd']},
+            units='$$kTnm^2$$'))
+    ###
+    for i, fitParametersName in enumerate(
+            submodels[submodelName]['fitParametersNames']):
+
+        model3_PhosRatio.add_rv(
+            RV(id=fitParameters[fitParametersName]['ID'],
+                varType=fitParameters[fitParametersName]['varType'],
+                shortName=fitParameters[fitParametersName]['shortName'],
+                texName=fitParameters[fitParametersName]['texName'],
+                description=fitParameters[fitParametersName]['description'],
+                distribution=fitParameters[fitParametersName]['distribution'],
+                distributionParameters={
+                    'mu': str(df_fitParameters_PhosRatio.loc[
+                        fitParameters[fitParametersName]['shortName'], 'mu']),
+                    'sd': str(df_fitParameters_PhosRatio.loc[
+                        fitParameters[fitParametersName]['shortName'], 'sd'])},
+                units='$$nm$$'))
+    ###
 
     model3_PhosRatio.add_rv(
-        RV(id='rv_decaylengthSlope_PhosRatio_TCRP3',
-            varType='Random variable',
-            shortName='decaylengthSlope',
-            texName='$$PhosRatio^{KSEG}_{decaylengthSlope}$$',
-            description='Slope in decaylength direction',
-            distribution='Normal',
-            distributionParameters={
-                'mu': str(df_fitParameters_PhosRatio.loc['xSlope', 'mu']),
-                'sd': str(df_fitParameters_PhosRatio.loc['xSlope', 'sd'])},
-            units='$$-$$'))
-
-    model3_PhosRatio.add_rv(
-        RV(id='rv_depletionSlope_PhosRatio_TCRP3',
-            varType='Random variable',
-            shortName='depletionSlope',
-            texName='$$PhosRatio^{TCRP}_{depletionSlope}$$',
-            description='Slope in depletion direction',
-            distribution='Normal',
-            distributionParameters={
-                'mu': str(df_fitParameters_PhosRatio.loc['ySlope', 'mu']),
-                'sd': str(df_fitParameters_PhosRatio.loc['ySlope', 'sd'])},
-            units='$$-$$'))
-
-    model3_PhosRatio.add_rv(
-        RV(id='rv_output_PhosRatio_TCRP3',
+        RV(id='rv_output_depletion_KSEG1',
            varType='Random variable',
            shortName='output',
-           texName='$$PhosRatio^{TCRP}_{output}$$',
-           description='PhosRatio output',
+           texName='$$dep^{KSEG}_{output}$$',
+           description='dep output',
            distribution='Normal',
            distributionParameters={'mu': '',
                                    'sd': str(20.)},
            units="$$nm$$"))
 
-    # model3_depletion.to_csv(
-    #     "Model3_Info_PhosRatio.csv")
     model3_PhosRatio.to_csv(paths['Processing'] +
                             "Model3_Info_PhosRatio.csv")
 
@@ -279,12 +267,12 @@ def model3_PhosRatio_info(df_fitParameters_PhosRatio):
 # Display table:
 
 
-def displayInfo(model1_depletion):
+def displayInfo(model3_PhosRatio):
 
-    df_model1_untrainedTable = model1_depletion.get_dataframe()
-    df_model1_untrainedTable = df_model1_untrainedTable.set_index('ID')
+    df_model3_untrainedTable = model3_PhosRatio.get_dataframe()
+    df_model3_untrainedTable_ID = df_model3_untrainedTable.set_index('ID')
 
-    display(df_model1_untrainedTable.style.set_properties(
+    display(df_model3_untrainedTable_ID.style.set_properties(
         **{'text-align': 'left',
            'background-color': 'rgba(200, 150, 255, 0.65)',
            'border': '1px black solid'}))

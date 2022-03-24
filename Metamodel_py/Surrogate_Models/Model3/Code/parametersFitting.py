@@ -33,6 +33,23 @@ def linXlinY(xy, intercept, xSlope, ySlope):
 
     return f
 
+
+def gaussXgaussY(xy, xScale, xMu, xSigma, yScale, yMu, ySigma):
+    """
+    Gets: xy, xScale, xMu, xSigma, yScale, yMu, ySigma.
+    Returns: f.
+    Calling: None.
+    Called by:
+    Description:
+    """
+
+    x, y = xy
+    fx = xScale*np.exp(-0.5*((x - xMu)/xSigma)**2)
+    fy = yScale*np.exp(-0.5*((y - yMu)/ySigma)**2)
+    f = fx + fy
+
+    return f
+
 #################################################
 # 2.2 Set fit function for dep:
 
@@ -58,7 +75,7 @@ def setFitFunction(df_trainingData_flatten):
 
     df_fitParameters_dep = getFitParameters(
         X=(flatten_x, flatten_y),
-        fitFunc=linXlinY,
+        fitFunc=gaussXgaussY,
         fXdata=flatten_z,
         parametersNames=parametersNames,
         p0=submodels['PhosRatio']['p0'])
@@ -106,29 +123,27 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
     """
 
     # Read fit parameters from df_fitParameters:
-    intercept_fit = df_fitParameters.loc['intercept', 'mu']
-    xSlope_fit = df_fitParameters.loc['xSlope', 'mu']
-    ySlope_fit = df_fitParameters.loc['ySlope', 'mu']
-
-    # flatten_column_name_x = data['flatten_columns_names']['x']
-    # flatten_column_name_y = data['flatten_columns_names']['y']
-    # flatten_column_name_z = data['flatten_columns_names']['z']
+    xScale_fit = df_fitParameters.loc['DecaylengthScale', 'mu']
+    xMu_fit = df_fitParameters.loc['DecaylengthMu', 'mu']
+    xSigma_fit = df_fitParameters.loc['DecaylengthSigma', 'mu']
+    yScale_fit = df_fitParameters.loc['DepletionScale', 'mu']
+    yMu_fit = df_fitParameters.loc['DepletionMu', 'mu']
+    ySigma_fit = df_fitParameters.loc['DepletionSigma', 'mu']
 
     flatten_x = df_trainingData_flatten['Decaylength_nm']
     flatten_y = df_trainingData_flatten['Depletion_nm']
 
     fitted_data_flatten =\
-        intercept_fit +\
-        xSlope_fit*flatten_x +\
-        ySlope_fit*flatten_y
+        xScale_fit*np.exp(-0.5*((flatten_x - xMu_fit)/xSigma_fit)**2) +\
+        yScale_fit*np.exp(-0.5*((flatten_y - yMu_fit)/ySigma_fit)**2)
 
     df_fitted_data_flatten = df_trainingData_flatten
     df_fitted_data_flatten['PhosRatio'] = fitted_data_flatten
 
-    df_fitted_data_pivot = df_fitted_data_flatten.pivot(
-        index='Depletion_nm',
-        columns='Decaylength_nm',
-        values='PhosRatio')
+    df_fitted_data_pivot =\
+        df_fitted_data_flatten.pivot(index='Depletion_nm',
+                                     columns='Decaylength_nm',
+                                     values='PhosRatio')
 
     return df_fitted_data_pivot
 

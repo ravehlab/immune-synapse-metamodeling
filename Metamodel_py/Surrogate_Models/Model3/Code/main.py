@@ -110,7 +110,8 @@ df_fittedData_PhosRatio_pivot = parametersFitting.getFittedData(
     df_trainingData_PhosRatio_flatten, df_fitParameters_PhosRatio)
 
 # 2.3 Plot fitted data:
-parametersFitting.plotFittedData(df_fittedData_PhosRatio_pivot)
+parametersFitting.plotFittedData(
+    df_fittedData_PhosRatio_pivot, submodelName)
 
 #################################################
 # 3. Create table for model info:
