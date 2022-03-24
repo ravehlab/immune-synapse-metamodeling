@@ -142,8 +142,8 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
         data['flatten_columns_names'][2]] = fitted_data_flatten
 
     df_fitted_data_pivot = df_fitted_data_flatten.pivot(
-        index=data['flatten_columns_names'][0],
-        columns=data['flatten_columns_names'][1],
+        index=data['flatten_columns_names'][1],
+        columns=data['flatten_columns_names'][0],
         values=data['flatten_columns_names'][2])
 
     return df_fitted_data_pivot

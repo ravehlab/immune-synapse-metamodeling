@@ -144,7 +144,7 @@ print(df_model3_untrainedTable_ID)
 #################################################
 # 4. Training with pymc3:
 
-# 4.1 df_model1_untrainedTabled
+# 4.1 df_model3_untrainedTabled
 pm_model3_untrained = training.get_pm_model3_untrained(
      df_trainingData_PhosRatio_flatten, df_model3_untrainedTable_ID)
 

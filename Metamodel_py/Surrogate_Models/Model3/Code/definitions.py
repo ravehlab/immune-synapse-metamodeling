@@ -69,7 +69,7 @@ data['distributions'] = ['Normal', 'Normal']
 #################################################
 # Define plots: (General)
 figSizeX = 4.  #
-figSizeY = 4.  #
+figSizeY = 13.  #
 plots = {}
 plots['figSize'] = [figSizeX, 1*figSizeY]
 plots['colormap'] = 'Oranges'
@@ -214,6 +214,7 @@ for i, fitParametersName in enumerate(
     fitParameters[fitParametersName]['texName'] =\
         "$$" +\
         fitParameters[fitParametersName]['shortName'] +\
+        submodelName + '_' +\
         "^{" +\
         model['ShortName'] +\
         submodelName +\
@@ -224,6 +225,7 @@ for i, fitParametersName in enumerate(
     fitParameters[fitParametersName]['ID'] =\
         fitParameters[fitParametersName]['shortVarType'] + '_' +\
         fitParameters[fitParametersName]['shortName'] + '_' +\
+        submodelName + '_' +\
         model['ShortName'] +\
         model['Index']
     fitParameters[fitParametersName]['distribution'] = 'Normal'

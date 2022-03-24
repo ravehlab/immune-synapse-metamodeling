@@ -249,14 +249,14 @@ def model3_PhosRatio_info(df_fitParameters_PhosRatio):
     ###
 
     model3_PhosRatio.add_rv(
-        RV(id='rv_output_depletion_KSEG1',
+        RV(id='rv_output_PhosRatio_TCRP3',
            varType='Random variable',
            shortName='output',
-           texName='$$dep^{KSEG}_{output}$$',
-           description='dep output',
+           texName='$$PhosRatio^{TCRP}_{output}$$',
+           description='PhosRatio output',
            distribution='Normal',
            distributionParameters={'mu': '',
-                                   'sd': str(20.)},
+                                   'sd': str(0.5)},
            units="$$nm$$"))
 
     model3_PhosRatio.to_csv(paths['Processing'] +
