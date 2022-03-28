@@ -81,9 +81,9 @@ def trainingDataToDataFrameFlatten(x_array, y_array, z_array):
     Description:
     """
 
-    flatten_column_name_x = data['flatten_columns_names']['x']
-    flatten_column_name_y = data['flatten_columns_names']['y']
-    flatten_column_name_z = data['flatten_columns_names']['z']
+    flatten_column_name_x = data['flatten_columns_names'][0]
+    flatten_column_name_y = data['flatten_columns_names'][1]
+    flatten_column_name_z = data['flatten_columns_names'][2]
 
     # f is for flatten:
     df_trainingData_flatten = pd.DataFrame(
@@ -113,9 +113,9 @@ def pivotToFlatten(df_pivot):
     # Set x_array and y_array:
     [x_array, y_array] = np.meshgrid(x, y)
 
-    flatten_column_name_x = data['flatten_columns_names']['x']
-    flatten_column_name_y = data['flatten_columns_names']['y']
-    flatten_column_name_z = data['flatten_columns_names']['z']
+    flatten_column_name_x = data['flatten_columns_names'][0]
+    flatten_column_name_y = data['flatten_columns_names'][1]
+    flatten_column_name_z = data['flatten_columns_names'][2]
 
     # f is for flatten:
     df_flatten = pd.DataFrame(
@@ -132,7 +132,7 @@ def pivotToFlatten(df_pivot):
 # 1.3 Plot training data:
 
 
-def plotTrainingData(df_pivot):
+def plotTrainingData(df_pivot, submodelName):
     """
     Gets: df_pivot.
     Returns: None.
@@ -150,7 +150,7 @@ def plotTrainingData(df_pivot):
 
     plotWhat = [True, False, False, False]
 
-    plotting.plotData(DataToPlot, plotWhat)
+    plotting.plotData(DataToPlot, plotWhat, submodelName)
 
 #################################################
 

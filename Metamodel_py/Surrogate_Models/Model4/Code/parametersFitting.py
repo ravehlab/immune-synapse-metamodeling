@@ -33,6 +33,23 @@ def linXlinY(xy, intercept, xSlope, ySlope):
 
     return f
 
+
+def sigXlinearY(xy, xMin, xMax, xCen, xDev, ySlope):
+    """
+    Gets: xy, xScale, xMu, xSigma, yScale, yMu, ySigma.
+    Returns: f.
+    Calling: None.
+    Called by:
+    Description:
+    """
+
+    x, y = xy
+    fx = xMin + (xMax - xMin)/np.exp((x - xCen)/xDev)
+    fy = ySlope*y
+    f = fx + fy
+
+    return f
+
 #################################################
 # 2.2 Set fit function:
 
@@ -48,15 +65,15 @@ def setFitFunction(df_trainingData_flatten):
     """
 
     # Read x, y, z data from dataFrame:
-    flatten_x = df_trainingData_flatten[data['flatten_columns_names']['x']]
-    flatten_y = df_trainingData_flatten[data['flatten_columns_names']['y']]
-    flatten_z = df_trainingData_flatten[data['flatten_columns_names']['z']]
+    flatten_x = df_trainingData_flatten[data['flatten_columns_names'][0]]
+    flatten_y = df_trainingData_flatten[data['flatten_columns_names'][1]]
+    flatten_z = df_trainingData_flatten[data['flatten_columns_names'][2]]
 
     parametersNames = submodels['RgRatio']['fitParametersNames']
 
     df_fitParameters = getFitParameters(
         X=(flatten_x, flatten_y),
-        fitFunc=linXlinY,
+        fitFunc=sigXlinearY,
         fXdata=flatten_z,
         parametersNames=parametersNames,
         p0=submodels['RgRatio']['p0'])
@@ -104,21 +121,19 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
     """
 
     # Read fit parameters from df_fitParameters:
-    intercept_fit = df_fitParameters.loc['intercept', 'mu']
-    xSlope_fit = df_fitParameters.loc['xSlope', 'mu']
-    ySlope_fit = df_fitParameters.loc['ySlope', 'mu']
-
-    # flatten_column_name_x = data['flatten_columns_names']['x']
-    # flatten_column_name_y = data['flatten_columns_names']['y']
-    # flatten_column_name_z = data['flatten_columns_names']['z']
+    xMin_fit = df_fitParameters.loc['DecaylengthMin', 'mu']
+    xMax_fit = df_fitParameters.loc['DecaylengthMax', 'mu']
+    xCen_fit = df_fitParameters.loc['DecaylengthCen', 'mu']
+    xDev_fit = df_fitParameters.loc['DecaylengthDev', 'mu']
+    ySlope_fit = df_fitParameters.loc['DepletionSlope', 'mu']
 
     flatten_x = df_trainingData_flatten['Decaylength_nm']
     flatten_y = df_trainingData_flatten['Depletion_nm']
 
     fitted_data_flatten =\
-        intercept_fit +\
-        xSlope_fit*flatten_x +\
-        ySlope_fit*flatten_y
+        xMin_fit + (xMax_fit - xMin_fit) /\
+        np.exp((flatten_x - xCen_fit)/xDev_fit) +\
+        flatten_y * ySlope_fit
 
     df_fitted_data_flatten = df_trainingData_flatten
     df_fitted_data_flatten['RgRatio'] = fitted_data_flatten
@@ -134,7 +149,7 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
 # Plot fitted data:
 
 
-def plotFittedData(df_pivot):
+def plotFittedData(df_pivot, submodelName):
     """
     Gets: df_pivot.
     Returns: None.
@@ -152,4 +167,4 @@ def plotFittedData(df_pivot):
 
     plotWhat = [True, False, False, False]
 
-    plotting.plotData(DataToPlot, plotWhat)
+    plotting.plotData(DataToPlot, plotWhat, submodelName)

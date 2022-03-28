@@ -24,8 +24,6 @@ def sigXsigY(xy, xScale, xCen, xDev, yScale, yCen, yDev):
     fx = xScale/(1 + np.exp(-(x-xCen)/xDev))
     fy = yScale/(1 + np.exp(-(y-yCen)/yDev))
     f = fx + fy
-    # strf = "tScale/(1 + np.exp(-(x-tCen)/tDev)) +
-    # kScale/(1 + np.exp(-(y-kCen)/kDev))"
 
     return f
 

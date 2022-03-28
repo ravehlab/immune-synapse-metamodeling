@@ -12,7 +12,12 @@ from IPython.display import display
 from Model4.Code import definitions
 
 paths = definitions.paths
-
+model = definitions.model
+data = definitions.data
+fp_x = definitions.fp_x
+fp_y = definitions.fp_y
+fitParameters = definitions.fitParameters
+submodels = definitions.submodels
 
 """
 Every variable is a column header in the table:
@@ -182,14 +187,16 @@ class Model:
         # statements for all RVs
         return
 #################################################
-# Start model1_depletion:
+# Start model3_RgRatio:
 
+
+submodelName = 'RgRatio'
 
 model4_RgRatio = Model(
     shortName='TCRP',
     longName='TCR phosphorylation',
     description='model4 description',
-    model_id='3',
+    model_id='4',
     RV_csv_file=None,
     data_csv_file=paths['Input']+'df_trainingData_RgRatio_flatten.csv')
 
@@ -201,62 +208,46 @@ model4_RgRatio = Model(
 def model4_RgRatio_info(df_fitParameters_RgRatio):
 
     model4_RgRatio.add_rv(
-        RV(id='fp_decaylength_TCRP3',
-           varType='Free parameter',
-           shortName='decaylength',
-           texName="$$Decaylength^{TCRP}$$",
-           description='Decay length of active Lck',
-           distribution='Normal',
-           distributionParameters={'mu': str(100.),
-                                   'sd': str(50.)},
-           units='$$nm$$'))
+        RV(id=fp_x['ID'],
+           varType=fp_x['varType'],
+           shortName=fp_x['shortName'],
+           texName=fp_x['texName'],
+           description=fp_x['description'],
+           distribution=fp_x['distribution'],
+           distributionParameters={
+               'mu': fp_x['distributionParameters']['mu'],
+               'sd': fp_x['distributionParameters']['sd']},
+           units=fp_x['units']))
 
     model4_RgRatio.add_rv(
-        RV(id='fp_depletion_TCRP3',
-            varType='Free parameter',
-            shortName='Depletion',
-            texName='$$Depletion^{TCRP}$$',
-            description='Depletion distance between TCR and CD45',
-            distribution='Normal',
-            distributionParameters={'mu': str(100.),
-                                    'sd': str(50.)},
-            units='$$nm$$'))
-
-    model4_RgRatio.add_rv(
-        RV(id='rv_intercept_RgRatio_TCRP3',
-            varType='Random variable',
-            shortName='intercept',
-            texName='$$RgRatio^{TCRP}_{intercept}$$',
-            description='Interception with z axis',
-            distribution='Normal',
+        RV(id=fp_y['ID'],
+           varType=fp_y['varType'],
+           shortName=fp_y['shortName'],
+           texName=fp_y['texName'],
+           description=fp_y['description'],
+           distribution=fp_y['distribution'],
             distributionParameters={
-                'mu': str(df_fitParameters_RgRatio.loc['intercept', 'mu']),
-                'sd': str(df_fitParameters_RgRatio.loc['intercept', 'sd'])},
-            units='$$nm$$'))
+                'mu': fp_y['distributionParameters']['mu'],
+                'sd': fp_y['distributionParameters']['sd']},
+            units=fp_y['units']))
+    ###
+    for i, fitParametersName in enumerate(
+            submodels[submodelName]['fitParametersNames']):
 
-    model4_RgRatio.add_rv(
-        RV(id='rv_decaylengthSlope_RgRatio_TCRP3',
-            varType='Random variable',
-            shortName='decaylengthSlope',
-            texName='$$RgRatio^{KSEG}_{decaylengthSlope}$$',
-            description='Slope in decaylength direction',
-            distribution='Normal',
-            distributionParameters={
-                'mu': str(df_fitParameters_RgRatio.loc['xSlope', 'mu']),
-                'sd': str(df_fitParameters_RgRatio.loc['xSlope', 'sd'])},
-            units='$$-$$'))
-
-    model4_RgRatio.add_rv(
-        RV(id='rv_depletionSlope_RgRatio_TCRP3',
-            varType='Random variable',
-            shortName='depletionSlope',
-            texName='$$RgRatio^{TCRP}_{depletionSlope}$$',
-            description='Slope in depletion direction',
-            distribution='Normal',
-            distributionParameters={
-                'mu': str(df_fitParameters_RgRatio.loc['ySlope', 'mu']),
-                'sd': str(df_fitParameters_RgRatio.loc['ySlope', 'sd'])},
-            units='$$-$$'))
+        model4_RgRatio.add_rv(
+            RV(id=fitParameters[fitParametersName]['ID'],
+                varType=fitParameters[fitParametersName]['varType'],
+                shortName=fitParameters[fitParametersName]['shortName'],
+                texName=fitParameters[fitParametersName]['texName'],
+                description=fitParameters[fitParametersName]['description'],
+                distribution=fitParameters[fitParametersName]['distribution'],
+                distributionParameters={
+                    'mu': str(df_fitParameters_RgRatio.loc[
+                        fitParameters[fitParametersName]['shortName'], 'mu']),
+                    'sd': str(df_fitParameters_RgRatio.loc[
+                        fitParameters[fitParametersName]['shortName'], 'sd'])},
+                units='$$nm$$'))
+    ###
 
     model4_RgRatio.add_rv(
         RV(id='rv_output_RgRatio_TCRP3',
@@ -272,7 +263,7 @@ def model4_RgRatio_info(df_fitParameters_RgRatio):
     # model4_depletion.to_csv(
     #     "model4_Info_RgRatio.csv")
     model4_RgRatio.to_csv(paths['Processing'] +
-                            "model4_Info_RgRatio.csv")
+                          "model4_Info_RgRatio.csv")
 
     return(model4_RgRatio)
 #################################################

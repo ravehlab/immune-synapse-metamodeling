@@ -229,7 +229,7 @@ def model3_PhosRatio_info(df_fitParameters_PhosRatio):
                 'mu': fp_y['distributionParameters']['mu'],
                 'sd': fp_y['distributionParameters']['sd']},
             units='$$kTnm^2$$'))
-    ###
+
     for i, fitParametersName in enumerate(
             submodels[submodelName]['fitParametersNames']):
 
@@ -246,7 +246,6 @@ def model3_PhosRatio_info(df_fitParameters_PhosRatio):
                     'sd': str(df_fitParameters_PhosRatio.loc[
                         fitParameters[fitParametersName]['shortName'], 'sd'])},
                 units='$$nm$$'))
-    ###
 
     model3_PhosRatio.add_rv(
         RV(id='rv_output_PhosRatio_TCRP3',

@@ -180,8 +180,7 @@ submodels[submodelName]['sd'] = [1., 50., 50., 1., 50., 50.]
 submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 0, 0.65)'
 
 #################################################
-
-# For Depletion plots:
+# For plots:
 submodelName = submodelsNames[0]
 plots[submodelName] = {}
 plots[submodelName]['title'] = submodelName

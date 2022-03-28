@@ -50,6 +50,23 @@ def gaussXgaussY(xy, xScale, xMu, xSigma, yScale, yMu, ySigma):
 
     return f
 
+
+def sigXlinearY(xy, xMin, xMax, xCen, xDev, ySlope):
+    """
+    Gets: xy, xScale, xMu, xSigma, yScale, yMu, ySigma.
+    Returns: f.
+    Calling: None.
+    Called by:
+    Description:
+    """
+
+    x, y = xy
+    fx = xMin + (xMax - xMin)*np.exp((x - xCen)/xDev)
+    fy = ySlope*y
+    f = fx + fy
+
+    return f
+
 #################################################
 # 2.2 Set fit function for dep:
 
