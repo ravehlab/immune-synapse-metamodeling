@@ -82,6 +82,10 @@ preProcessing.plotTrainingData(
 df_fitParameters_depletion = parametersFitting.setFitFunction(
     df_trainingData_depletion_flatten)
 
+# save df_fitParameters_depletion to Output/:
+df_fitParameters_depletion.to_pickle(
+    Output_path+"df_fitParameters_depletion")
+
 # 2.2 Create fitted data from fit parameters:
 df_fittedData_depletion_pivot = parametersFitting.getFittedData(
     df_trainingData_depletion_flatten, df_fitParameters_depletion)
@@ -106,6 +110,10 @@ df_untrainedTable = createModelInfo.model1_depletion.get_dataframe()
 
 # Untrained table with 'ID' as index:
 df_untrainedTable_ID = df_untrainedTable.set_index('ID')
+
+# save df_untrainedTable_ID to Output/:
+df_untrainedTable_ID.to_pickle(
+    Output_path+"df_model1_untrainedTable_ID")
 
 # 3.4 Display untrained table:
 display(df_untrainedTable_ID.style.set_properties(

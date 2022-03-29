@@ -129,6 +129,15 @@ df_model4_untrainedTable = createModelInfo.model4_RgRatio.get_dataframe()
 # Untrained table with 'ID' as index:
 df_model4_untrainedTable_ID = df_model4_untrainedTable.set_index('ID')
 
+df_model4_untrainedTable_ID.to_pickle(
+    Output_path+"df_model4_untrainedTable_ID")
+
+# Copy file to Coupled_model' Input/
+src = Output_path+'df_model4_untrainedTable_ID'
+dst = '/home/yair/Documents/Git/Metamodel_py/Coupled_Model/'\
+    'Input/df_model4_untrainedTable_ID'
+shutil.copyfile(src, dst)
+
 # 3.4 Display untrained table:
 display(df_model4_untrainedTable_ID.style.set_properties(
     **{'text-align': 'left',

@@ -128,6 +128,10 @@ df_model2_untrainedTable = createModelInfo.model2_decaylength.get_dataframe()
 # Untrained table with 'ID' as index:
 df_model2_untrainedTable_ID = df_model2_untrainedTable.set_index('ID')
 
+# save df_untrainedTable_ID to Output/:
+df_model2_untrainedTable_ID.to_pickle(
+    Output_path+"df_model2_untrainedTable_ID")
+
 # 3.4 Display untrained table:
 display(df_model2_untrainedTable_ID.style.set_properties(
     **{'text-align': 'left',
