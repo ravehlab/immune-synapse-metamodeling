@@ -9,7 +9,7 @@ import pandas as pd
 # import pymc3 as pm
 from IPython.display import display
 
-from Model3.Code import definitions
+from Surrogate_Models.Model3.Code import definitions
 
 paths = definitions.paths
 model = definitions.model

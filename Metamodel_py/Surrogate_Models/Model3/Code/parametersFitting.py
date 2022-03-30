@@ -9,8 +9,8 @@ import numpy as np
 import pandas as pd
 from scipy.optimize import curve_fit
 
-from Model3.Code import definitions
-from Model3.Code import plotting
+from Surrogate_Models.Model3.Code import definitions
+from Surrogate_Models.Model3.Code import plotting
 
 submodels = definitions.submodels
 plots = definitions.plots

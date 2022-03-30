@@ -6,6 +6,7 @@ Created on Tue Feb  8 10:58:29 2022
 
 import numpy as np
 # import pandas as pd
+import os
 
 """
 Contains definitions for:
@@ -30,15 +31,12 @@ surface."""
 
 #################################################
 # Define paths:
-# '/home/yair/
-# C:/Users/Owner/
-
+modelIndex = '1'
 paths = {}
-paths['Git'] = '/home/yair/Documents/Git/'
-paths['Metamodel'] = paths['Git']+'Metamodel_py/'
+paths['Metamodel'] = os.getcwd()+'/'
 paths['Surrogate'] = paths['Metamodel']+'Surrogate_Models/'
-paths['Model'] = paths['Surrogate']+'Model'+model['Index']+'/'
-paths['Input'] = paths['Metamodel']+'Input_Models/Model'+model['Index']+'/'
+paths['Model'] = paths['Surrogate']+'Model'+modelIndex+'/'
+paths['Input'] = paths['Metamodel']+'Input_Models/Model'+modelIndex+'/'
 paths['Output'] = paths['Model']+'Output/'
 paths['Processing'] = paths['Model']+'Processing/'
 

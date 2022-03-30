@@ -33,16 +33,16 @@ from IPython.display import display
 import os
 import shutil
 
-# Run from Directory: /home/yair/Documents/Git/Metamodel_py/Surrogate_Models
-# Run command: run Model1/Code/main
+# Run from Directory: /home/yair/Documents/Git/Metamodel_py/
+# Run command: run Surrogate_Models/Model3/Code/main
 
 # Import Model packages:
-from Model4.Code import definitions
-from Model4.Code import preProcessing
-from Model4.Code import parametersFitting
-from Model4.Code import createModelInfo
-from Model4.Code import training
-from Model4.Code import predicting
+from Surrogate_Models.Model4.Code import definitions
+from Surrogate_Models.Model4.Code import preProcessing
+from Surrogate_Models.Model4.Code import parametersFitting
+from Surrogate_Models.Model4.Code import createModelInfo
+from Surrogate_Models.Model4.Code import training
+from Surrogate_Models.Model4.Code import predicting
 
 paths = definitions.paths
 submodels = definitions.submodels

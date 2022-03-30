@@ -5,7 +5,8 @@ Created on Tue Feb  8 10:58:29 2022
 """
 
 import numpy as np
-import pandas as pd
+# import pandas as pd
+import os
 
 """
 Contains definitions for:
@@ -27,17 +28,13 @@ model['Index'] = '2'
 model['Description'] = """Model2 description """
 
 #################################################
-# 0. Define paths:
-# Define pahts:
-# '/home/yair/
-# C:/Users/Owner/
-
+# Define paths:
+modelIndex = '2'
 paths = {}
-paths['Git'] = '/home/yair/Documents/Git/'
-paths['Metamodel'] = paths['Git']+'Metamodel_py/'
+paths['Metamodel'] = os.getcwd()+'/'
 paths['Surrogate'] = paths['Metamodel']+'Surrogate_Models/'
-paths['Model'] = paths['Surrogate']+'Model'+model['Index']+'/'
-paths['Input'] = paths['Metamodel']+'Input_Models/Model'+model['Index']+'/'
+paths['Model'] = paths['Surrogate']+'Model'+modelIndex+'/'
+paths['Input'] = paths['Metamodel']+'Input_Models/Model'+modelIndex+'/'
 paths['Output'] = paths['Model']+'Output/'
 paths['Processing'] = paths['Model']+'Processing/'
 

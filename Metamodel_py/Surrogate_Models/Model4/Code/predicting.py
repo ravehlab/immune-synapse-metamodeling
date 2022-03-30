@@ -10,14 +10,14 @@ import numpy as np
 import pandas as pd
 import pymc3 as pm
 
-from Model1.Code import definitions
-from Model1.Code import training
-from Model1.Code import plotting
+from Surrogate_Models.Model4.Code import definitions
+from Surrogate_Models.Model4.Code import training
+from Surrogate_Models.Model4.Code import plotting
 
 # Create a heatmap by running the trained model with a batch of x, y value:
 
 
-def predict(df_model1_trainedTable):
+def predict(df_model4_trainedTable):
     """
     Gets: df_model1_trainedTable.
     Returns: df_prediction_mean, df_prediction_std.
@@ -36,8 +36,8 @@ def predict(df_model1_trainedTable):
     for i, y in enumerate(Ys):
         for j, x in enumerate(Xs):
 
-            current_model = training.get_pm_model1_trained(
-                df_model1_trainedTable, observed_y=y, observed_x=x)
+            current_model = training.get_pm_model4_trained(
+                df_model4_trainedTable, observed_y=y, observed_x=x)
 
             with current_model:
                 current_trace = pm.sample(2000, chains=4, progressbar=False)
@@ -80,5 +80,5 @@ def plotPredictionData(df_pivot, definitions):
     plotWhat = [False, False, False, True]
 
     plotting.plotData(DataToPlot, plotWhat)
-    
+
 #################################################
