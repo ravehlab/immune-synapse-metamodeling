@@ -116,6 +116,12 @@ df_untrainedTable_ID = df_untrainedTable.set_index('ID')
 df_untrainedTable_ID.to_pickle(
     Output_path+"df_model1_untrainedTable_ID")
 
+# Copy file to Coupled_model' Input/
+src = Output_path+'df_model1_untrainedTable_ID'
+dst = paths['Metamodel']+'Coupled_Model/'\
+    'Input/df_model1_untrainedTable_ID'
+shutil.copyfile(src, dst)
+
 # 3.4 Display untrained table:
 display(df_untrainedTable_ID.style.set_properties(
     **{'text-align': 'left',

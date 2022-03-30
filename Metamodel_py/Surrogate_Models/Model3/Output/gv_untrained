@@ -1,22 +1,22 @@
 digraph {
 	subgraph cluster420 {
+		rv_output_PhosRatio_TCRP3 [label="rv_output_PhosRatio_TCRP3 ~ Normal" style=filled]
 		fp_Decaylength_TCRP3 [label="fp_Decaylength_TCRP3 ~ Normal" style=filled]
 		fp_Depletion_TCRP3 [label="fp_Depletion_TCRP3 ~ Normal" style=filled]
-		rv_output_PhosRatio_TCRP3 [label="rv_output_PhosRatio_TCRP3 ~ Normal" style=filled]
 		label=420 labeljust=r labelloc=b style=rounded
 	}
-	rv_DepletionSigma_PhosRatio_TCRP3 [label="rv_DepletionSigma_PhosRatio_TCRP3 ~ Normal"]
-	rv_DecaylengthMu_PhosRatio_TCRP3 [label="rv_DecaylengthMu_PhosRatio_TCRP3 ~ Normal"]
-	rv_DepletionScale_PhosRatio_TCRP3 [label="rv_DepletionScale_PhosRatio_TCRP3 ~ Normal"]
-	rv_DepletionMu_PhosRatio_TCRP3 [label="rv_DepletionMu_PhosRatio_TCRP3 ~ Normal"]
-	rv_DecaylengthScale_PhosRatio_TCRP3 [label="rv_DecaylengthScale_PhosRatio_TCRP3 ~ Normal"]
 	rv_DecaylengthSigma_PhosRatio_TCRP3 [label="rv_DecaylengthSigma_PhosRatio_TCRP3 ~ Normal"]
-	rv_DepletionSigma_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
-	fp_Depletion_TCRP3 -> rv_output_PhosRatio_TCRP3
-	rv_DepletionScale_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
-	rv_DecaylengthMu_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
-	fp_Decaylength_TCRP3 -> rv_output_PhosRatio_TCRP3
-	rv_DepletionMu_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
-	rv_DecaylengthScale_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
+	rv_DepletionMu_PhosRatio_TCRP3 [label="rv_DepletionMu_PhosRatio_TCRP3 ~ Normal"]
+	rv_DecaylengthMu_PhosRatio_TCRP3 [label="rv_DecaylengthMu_PhosRatio_TCRP3 ~ Normal"]
+	rv_DecaylengthScale_PhosRatio_TCRP3 [label="rv_DecaylengthScale_PhosRatio_TCRP3 ~ Normal"]
+	rv_DepletionSigma_PhosRatio_TCRP3 [label="rv_DepletionSigma_PhosRatio_TCRP3 ~ Normal"]
+	rv_DepletionScale_PhosRatio_TCRP3 [label="rv_DepletionScale_PhosRatio_TCRP3 ~ Normal"]
 	rv_DecaylengthSigma_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
+	rv_DepletionMu_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
+	rv_DecaylengthMu_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
+	fp_Depletion_TCRP3 -> rv_output_PhosRatio_TCRP3
+	rv_DecaylengthScale_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
+	fp_Decaylength_TCRP3 -> rv_output_PhosRatio_TCRP3
+	rv_DepletionSigma_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
+	rv_DepletionScale_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
 }

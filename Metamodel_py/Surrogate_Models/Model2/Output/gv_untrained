@@ -5,18 +5,18 @@ digraph {
 		rv_output_Decaylength_LCKA2 [label="rv_output_Decaylength_LCKA2 ~ Normal" style=filled]
 		label=108 labeljust=r labelloc=b style=rounded
 	}
-	rv_DiffScale_Decaylength_LCKA2 [label="rv_DiffScale_Decaylength_LCKA2 ~ Normal"]
-	rv_PoffMu_Decaylength_LCKA2 [label="rv_PoffMu_Decaylength_LCKA2 ~ Normal"]
+	rv_DiffSigma_Decaylength_LCKA2 [label="rv_DiffSigma_Decaylength_LCKA2 ~ Normal"]
 	rv_PoffScale_Decaylength_LCKA2 [label="rv_PoffScale_Decaylength_LCKA2 ~ Normal"]
 	rv_PoffSigma_Decaylength_LCKA2 [label="rv_PoffSigma_Decaylength_LCKA2 ~ Normal"]
 	rv_DiffMu_Decaylength_LCKA2 [label="rv_DiffMu_Decaylength_LCKA2 ~ Normal"]
-	rv_DiffSigma_Decaylength_LCKA2 [label="rv_DiffSigma_Decaylength_LCKA2 ~ Normal"]
-	rv_DiffScale_Decaylength_LCKA2 -> rv_output_Decaylength_LCKA2
-	rv_PoffMu_Decaylength_LCKA2 -> rv_output_Decaylength_LCKA2
-	rv_PoffScale_Decaylength_LCKA2 -> rv_output_Decaylength_LCKA2
+	rv_PoffMu_Decaylength_LCKA2 [label="rv_PoffMu_Decaylength_LCKA2 ~ Normal"]
+	rv_DiffScale_Decaylength_LCKA2 [label="rv_DiffScale_Decaylength_LCKA2 ~ Normal"]
+	rv_DiffSigma_Decaylength_LCKA2 -> rv_output_Decaylength_LCKA2
 	rv_Poff -> rv_output_Decaylength_LCKA2
+	rv_DiffScale_Decaylength_LCKA2 -> rv_output_Decaylength_LCKA2
 	fp_Diff_LCKA2 -> rv_output_Decaylength_LCKA2
 	rv_PoffSigma_Decaylength_LCKA2 -> rv_output_Decaylength_LCKA2
 	rv_DiffMu_Decaylength_LCKA2 -> rv_output_Decaylength_LCKA2
-	rv_DiffSigma_Decaylength_LCKA2 -> rv_output_Decaylength_LCKA2
+	rv_PoffMu_Decaylength_LCKA2 -> rv_output_Decaylength_LCKA2
+	rv_PoffScale_Decaylength_LCKA2 -> rv_output_Decaylength_LCKA2
 }

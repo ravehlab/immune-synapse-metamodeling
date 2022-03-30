@@ -134,7 +134,7 @@ df_model4_untrainedTable_ID.to_pickle(
 
 # Copy file to Coupled_model' Input/
 src = Output_path+'df_model4_untrainedTable_ID'
-dst = '/home/yair/Documents/Git/Metamodel_py/Coupled_Model/'\
+dst = paths['Metamodel']+'Coupled_Model/'\
     'Input/df_model4_untrainedTable_ID'
 shutil.copyfile(src, dst)
 
