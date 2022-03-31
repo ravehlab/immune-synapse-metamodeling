@@ -32,18 +32,25 @@ import pymc3 as pm
 from IPython.display import display
 import os
 import shutil
+import sys
 
 # Run from Directory: /home/yair/Documents/Git/Metamodel_py/
 # Run command: run Surrogate_Models/Model1/Code/main
 
 #################################################
 # Import Model packages:
-from Surrogate_Models.Model1.Code import definitions
-from Surrogate_Models.Model1.Code import preProcessing
-from Surrogate_Models.Model1.Code import parametersFitting
-from Surrogate_Models.Model1.Code import createModelInfo
-from Surrogate_Models.Model1.Code import training
-from Surrogate_Models.Model1.Code import predicting
+#from Surrogate_Models.Model1.Code import definitions
+# from Surrogate_Models.Model1.Code import preProcessing
+# from Surrogate_Models.Model1.Code import parametersFitting
+# from Surrogate_Models.Model1.Code import createModelInfo
+# from Surrogate_Models.Model1.Code import training
+# from Surrogate_Models.Model1.Code import predicting
+import definitions
+import preProcessing
+import parametersFitting
+import createModelInfo
+import training
+import predicting
 
 paths = definitions.paths
 submodels = definitions.submodels
@@ -146,11 +153,12 @@ gv_untrained_filename =\
                         directory=Output_path)
 
 with pm_model_untrained:
-    trace = pm.sample(2000, chains=4)
-
-pm.traceplot(trace)
+    trace = pm.sample(2000, chains=4,
+                      return_inferencedata=True )
 
 trace_summary = pm.summary(trace)
+
+print(trace_summary)
 
 trace_summary.to_pickle(Output_path+"trace_summary")
 
@@ -173,6 +181,9 @@ display(df_trainedTable_ID.style.set_properties(
     **{'text-align': 'left',
        'background-color': submodels[submodelName]['tableBackgroundColor'],
        'border': '1px black solid'}))
+
+pm.traceplot(trace)
+
 
 # 4.3 Set trained model:
 pm_model1_trained = training.get_pm_model1_trained(

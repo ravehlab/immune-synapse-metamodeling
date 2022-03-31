@@ -8,8 +8,10 @@ Created on Sat Feb  5 17:08:06 2022
 import numpy as np
 import pandas as pd
 
-from Surrogate_Models.Model1.Code import definitions
-from Surrogate_Models.Model1.Code import plotting
+# from Surrogate_Models.Model1.Code import definitions
+# from Surrogate_Models.Model1.Code import plotting
+import definitions
+import plotting
 
 plots = definitions.plots
 data = definitions.data

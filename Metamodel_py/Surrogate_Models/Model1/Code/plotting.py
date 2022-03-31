@@ -8,7 +8,8 @@ Created on Sun Feb  6 16:24:26 2022
 # import numpy as np
 import matplotlib.pyplot as plt
 
-from Surrogate_Models.Model1.Code import definitions
+# from Surrogate_Models.Model1.Code import definitions
+import definitions
 
 plots = definitions.plots
 #################################################
