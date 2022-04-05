@@ -31,7 +31,8 @@ model['Description'] = """Model2 description """
 # Define paths:
 modelIndex = '2'
 paths = {}
-paths['Metamodel'] = os.getcwd()+'/'
+# paths['Metamodel'] = os.getcwd()+'/'
+paths['Metamodel'] = '/home/yair/Documents/Git/Metamodel_py/'
 paths['Surrogate'] = paths['Metamodel']+'Surrogate_Models/'
 paths['Model'] = paths['Surrogate']+'Model'+modelIndex+'/'
 paths['Input'] = paths['Metamodel']+'Input_Models/Model'+modelIndex+'/'

@@ -39,12 +39,6 @@ import sys
 
 #################################################
 # Import Model packages:
-#from Surrogate_Models.Model1.Code import definitions
-# from Surrogate_Models.Model1.Code import preProcessing
-# from Surrogate_Models.Model1.Code import parametersFitting
-# from Surrogate_Models.Model1.Code import createModelInfo
-# from Surrogate_Models.Model1.Code import training
-# from Surrogate_Models.Model1.Code import predicting
 import definitions
 import preProcessing
 import parametersFitting
@@ -153,8 +147,7 @@ gv_untrained_filename =\
                         directory=Output_path)
 
 with pm_model_untrained:
-    trace = pm.sample(2000, chains=4,
-                      return_inferencedata=True )
+    trace = pm.sample(2000, chains=4)  # ,return_inferencedata=True)
 
 trace_summary = pm.summary(trace)
 

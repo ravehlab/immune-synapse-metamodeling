@@ -37,12 +37,12 @@ import shutil
 # Run command: run Surrogate_Models/Model3/Code/main
 
 # Import Model packages:
-from Surrogate_Models.Model3.Code import definitions
-from Surrogate_Models.Model3.Code import preProcessing
-from Surrogate_Models.Model3.Code import parametersFitting
-from Surrogate_Models.Model3.Code import createModelInfo
-from Surrogate_Models.Model3.Code import training
-from Surrogate_Models.Model3.Code import predicting
+import definitions
+import preProcessing
+import parametersFitting
+import createModelInfo
+import training
+import predicting
 
 paths = definitions.paths
 submodels = definitions.submodels
