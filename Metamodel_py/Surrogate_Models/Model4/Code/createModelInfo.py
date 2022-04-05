@@ -250,7 +250,7 @@ def model4_RgRatio_info(df_fitParameters_RgRatio):
     ###
 
     model4_RgRatio.add_rv(
-        RV(id='rv_output_RgRatio_TCRP3',
+        RV(id='rv_output_RgRatio_TCRP4',
            varType='Random variable',
            shortName='output',
            texName='$$RgRatio^{TCRP}_{output}$$',

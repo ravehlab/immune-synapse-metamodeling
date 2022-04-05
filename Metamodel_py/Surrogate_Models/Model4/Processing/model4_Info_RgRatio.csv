@@ -6,4 +6,4 @@
 4,rv_DecaylengthCen_RgRatio_TCRP4,Random variable,DecaylengthCen,nm,DecaylengthCen,Normal,"{'mu': '507.95588110877566', 'sd': '39855.261796712875'}",$$nm$$
 5,rv_DecaylengthDev_RgRatio_TCRP4,Random variable,DecaylengthDev,nm,DecaylengthDev,Normal,"{'mu': '-34297.344982865594', 'sd': '568041.1901806024'}",$$nm$$
 6,rv_DepletionSlope_RgRatio_TCRP4,Random variable,DepletionSlope,-,DepletionSlope,Normal,"{'mu': '0.0007071501063773712', 'sd': '3.307814644667808e-05'}",$$nm$$
-7,rv_output_RgRatio_TCRP3,Random variable,output,$$RgRatio^{TCRP}_{output}$$,RgRatio output,Normal,"{'mu': '', 'sd': '0.5'}",$$nm$$
+7,rv_output_RgRatio_TCRP4,Random variable,output,$$RgRatio^{TCRP}_{output}$$,RgRatio output,Normal,"{'mu': '', 'sd': '0.5'}",$$nm$$

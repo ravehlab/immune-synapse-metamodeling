@@ -25,7 +25,7 @@ model = {}
 model['LongName'] = 'TCR phosphorylation'
 model['ShortName'] = 'TCRP'
 model['Index'] = '4'
-model['Description'] = """Model3 description."""
+model['Description'] = """Model4 description."""
 
 #################################################
 # Define paths:
