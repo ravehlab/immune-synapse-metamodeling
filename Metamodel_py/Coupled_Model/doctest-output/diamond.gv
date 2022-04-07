@@ -1,0 +1,3 @@
+digraph diamond {
+	diamond [label="<>"]
+}
