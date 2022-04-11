@@ -54,6 +54,9 @@ def sigXlinearY(xy, xMin, xMax, xCen, xDev, ySlope):
 # 2.2 Set fit function:
 
 
+fitFunction = linXlinY
+
+
 def setFitFunction(df_trainingData_flatten):
     """
     Gets: df_trainingData_model1.csv
@@ -73,7 +76,7 @@ def setFitFunction(df_trainingData_flatten):
 
     df_fitParameters = getFitParameters(
         X=(flatten_x, flatten_y),
-        fitFunc=sigXlinearY,
+        fitFunc=fitFunction,
         fXdata=flatten_z,
         parametersNames=parametersNames,
         p0=submodels['RgRatio']['p0'])
@@ -121,19 +124,20 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
     """
 
     # Read fit parameters from df_fitParameters:
-    xMin_fit = df_fitParameters.loc['DecaylengthMin', 'mu']
-    xMax_fit = df_fitParameters.loc['DecaylengthMax', 'mu']
-    xCen_fit = df_fitParameters.loc['DecaylengthCen', 'mu']
-    xDev_fit = df_fitParameters.loc['DecaylengthDev', 'mu']
+    Intercept_fit = df_fitParameters.loc['Intercept', 'mu']
+    xSlope_fit = df_fitParameters.loc['DecaylengthSlope', 'mu']
     ySlope_fit = df_fitParameters.loc['DepletionSlope', 'mu']
 
     flatten_x = df_trainingData_flatten['Decaylength_nm']
     flatten_y = df_trainingData_flatten['Depletion_nm']
 
-    fitted_data_flatten =\
-        xMin_fit + (xMax_fit - xMin_fit) /\
-        np.exp((flatten_x - xCen_fit)/xDev_fit) +\
-        flatten_y * ySlope_fit
+    # fitted_data_flatten =\
+    #     Intercept_fit + xSlope_fit*flatten_x + ySlope_fit*flatten_y
+
+    fitted_data_flatten = fitFunction([flatten_x, flatten_y],
+                                      Intercept_fit,
+                                      xSlope_fit,
+                                      ySlope_fit)
 
     df_fitted_data_flatten = df_trainingData_flatten
     df_fitted_data_flatten['RgRatio'] = fitted_data_flatten

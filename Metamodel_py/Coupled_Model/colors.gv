@@ -1,6 +1,0 @@
-graph {
-	"RGB: #40e0d0" [fillcolor="#40e0d0" style=filled]
-	"RGBA: #ff000042" [fillcolor="#ff000042" style=filled]
-	"HSV: 0.051 0.718 0.627" [fillcolor="0.051 0.718 0.627" style=filled]
-	"name: deeppink" [fillcolor=deeppink style=filled]
-}

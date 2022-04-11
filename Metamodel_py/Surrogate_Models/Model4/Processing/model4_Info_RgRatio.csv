@@ -1,9 +1,7 @@
 ,ID,Variable type,Short Name,Latex Name,Description,Distribution,Distribution parameters,Units
 0,fp_Decaylength_TCRP4,Free parameter,Decaylength,$$Decaylength^{TCRP}$$,Decay length of active Lck in nm.,Normal,"{'mu': '100.0', 'sd': '50.0'}",nm
 1,fp_Depletion_TCRP4,Free parameter,Depletion,$$Depletion^{TCRP}$$,Depletion distsance between TCR and CD45,Normal,"{'mu': '100.0', 'sd': '50.0'}",nm
-2,rv_DecaylengthMin_RgRatio_TCRP4,Random variable,DecaylengthMin,-,DecaylengthMin,Normal,"{'mu': '98.24801675385643', 'sd': '1607.8505266074205'}",$$nm$$
-3,rv_DecaylengthMax_RgRatio_TCRP4,Random variable,DecaylengthMax,-,DecaylengthMax,Normal,"{'mu': '0.021883851913103845', 'sd': '114.12882516444043'}",$$nm$$
-4,rv_DecaylengthCen_RgRatio_TCRP4,Random variable,DecaylengthCen,nm,DecaylengthCen,Normal,"{'mu': '507.95588110877566', 'sd': '39855.261796712875'}",$$nm$$
-5,rv_DecaylengthDev_RgRatio_TCRP4,Random variable,DecaylengthDev,nm,DecaylengthDev,Normal,"{'mu': '-34297.344982865594', 'sd': '568041.1901806024'}",$$nm$$
-6,rv_DepletionSlope_RgRatio_TCRP4,Random variable,DepletionSlope,-,DepletionSlope,Normal,"{'mu': '0.0007071501063773712', 'sd': '3.307814644667808e-05'}",$$nm$$
-7,rv_output_RgRatio_TCRP4,Random variable,output,$$RgRatio^{TCRP}_{output}$$,RgRatio output,Normal,"{'mu': '', 'sd': '0.5'}",$$nm$$
+2,rv_Intercept_RgRatio_TCRP4,Random variable,Intercept,-,Intercept,Normal,"{'mu': '1.466259982481689', 'sd': '0.00529896819334687'}",$$nm$$
+3,rv_DecaylengthSlope_RgRatio_TCRP4,Random variable,DecaylengthSlope,nm^-1,Decaylength Slope,Normal,"{'mu': '-0.002830647330024481', 'sd': '3.462698868878552e-05'}",$$nm$$
+4,rv_DepletionSlope_RgRatio_TCRP4,Random variable,DepletionSlope,nm^-1,Depletion Slope,Normal,"{'mu': '0.0007071513002802438', 'sd': '3.2974243432395335e-05'}",$$nm$$
+5,rv_output_RgRatio_TCRP4,Random variable,output,$$RgRatio^{TCRP}_{output}$$,RgRatio output,Normal,"{'mu': '', 'sd': '0.5'}",$$nm$$

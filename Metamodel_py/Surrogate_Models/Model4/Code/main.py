@@ -202,7 +202,7 @@ gv_trained_filename =\
 # 5 Predictions based on the trained parameters:
 # 5.1 Run prediction:
 run_prediction = False
-
+"""
 if run_prediction:
     df_prediction_mean, df_prediction_std =\
         predicting.predict(df_model4_trainedTable_ID)
@@ -221,5 +221,5 @@ df_prediction_std_r = pd.read_pickle(
 predicting.plotPredictionData(df_prediction_mean_r,
                               df_prediction_std_r,
                               definitions)
-
+"""
 #################################################

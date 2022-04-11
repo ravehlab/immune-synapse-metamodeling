@@ -139,21 +139,27 @@ submodels = {}
 # submodels['names'] = ['PhosRatio']
 submodels[submodelName] = {}
 submodels[submodelName]['fitParametersNames'] =\
-    ['Intercept',
-     'DecaylengthSlope',
+    ['DecaylengthMin',
+     'DecaylengthMax',
+     'DecaylengthCen',
+     'DecaylengthDev',
      'DepletionSlope']
 
 # Fit parameters description Depletion:
 submodels[submodelName]['fitParametersDescriptions'] =\
-    ['Intercept',
-     'Decaylength Slope',
-     'Depletion Slope']
+    ['DecaylengthMin',
+     'DecaylengthMax',
+     'DecaylengthCen',
+     'DecaylengthDev',
+     'DepletionSlope']
 
 # Fit parameters units:
 submodels[submodelName]['fitParametersUnits'] =\
     ["-",
-     "nm^-1",
-     "nm^-1"]
+     "-",
+     "nm",
+     "nm",
+     "-"]
 
 # Initial fit parameters
 #         mu	sd
@@ -162,8 +168,8 @@ submodels[submodelName]['fitParametersUnits'] =\
 # xCen	93.395	2.202
 # xDev	-39.326	2.809
 # ySlope	0.001	0.000
-submodels[submodelName]['p0'] = [1., 0., 0.]
-submodels[submodelName]['sd'] = [0.2, 0.1, 0.1]
+submodels[submodelName]['p0'] = [1., 1., 100, -40., 0.]
+submodels[submodelName]['sd'] = [1., 1., 50., 10., 0.1]
 submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 0, 0.65)'
 
 #################################################

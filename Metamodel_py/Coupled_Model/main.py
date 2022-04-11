@@ -275,51 +275,34 @@ def get_metamodel(observed_t_KSEG1=None,
 
         # RgRatio_TCRP
         """TODO: read parameters values from RV table"""
-        # rv_DecaylengthMin_RgRatio_TCRP4
-        ID = 'rv_DecaylengthMin_RgRatio_TCRP4'
-        rv_DecaylengthMin_RgRatio_TCRP4 = pm.Normal(
+        # rv_Intercept_RgRatio_TCRP4
+        ID = 'rv_Intercept_RgRatio_TCRP4'
+        rv_Intercept_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=0.1)  # eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_DecaylengthMax_RgRatio_TCRP4
-        ID = 'rv_DecaylengthMax_RgRatio_TCRP4'
-        rv_DecaylengthMax_RgRatio_TCRP4 = pm.Normal(
+        # rv_DecaylengthSlope_RgRatio_TCRP4
+        ID = 'rv_DecaylengthSlope_RgRatio_TCRP4'
+        rv_DecaylengthSlope_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
-
-        # rv_DecaylengthCen_RgRatio_TCRP4
-        ID = 'rv_DecaylengthCen_RgRatio_TCRP4'
-        rv_DecaylengthCen_RgRatio_TCRP4 = pm.Normal(
-            ID,
-            mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
-
-        # rv_DecaylengthDev_RgRatio_TCRP4
-        ID = 'rv_DecaylengthDev_RgRatio_TCRP4'
-        rv_DecaylengthDev_RgRatio_TCRP4 = pm.Normal(
-            ID,
-            mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=0.1)  # eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_DepletionSlope_RgRatio_TCRP4
         ID = 'rv_DepletionSlope_RgRatio_TCRP4'
         rv_DepletionSlope_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=0.2)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=0.1)  # eval(dfRV.loc[ID, DP]['sd']))
 
         ID = 'rv_output_RgRatio_TCRP4'
         rv_output_RgRatio_TCRP4 = pm.Normal(
             ID,
-            mu=rv_DecaylengthMin_RgRatio_TCRP4 +
-            (rv_DecaylengthMax_RgRatio_TCRP4 -
-             rv_DecaylengthMin_RgRatio_TCRP4) *
-            np.exp((rv_Decaylength - rv_DecaylengthCen_RgRatio_TCRP4) /
-                   rv_DecaylengthDev_RgRatio_TCRP4) +
+            mu=rv_Intercept_RgRatio_TCRP4 +
+            rv_DecaylengthSlope_RgRatio_TCRP4*rv_Decaylength +
             rv_DepletionSlope_RgRatio_TCRP4*rv_Depletion,
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=0.1)  # eval(dfRV.loc[ID, DP]['sd']))
 
     return metamodel
 
