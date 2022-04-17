@@ -1,10 +1,10 @@
 ,ID,Variable type,Short Name,Latex Name,Description,Distribution,Distribution parameters,Units
 0,fp_Poff_LCKA2,Free parameter,Poff,$$Poff^{LCKA}$$,Decay probability,Normal,"{'mu': '-2.0', 'sd': '1.0'}",-
 1,fp_Diff_LCKA2,Free parameter,Diff,$$Diff^{LCKA}$$,Diffusion coefficient,Normal,"{'mu': '-2.0', 'sd': '1.0'}",$$kTnm^2$$
-2,rv_PoffScale_Decaylength_LCKA2,Random variable,PoffScale,nm,PoffScale,Normal,"{'mu': '1.7099366153901334', 'sd': '0.3439316032818104'}",$$nm$$
-3,rv_PoffMu_Decaylength_LCKA2,Random variable,PoffMu,nm,PoffMu,Normal,"{'mu': '-4.0446630854957535', 'sd': '0.09125636269083587'}",$$nm$$
-4,rv_PoffSigma_Decaylength_LCKA2,Random variable,PoffSigma,nm,PoffSigma,Normal,"{'mu': '2.180435492698198', 'sd': '0.3759922765627022'}",$$nm$$
-5,rv_DiffScale_Decaylength_LCKA2,Random variable,DiffScale,nm,DiffScale,Normal,"{'mu': '72.8937243331518', 'sd': '1200.0330150636182'}",$$nm$$
-6,rv_DiffMu_Decaylength_LCKA2,Random variable,DiffMu,nm,DiffMu,Normal,"{'mu': '12.02483746839085', 'sd': '54.762445066294056'}",$$nm$$
-7,rv_DiffSigma_Decaylength_LCKA2,Random variable,DiffSigma,nm,DiffSigma,Normal,"{'mu': '4.522162636290856', 'sd': '10.199102039651219'}",$$nm$$
+2,rv_PoffScale_Decaylength_LCKA2,Random variable,PoffScale,nm,PoffScale,Normal,"{'mu': '1.7099461813045087', 'sd': '0.34392691664858593'}",$$nm$$
+3,rv_PoffMu_Decaylength_LCKA2,Random variable,PoffMu,nm,PoffMu,Normal,"{'mu': '-4.04466364731629', 'sd': '0.09125653592392806'}",$$nm$$
+4,rv_PoffSigma_Decaylength_LCKA2,Random variable,PoffSigma,nm,PoffSigma,Normal,"{'mu': '2.180445503647395', 'sd': '0.3759862177677706'}",$$nm$$
+5,rv_DiffScale_Decaylength_LCKA2,Random variable,DiffScale,nm,DiffScale,Normal,"{'mu': '72.85583256726532', 'sd': '1199.116471038566'}",$$nm$$
+6,rv_DiffMu_Decaylength_LCKA2,Random variable,DiffMu,nm,DiffMu,Normal,"{'mu': '12.023108682200514', 'sd': '54.74885540691537'}",$$nm$$
+7,rv_DiffSigma_Decaylength_LCKA2,Random variable,DiffSigma,nm,DiffSigma,Normal,"{'mu': '4.521842460421631', 'sd': '10.197281906109422'}",$$nm$$
 8,rv_output_decaylength_LCKA2,Random variable,output,$$decaylength^{LCKA}_{output}$$,Decaylength output,Normal,"{'mu': '2.0', 'sd': '0.4'}",$$nm$$

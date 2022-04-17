@@ -47,6 +47,19 @@ import predicting
 paths = definitions.paths
 submodels = definitions.submodels
 
+###
+modelIndex = '3'
+paths = {}
+# paths['Metamodel'] = os.getcwd()+'/'
+# paths['Metamodel'] = '/home/yair/Documents/Git/Metamodel_py/'
+paths['Metamodel'] = '/home/jonah/Yair/Git/Metamodel_py/'
+paths['Surrogate'] = paths['Metamodel']+'Surrogate_Models/'
+paths['Model'] = paths['Surrogate']+'Model'+modelIndex+'/'
+paths['Input'] = paths['Metamodel']+'Input_Models/Model'+modelIndex+'/'
+paths['Output'] = paths['Model']+'Output/'
+paths['Processing'] = paths['Model']+'Processing/'
+###
+
 # Create the directory 'Output' in '/Metamodel_py/Surrogate_Models/Model1/'
 submodelName = 'phosRatio'
 Output_path = paths['Output']
@@ -62,6 +75,7 @@ except:
 os.mkdir(Output_path)
 print("Directory 'Output' created in '% s'" % (paths['Model']))
 
+plot_things = False
 #################################################
 submodelName = 'PhosRatio'
 # 1. Get training data:
@@ -94,9 +108,10 @@ df_trainingData_PhosRatio_pivot_r =\
     pd.read_csv(paths['Input']+"/df_trainingData_PhosRatio_pivot.csv",
                 index_col=0)
 
-# 1.2 Plot training data:
-preProcessing.plotTrainingData(
-    df_trainingData_PhosRatio_pivot_r, submodelName)
+if plot_things:
+    # 1.2 Plot training data:
+    preProcessing.plotTrainingData(
+        df_trainingData_PhosRatio_pivot_r, submodelName)
 
 #################################################
 # 2. Parameters Fitting (to be used as initial parameters
@@ -109,9 +124,10 @@ df_fitParameters_PhosRatio = parametersFitting.setFitFunction(
 df_fittedData_PhosRatio_pivot = parametersFitting.getFittedData(
     df_trainingData_PhosRatio_flatten, df_fitParameters_PhosRatio)
 
-# 2.3 Plot fitted data:
-parametersFitting.plotFittedData(
-    df_fittedData_PhosRatio_pivot, submodelName)
+if plot_things:
+    # 2.3 Plot fitted data:
+    parametersFitting.plotFittedData(
+        df_fittedData_PhosRatio_pivot, submodelName)
 
 #################################################
 # 3. Create table for model info:
@@ -190,13 +206,14 @@ for rv in mean_sd_r.index:
 # Display trained table:
 display(df_model3_trainedTable_ID.style.set_properties(
     **{'text-align': 'left',
-       'background-color': submodels['Depletion']['tableBackgroundColor'],
+       'background-color': submodels['PhosRatio']['tableBackgroundColor'],
        'border': '1px black solid'}))
 
 # 4.3 Set trained model:
 pm_model3_trained = training.get_pm_model3_trained(
     df_model3_trainedTable_ID)
 
+# if plot_things:
 gv_trained = pm.model_to_graphviz(pm_model3_trained)
 gv_trained_filename =\
     gv_trained.render(filename='gv_trained', directory=Output_path)
@@ -204,6 +221,7 @@ gv_trained_filename =\
 #################################################
 # 5 Predictions based on the trained parameters:
 # 5.1 Run prediction:
+"""
 run_prediction = False
 
 if run_prediction:
@@ -224,5 +242,5 @@ df_prediction_std_r = pd.read_pickle(
 predicting.plotPredictionData(df_prediction_mean_r,
                               df_prediction_std_r,
                               definitions)
-
+"""
 #################################################

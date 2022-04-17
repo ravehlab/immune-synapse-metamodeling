@@ -83,7 +83,7 @@ def trainingDataToDataFrameFlatten(x_array, y_array, z_array):
 
     flatten_column_name_x = data['flatten_columns_names'][0]
     flatten_column_name_y = data['flatten_columns_names'][1]
-    flatten_column_name_z = data['flatten_columns_names'][2]
+    flatten_column_name_z = data['flatten_columns_names'][3]
 
     # f is for flatten:
     df_trainingData_flatten = pd.DataFrame(
@@ -115,7 +115,7 @@ def pivotToFlatten(df_pivot):
 
     flatten_column_name_x = data['flatten_columns_names'][0]
     flatten_column_name_y = data['flatten_columns_names'][1]
-    flatten_column_name_z = data['flatten_columns_names'][2]
+    flatten_column_name_z = data['flatten_columns_names'][3]
 
     # f is for flatten:
     df_flatten = pd.DataFrame(

@@ -62,6 +62,7 @@ except:
 os.mkdir(Output_path)
 print("Directory 'Output' created in '% s'" % (paths['Model']))
 
+plot_things = False
 #################################################
 submodelName = 'Decaylength'
 # 1. Get training data:
@@ -76,7 +77,7 @@ df_trainingData_decaylength_pivot =\
 
 # Save dataFrame pivot as .csv:
 df_trainingData_decaylength_pivot.to_csv(
-    paths['Input']+"/df_trainingData_decaylength_pivot.csv")
+    paths['Input']+"df_trainingData_decaylength_pivot.csv")
 
 # Get trainingData aranged as dataFrame in columns (flatten):
 df_trainingData_decaylength_flatten =\
@@ -84,16 +85,16 @@ df_trainingData_decaylength_flatten =\
 
 # Save dataFrame flatten as .csv:
 df_trainingData_decaylength_flatten.to_csv(
-    paths['Input']+"/df_trainingData_decaylength_flatten.csv")
+    paths['Input']+"df_trainingData_decaylength_flatten.csv")
 
 # 1.1 Read trainingData from Input/:
 df_trainingData_decaylength_pivot_r =\
-    pd.read_csv(paths['Input']+"/df_trainingData_decaylength_pivot.csv",
+    pd.read_csv(paths['Input']+"df_trainingData_decaylength_pivot.csv",
                 index_col=0)
-
-# 1.2 Plot training data:
-preProcessing.plotTrainingData(
-    df_trainingData_decaylength_pivot_r, submodelName)
+if plot_things:
+    # 1.2 Plot training data:
+    preProcessing.plotTrainingData(
+        df_trainingData_decaylength_pivot_r, submodelName)
 
 #################################################
 # 2. Parameters Fitting (to be used as initial parameters
@@ -106,9 +107,10 @@ df_fitParameters_decaylength = parametersFitting.setFitFunction(
 df_fittedData_decaylength_pivot = parametersFitting.getFittedData(
     df_trainingData_decaylength_flatten, df_fitParameters_decaylength)
 
-# 2.3 Plot fitted data:
-parametersFitting.plotFittedData(
-    df_fittedData_decaylength_pivot, submodelName)
+if plot_things:
+    # 2.3 Plot fitted data:
+    parametersFitting.plotFittedData(
+        df_fittedData_decaylength_pivot, submodelName)
 
 #################################################
 # 3. Create table for model info:
@@ -188,20 +190,22 @@ for rv in mean_sd_r.index:
 # Display trained table:
 display(df_model2_trainedTable_ID.style.set_properties(
     **{'text-align': 'left',
-       'background-color': submodels['DecayLength']['tableBackgroundColor'],
+       'background-color': submodels['Decaylength']['tableBackgroundColor'],
        'border': '1px black solid'}))
 
 # 4.3 Set trained model:
-pm_model_trained = training.get_pm_model_trained(
+pm_model_trained = training.get_pm_model2_trained(
     df_model2_trainedTable_ID)
 
-gv_trained = pm.model_to_graphviz(pm_model_trained)
-gv_trained_filename =\
-    gv_trained.render(filename='gv_trained', directory=Output_path)
+if plot_things:
+    gv_trained = pm.model_to_graphviz(pm_model_trained)
+    gv_trained_filename =\
+        gv_trained.render(filename='gv_trained', directory=Output_path)
 
 #################################################
 # 5 Predictions based on the trained parameters:
 # 5.1 Run prediction:
+"""
 run_prediction = False
 
 if run_prediction:
@@ -222,5 +226,5 @@ df_prediction_std_r = pd.read_pickle(
 predicting.plotPredictionData(df_prediction_mean_r,
                               df_prediction_std_r,
                               definitions)
-
+"""
 #################################################

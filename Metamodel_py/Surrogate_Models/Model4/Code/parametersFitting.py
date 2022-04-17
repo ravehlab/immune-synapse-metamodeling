@@ -70,7 +70,7 @@ def setFitFunction(df_trainingData_flatten):
     # Read x, y, z data from dataFrame:
     flatten_x = df_trainingData_flatten[data['flatten_columns_names'][0]]
     flatten_y = df_trainingData_flatten[data['flatten_columns_names'][1]]
-    flatten_z = df_trainingData_flatten[data['flatten_columns_names'][2]]
+    flatten_z = df_trainingData_flatten[data['flatten_columns_names'][3]]
 
     parametersNames = submodels['RgRatio']['fitParametersNames']
 

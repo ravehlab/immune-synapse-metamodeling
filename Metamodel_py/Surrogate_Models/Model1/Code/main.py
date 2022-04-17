@@ -64,18 +64,20 @@ except:
 os.mkdir(Output_path)
 print("Directory 'Output' created in '% s'" % (paths['Model']))
 
+plot_things = False
 #################################################
 # 1.1 Read trainingData from Input/:
 df_trainingData_depletion_pivot_r =\
-    pd.read_csv(paths['Input']+"/df_trainingData_depletion_pivot.csv",
+    pd.read_csv(paths['Input']+"df_trainingData_depletion_pivot.csv",
                 index_col=0)
 
 df_trainingData_depletion_flatten =\
-    pd.read_csv(paths['Input']+"/df_trainingData_depletion_flatten.csv")
+    pd.read_csv(paths['Input']+"df_trainingData_depletion_flatten.csv")
 
-# 1.2 Plot training data:
-preProcessing.plotTrainingData(
-    df_trainingData_depletion_pivot_r, submodelName)
+if plot_things:
+    # 1.2 Plot training data:
+    preProcessing.plotTrainingData(
+        df_trainingData_depletion_pivot_r, submodelName)
 
 #################################################
 # 2. Parameters Fitting (to be used as initial parameters
@@ -92,8 +94,9 @@ df_fitParameters_depletion.to_pickle(
 df_fittedData_depletion_pivot = parametersFitting.getFittedData(
     df_trainingData_depletion_flatten, df_fitParameters_depletion)
 
-# 2.3 Plot fitted data:
-parametersFitting.plotFittedData(df_fittedData_depletion_pivot, submodelName)
+if plot_things:
+    # 2.3 Plot fitted data:
+    parametersFitting.plotFittedData(df_fittedData_depletion_pivot, submodelName)
 
 #################################################
 # 3. Create table for model info:
@@ -140,11 +143,12 @@ print(df_untrainedTable_ID)
 pm_model_untrained = training.get_pm_model1_untrained(
      df_trainingData_depletion_flatten, df_untrainedTable_ID)
 
-gv_untrained = pm.model_to_graphviz(pm_model_untrained)
-
-gv_untrained_filename =\
-    gv_untrained.render(filename='gv_untrained',
-                        directory=Output_path)
+if plot_things:
+    gv_untrained = pm.model_to_graphviz(pm_model_untrained)
+    
+    gv_untrained_filename =\
+        gv_untrained.render(filename='gv_untrained',
+                            directory=Output_path)
 
 with pm_model_untrained:
     trace = pm.sample(2000, chains=4)  # ,return_inferencedata=True)
@@ -169,18 +173,17 @@ for rv in mean_sd_r.index:
     df_trainedTable_ID.loc[rv]['sd'] =\
         str(mean_sd_r.loc[rv]['sd'])
 
-# Display trained table:
+# Display trained table:.
 display(df_trainedTable_ID.style.set_properties(
     **{'text-align': 'left',
        'background-color': submodels[submodelName]['tableBackgroundColor'],
        'border': '1px black solid'}))
 
-pm.traceplot(trace)
-
-
 # 4.3 Set trained model:
 pm_model1_trained = training.get_pm_model1_trained(
     df_trainedTable_ID)
+
+pm.plot_trace(trace)
 
 gv_trained = pm.model_to_graphviz(pm_model1_trained)
 gv_trained_filename =\
@@ -189,6 +192,7 @@ gv_trained_filename =\
 #################################################
 # 5 Predictions based on the trained parameters:
 # 5.1 Run prediction:
+"""
 run_prediction = False
 
 if run_prediction:
@@ -205,9 +209,10 @@ df_prediction_mean_r = pd.read_pickle(
 df_prediction_std_r = pd.read_pickle(
     Output_path+"/df_predicted_dep_std")
 
-# 5.2 Plot prediction data:
-predicting.plotPredictionData(df_prediction_mean_r,
-                              df_prediction_std_r,
-                              definitions)
-
+if plot_things:
+    # 5.2 Plot prediction data:
+    predicting.plotPredictionData(df_prediction_mean_r,
+                                  df_prediction_std_r,
+                                  definitions)
+"""
 #################################################

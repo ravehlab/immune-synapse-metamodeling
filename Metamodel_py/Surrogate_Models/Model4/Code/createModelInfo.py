@@ -158,12 +158,13 @@ class Model:
             self.add_rv(rv)
 
     def set_data_from_csv(self, data_csv_file):
+        pass
         # TASK 2
         # df = pd.read_csv(data_csv_file)
         # display(df) # Yair
         # TODO: code for filling in table of data
         # self.data = ... # WRITE-ME
-        self.trainingData = pd.read_csv(data_csv_file)
+        # self.trainingData = pd.read_csv(data_csv_file)
 
     # generate a pymc3 model from this model
     def get_as_pymc3(self):

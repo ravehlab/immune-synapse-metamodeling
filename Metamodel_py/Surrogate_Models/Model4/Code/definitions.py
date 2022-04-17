@@ -32,7 +32,8 @@ model['Description'] = """Model4 description."""
 modelIndex = '4'
 paths = {}
 # paths['Metamodel'] = os.getcwd()+'/'
-paths['Metamodel'] = '/home/yair/Documents/Git/Metamodel_py/'
+# paths['Metamodel'] = '/home/yair/Documents/Git/Metamodel_py/'
+paths['Metamodel'] = '/home/jonah/Yair/Git/Metamodel_py/'
 paths['Surrogate'] = paths['Metamodel']+'Surrogate_Models/'
 paths['Model'] = paths['Surrogate']+'Model'+modelIndex+'/'
 paths['Input'] = paths['Metamodel']+'Input_Models/Model'+modelIndex+'/'
@@ -51,6 +52,7 @@ data['shortNames'] = ['Decaylength',
                       'Depletion',
                       'PhosRatio',
                       'RgRatio']
+
 data['units'] = ['nm', 'nm', '-', '-']
 data['description'] = ['Decay length of active Lck in nm.',
                        'Depletion distance between TCR and CD45',

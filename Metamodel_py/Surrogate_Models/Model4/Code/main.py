@@ -62,9 +62,10 @@ except:
 os.mkdir(Output_path)
 print("Directory 'Output' created in '% s'" % (paths['Model']))
 
+plot_things = False
 #################################################
 submodelName = 'RgRatio'
-# 1. Get training data:
+# %% 1. Get training data:
 # 1.0 Read raw data as dataFrame:
 raw_data_name = 'raw_data_RgRatio.csv'
 df_raw_data_RgRatio =\
@@ -94,11 +95,13 @@ df_trainingData_RgRatio_pivot_r =\
     pd.read_csv(paths['Input']+"/df_trainingData_RgRatio_pivot.csv",
                 index_col=0)
 
-# 1.2 Plot training data:
-preProcessing.plotTrainingData(df_trainingData_RgRatio_pivot_r, submodelName)
+if plot_things:
+    # 1.2 Plot training data:
+    preProcessing.plotTrainingData(
+        df_trainingData_RgRatio_pivot_r, submodelName)
 
 #################################################
-# 2. Parameters Fitting (to be used as initial parameters
+# %% 2. Parameters Fitting (to be used as initial parameters
 # for the untrained model):
 # 2.1 Get fit parameters:
 df_fitParameters_RgRatio = parametersFitting.setFitFunction(
@@ -108,11 +111,13 @@ df_fitParameters_RgRatio = parametersFitting.setFitFunction(
 df_fittedData_RgRatio_pivot = parametersFitting.getFittedData(
     df_trainingData_RgRatio_flatten, df_fitParameters_RgRatio)
 
-# 2.3 Plot fitted data:
-parametersFitting.plotFittedData(df_fittedData_RgRatio_pivot, submodelName)
+if plot_things:
+    # 2.3 Plot fitted data:
+    parametersFitting.plotFittedData(
+        df_fittedData_RgRatio_pivot, submodelName)
 
 #################################################
-# 3. Create table for model info:
+# %% 3. Create table for model info:
 # 3.1 Define class RV (Random variable).
 createModelInfo.RV
 
@@ -149,7 +154,7 @@ display(df_model4_untrainedTable_ID.style.set_properties(
 # 3.5 Output (temp) save displayed table as figure.
 
 #################################################
-# 4. Training with pymc3:
+# %% 4. Training with pymc3:
 
 # 4.1 df_model1_untrainedTabled
 pm_model4_untrained = training.get_pm_model4_untrained(
@@ -199,10 +204,11 @@ gv_trained_filename =\
     gv_trained.render(filename='gv_trained', directory=Output_path)
 
 #################################################
-# 5 Predictions based on the trained parameters:
+# %% 5 Predictions based on the trained parameters:
 # 5.1 Run prediction:
-run_prediction = False
 """
+run_prediction = False
+
 if run_prediction:
     df_prediction_mean, df_prediction_std =\
         predicting.predict(df_model4_trainedTable_ID)

@@ -34,7 +34,8 @@ surface."""
 modelIndex = '1'
 paths = {}
 # paths['Metamodel'] = os.getcwd()+'/'
-paths['Metamodel'] = '/home/yair/Documents/Git/Metamodel_py/'
+# paths['Metamodel'] = '/home/yair/Documents/Git/Metamodel_py/'
+paths['Metamodel'] = '/home/jonah/Yair/Git/Metamodel_py/'
 paths['Surrogate'] = paths['Metamodel']+'Surrogate_Models/'
 paths['Model'] = paths['Surrogate']+'Model'+modelIndex+'/'
 paths['Input'] = paths['Metamodel']+'Input_Models/Model'+modelIndex+'/'
@@ -73,7 +74,7 @@ plots['fontSizes1'] = 10
 plots['fontSizes2'] = 12
 plots['fontSizes3'] = 14
 plots['fontSizes4'] = 16
-plots['nRoWs'] = len(plots['rowTitles'])
+plots['nRoWs'] = 1  # len(plots['rowTitles'])
 plots['nCols'] = 1  # len(submodelsNames)
 
 #################################################

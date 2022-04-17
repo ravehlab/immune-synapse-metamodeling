@@ -1,16 +1,28 @@
 digraph {
 	subgraph cluster420 {
-		fp_Depletion_TCRP4 [label="fp_Depletion_TCRP4 ~ Normal" style=filled]
-		rv_output_RgRatio_TCRP4 [label="rv_output_RgRatio_TCRP4 ~ Normal" style=filled]
-		fp_Decaylength_TCRP4 [label="fp_Decaylength_TCRP4 ~ Normal" style=filled]
+		fp_Decaylength_TCRP4 [label="fp_Decaylength_TCRP4
+~
+Normal" style=filled]
+		fp_Depletion_TCRP4 [label="fp_Depletion_TCRP4
+~
+Normal" style=filled]
+		rv_output_RgRatio_TCRP4 [label="rv_output_RgRatio_TCRP4
+~
+Normal" style=filled]
 		label=420 labeljust=r labelloc=b style=rounded
 	}
-	rv_DepletionSlope_RgRatio_TCRP4 [label="rv_DepletionSlope_RgRatio_TCRP4 ~ Normal"]
-	rv_DecaylengthSlope_RgRatio_TCRP4 [label="rv_DecaylengthSlope_RgRatio_TCRP4 ~ Normal"]
-	rv_Intercept_RgRatio_TCRP4 [label="rv_Intercept_RgRatio_TCRP4 ~ Normal"]
-	rv_DepletionSlope_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
-	rv_Intercept_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
+	rv_DecaylengthSlope_RgRatio_TCRP4 [label="rv_DecaylengthSlope_RgRatio_TCRP4
+~
+Normal"]
+	rv_DepletionSlope_RgRatio_TCRP4 [label="rv_DepletionSlope_RgRatio_TCRP4
+~
+Normal"]
+	rv_Intercept_RgRatio_TCRP4 [label="rv_Intercept_RgRatio_TCRP4
+~
+Normal"]
 	fp_Decaylength_TCRP4 -> rv_output_RgRatio_TCRP4
+	rv_Intercept_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
+	rv_DepletionSlope_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
 	rv_DecaylengthSlope_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
 	fp_Depletion_TCRP4 -> rv_output_RgRatio_TCRP4
 }
