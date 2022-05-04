@@ -9,11 +9,12 @@ Created on Tue Mar 15 08:01:39 2022
 import numpy as np
 import pandas as pd
 import pymc3 as pm
-import seaborn as sns
+# import seaborn as sns
 
 # Input_path = '/home/yair/Documents/Git/Metamodel_py/Coupled_Model/Input/'
-Input_path = '/home/jonah/Yair/Git/Metamodel_py/Coupled_Model/Input/'
-
+# Input_path = '/home/jonah/Yair/Git/Metamodel_py/Coupled_Model/Input/'
+# Input_path = '/immune-synapse-metamodeling/Metamodel_py/Coupled_Model/Input/'
+Input_path = '/cs/usr/yairneveoz/immune-synapse-metamodeling/Metamodel_py/Coupled_Model/Input/'
 # Read input data from surrogate models:
 model1_df_Table_ID = pd.read_pickle(
     Input_path+"df_model1_untrainedTable_ID")
@@ -345,7 +346,8 @@ pm.summary(trace_metamodel, ['rv_depletion_TCRP3',
 
 # %% Direction A, plot Kernel Density Estimation (KDE) joint plot:
 df_trace_metamodel = pm.trace_to_dataframe(trace_metamodel)
-df_trace_metamodel
+# df_trace_metamodel
+"""
 m3 = sns.jointplot(df_trace_metamodel.loc[:,'rv_Decaylength_TCRP3'],
               df_trace_metamodel.loc[:,'rv_depletion_TCRP3'],
               kind='kde', xlim=(0, 200), ylim=(0, 200), n_levels=10,
@@ -354,7 +356,7 @@ m3.ax_marg_x.lines[0].set_color('#fdae6b')
 m3.ax_marg_y.lines[0].set_color('#fdae6b')
 m3.ax_marg_x.collections[0].set_facecolor('#fdae6b')
 m3.ax_marg_y.collections[0].set_facecolor('#fdae6b')
-
+"""
 # %% Direction B (TCRP to KSEG & LCKA):
 metamodel = get_metamodel(observed_t_KSEG1=None,
                           observed_k_KSEG1=None,
@@ -376,6 +378,7 @@ pm.summary(trace_metamodel, ['rv_t_KSEG1',
 # %% Direction B, plot Kernel Density Estimation (KDE) joint plot:
 df_trace_metamodel = pm.trace_to_dataframe(trace_metamodel)
 df_trace_metamodel
+"""
 m1 = sns.jointplot(df_trace_metamodel.loc[:,'rv_t_KSEG1'],
                    df_trace_metamodel.loc[:,'rv_k_KSEG1'],
                    kind='kde', xlim=(0, 100), ylim=(0, 100), n_levels=10,
@@ -384,9 +387,10 @@ m1.ax_marg_x.lines[0].set_color('#756bb1')
 m1.ax_marg_y.lines[0].set_color('#756bb1')
 m1.ax_marg_x.collections[0].set_facecolor('#756bb1')
 m1.ax_marg_y.collections[0].set_facecolor('#756bb1')
-
+"""
 # %% Direction B, plot Kernel Density Estimation (KDE) joint plot:
 df_trace_metamodel = pm.trace_to_dataframe(trace_metamodel)
+"""
 m2 = sns.jointplot(df_trace_metamodel.loc[:,'rv_logPoff_LCKA2'],
               df_trace_metamodel.loc[:,'rv_logDiff_LCKA2'],
               kind='kde', xlim=(-5, 0), ylim=(-3, 0), n_levels=100,
@@ -396,6 +400,7 @@ m2.ax_marg_y.lines[0].set_color('#2b7bba')
 m2.ax_marg_x.collections[0].set_facecolor('#2b7bba')
 m2.ax_marg_y.collections[0].set_facecolor('#2b7bba')
 # %% TODO:
+"""
 """
 1. Make transparent/white maps with values of the KDE jointplots and 
 plot them over the surrogate models. (Matlab)
@@ -420,7 +425,7 @@ fixed_k = 25.
 fixed_logPoff = -1.
 fixed_logDiff = -2.
 
-Np = 20  # Square grid size:
+Np = 4  # 20  # Square grid size:
 
 # Define batch parameters values:    
 batch_t = np.linspace(100./(Np), 100., Np)

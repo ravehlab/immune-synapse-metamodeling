@@ -1,10 +1,10 @@
 ,ID,Variable type,Short Name,Latex Name,Description,Distribution,Distribution parameters,Units
 0,fp_t_KSEG1,Free parameter,t,$$t^{KSEG}$$,Time,Uniform,"{'lower': '0.0', 'upper': '100.0'}",sec
 1,fp_k_KSEG1,Free parameter,k,$$k^{KSEG}$$,Membrane rigidity,Uniform,"{'lower': '0.0', 'upper': '100.0'}",$$kTnm^2$$
-2,rv_tScale_Depletion_KSEG1,Random variable,tScale,None,xScale,Normal,"{'mu': '229.51910271041925', 'sd': '6.58739894261438'}",$$nm$$
-3,rv_tCen_Depletion_KSEG1,Random variable,tCen,nm,xCen,Normal,"{'mu': '19.218528503203988', 'sd': '1.9380496653432884'}",$$nm$$
-4,rv_tDev_Depletion_KSEG1,Random variable,tDev,nm,xDev,Normal,"{'mu': '34.22402081273799', 'sd': '2.737183295274493'}",$$nm$$
-5,rv_kScale_Depletion_KSEG1,Random variable,kScale,None,xScale,Normal,"{'mu': '-81.99014251039914', 'sd': '19.95148276296778'}",$$nm$$
-6,rv_kCen_Depletion_KSEG1,Random variable,kCen,nm,yCen,Normal,"{'mu': '22.729223357702004', 'sd': '6.66499057088544'}",$$nm$$
-7,rv_kDev_Depletion_KSEG1,Random variable,kDev,nm,yDev,Normal,"{'mu': '-12.818152962135485', 'sd': '3.1994012495476043'}",$$nm$$
+2,rv_tScale_Depletion_KSEG1,Random variable,tScale,None,xScale,Normal,"{'mu': '229.51910338802003', 'sd': '6.587398978586333'}",$$nm$$
+3,rv_tCen_Depletion_KSEG1,Random variable,tCen,nm,xCen,Normal,"{'mu': '19.218528009458034', 'sd': '1.9380496897026485'}",$$nm$$
+4,rv_tDev_Depletion_KSEG1,Random variable,tDev,nm,xDev,Normal,"{'mu': '34.224020766149295', 'sd': '2.7371835172618897'}",$$nm$$
+5,rv_kScale_Depletion_KSEG1,Random variable,kScale,None,xScale,Normal,"{'mu': '-81.99015186668248', 'sd': '19.95144910591511'}",$$nm$$
+6,rv_kCen_Depletion_KSEG1,Random variable,kCen,nm,yCen,Normal,"{'mu': '22.729220875209215', 'sd': '6.6649813060546474'}",$$nm$$
+7,rv_kDev_Depletion_KSEG1,Random variable,kDev,nm,yDev,Normal,"{'mu': '-12.81815500353567', 'sd': '3.1993987173910297'}",$$nm$$
 8,rv_output_depletion_KSEG1,Random variable,output,$$dep^{KSEG}_{output}$$,dep output,Normal,"{'mu': '', 'sd': '20.0'}",$$nm$$

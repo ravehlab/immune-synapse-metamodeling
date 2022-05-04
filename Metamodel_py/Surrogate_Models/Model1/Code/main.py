@@ -55,6 +55,7 @@ Output_path = paths['Output']
 Input_path = paths['Input']
 
 # Remove all Output directory content:
+
 try:
     shutil.rmtree(Output_path)
 except:
@@ -62,7 +63,7 @@ except:
 
 # os.rmdir(Output_path)
 os.mkdir(Output_path)
-print("Directory 'Output' created in '% s'" % (paths['Model']))
+# print("Directory 'Output' created in '% s'" % (paths['Model']))
 
 plot_things = False
 #################################################
@@ -174,10 +175,12 @@ for rv in mean_sd_r.index:
         str(mean_sd_r.loc[rv]['sd'])
 
 # Display trained table:.
+"""
 display(df_trainedTable_ID.style.set_properties(
     **{'text-align': 'left',
        'background-color': submodels[submodelName]['tableBackgroundColor'],
        'border': '1px black solid'}))
+"""
 
 # 4.3 Set trained model:
 pm_model1_trained = training.get_pm_model1_trained(
@@ -192,8 +195,8 @@ gv_trained_filename =\
 #################################################
 # 5 Predictions based on the trained parameters:
 # 5.1 Run prediction:
-"""
-run_prediction = False
+
+run_prediction = True
 
 if run_prediction:
     df_prediction_mean, df_prediction_std =\
@@ -204,15 +207,15 @@ if run_prediction:
     df_prediction_std.to_pickle(
         Output_path+"/df_predicted_dep_std")
 
-df_prediction_mean_r = pd.read_pickle(
-    Output_path+"/df_predicted_dep_mean")
-df_prediction_std_r = pd.read_pickle(
-    Output_path+"/df_predicted_dep_std")
+    df_prediction_mean_r = pd.read_pickle(
+        Output_path+"/df_predicted_dep_mean")
+    df_prediction_std_r = pd.read_pickle(
+        Output_path+"/df_predicted_dep_std")
 
-if plot_things:
-    # 5.2 Plot prediction data:
-    predicting.plotPredictionData(df_prediction_mean_r,
-                                  df_prediction_std_r,
-                                  definitions)
-"""
+    if plot_things:
+        # 5.2 Plot prediction data:
+        predicting.plotPredictionData(df_prediction_mean_r,
+                                      df_prediction_std_r,
+                                      definitions)
+
 #################################################
