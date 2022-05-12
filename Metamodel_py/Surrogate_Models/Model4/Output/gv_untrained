@@ -11,18 +11,26 @@ Normal" style=filled]
 Normal" style=filled]
 		label=420 labeljust=r labelloc=b style=rounded
 	}
-	rv_DecaylengthSlope_RgRatio_TCRP4 [label="rv_DecaylengthSlope_RgRatio_TCRP4
+	rv_p00_RgRatio_TCRP4 [label="rv_p00_RgRatio_TCRP4
 ~
 Normal"]
-	rv_DepletionSlope_RgRatio_TCRP4 [label="rv_DepletionSlope_RgRatio_TCRP4
+	rv_p11_RgRatio_TCRP4 [label="rv_p11_RgRatio_TCRP4
 ~
 Normal"]
-	rv_Intercept_RgRatio_TCRP4 [label="rv_Intercept_RgRatio_TCRP4
+	rv_p20_RgRatio_TCRP4 [label="rv_p20_RgRatio_TCRP4
 ~
 Normal"]
+	rv_p01_RgRatio_TCRP4 [label="rv_p01_RgRatio_TCRP4
+~
+Normal"]
+	rv_p10_RgRatio_TCRP4 [label="rv_p10_RgRatio_TCRP4
+~
+Normal"]
+	rv_p00_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
 	fp_Decaylength_TCRP4 -> rv_output_RgRatio_TCRP4
-	rv_Intercept_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
-	rv_DepletionSlope_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
-	rv_DecaylengthSlope_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
 	fp_Depletion_TCRP4 -> rv_output_RgRatio_TCRP4
+	rv_p11_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
+	rv_p20_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
+	rv_p01_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
+	rv_p10_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
 }

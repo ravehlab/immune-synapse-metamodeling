@@ -50,6 +50,16 @@ def sigXlinearY(xy, xMin, xMax, xCen, xDev, ySlope):
 
     return f
 
+
+def poly21(xy, p00, p10, p01, p20, p11):
+    
+    submodelName = 'RgRatio'
+    x, y = xy
+    f = eval(submodels[submodelName]['fitFunction'])
+
+    return f
+
+fit_function = poly21
 #################################################
 # 2.2 Set fit function:
 
@@ -76,7 +86,7 @@ def setFitFunction(df_trainingData_flatten):
 
     df_fitParameters = getFitParameters(
         X=(flatten_x, flatten_y),
-        fitFunc=fitFunction,
+        fitFunc=fit_function,
         fXdata=flatten_z,
         parametersNames=parametersNames,
         p0=submodels['RgRatio']['p0'])
@@ -123,21 +133,23 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
     x, y data.
     """
 
+    flatten_column_name_x = data['flatten_columns_names'][0]
+    flatten_column_name_y = data['flatten_columns_names'][1]
+    # flatten_column_name_z = data['flatten_columns_names'][2]
+
+    flatten_x = df_trainingData_flatten[flatten_column_name_x]
+    flatten_y = df_trainingData_flatten[flatten_column_name_y]
+
     # Read fit parameters from df_fitParameters:
-    Intercept_fit = df_fitParameters.loc['Intercept', 'mu']
-    xSlope_fit = df_fitParameters.loc['DecaylengthSlope', 'mu']
-    ySlope_fit = df_fitParameters.loc['DepletionSlope', 'mu']
+    p00_fit = df_fitParameters.loc['p00', 'mu']
+    p10_fit = df_fitParameters.loc['p10', 'mu']
+    p01_fit = df_fitParameters.loc['p01', 'mu']
+    p20_fit = df_fitParameters.loc['p20', 'mu']
+    p11_fit = df_fitParameters.loc['p11', 'mu']
 
-    flatten_x = df_trainingData_flatten['Decaylength_nm']
-    flatten_y = df_trainingData_flatten['Depletion_nm']
-
-    # fitted_data_flatten =\
-    #     Intercept_fit + xSlope_fit*flatten_x + ySlope_fit*flatten_y
-
-    fitted_data_flatten = fitFunction([flatten_x, flatten_y],
-                                      Intercept_fit,
-                                      xSlope_fit,
-                                      ySlope_fit)
+    fitted_data_flatten = fit_function(
+        (flatten_x, flatten_y),
+        p00_fit, p10_fit, p01_fit, p20_fit, p11_fit)
 
     df_fitted_data_flatten = df_trainingData_flatten
     df_fitted_data_flatten['RgRatio'] = fitted_data_flatten

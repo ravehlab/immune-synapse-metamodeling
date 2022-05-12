@@ -139,34 +139,60 @@ submodelsNames = ['PhosRatio', 'RgRatio']
 submodelName = submodelsNames[1]
 submodels = {}
 # submodels['names'] = ['PhosRatio']
+# submodels[submodelName] = {}
+# submodels[submodelName]['fitParametersNames'] =\
+#     ['Intercept',
+#      'DecaylengthSlope',
+#      'DepletionSlope']
+
+# # Fit parameters description Depletion:
+# submodels[submodelName]['fitParametersDescriptions'] =\
+#     ['Intercept',
+#      'Decaylength Slope',
+#      'Depletion Slope']
+
+# # Fit parameters units:
+# submodels[submodelName]['fitParametersUnits'] =\
+#     ["-",
+#      "nm^-1",
+#      "nm^-1"]
+
+# submodels[submodelName]['p0'] = [1., 0., 0.]
+# submodels[submodelName]['sd'] = [0.2, 0.1, 0.1]
+# submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 0, 0.65)'
+
+submodels = {}
 submodels[submodelName] = {}
 submodels[submodelName]['fitParametersNames'] =\
-    ['Intercept',
-     'DecaylengthSlope',
-     'DepletionSlope']
+    ['p00', 'p10', 'p01','p20', 'p11']
 
 # Fit parameters description Depletion:
 submodels[submodelName]['fitParametersDescriptions'] =\
-    ['Intercept',
-     'Decaylength Slope',
-     'Depletion Slope']
+    ['p00', 'p10', 'p01','p20', 'p11']
 
 # Fit parameters units:
 submodels[submodelName]['fitParametersUnits'] =\
-    ["-",
-     "nm^-1",
-     "nm^-1"]
+    ["nm",
+     "-",
+     "-",
+     "-",
+     "-",
+     "-"]
 
-# Initial fit parameters
-#         mu	sd
-# xMin	1.487	0.017
-# xMax	0.908	0.012
-# xCen	93.395	2.202
-# xDev	-39.326	2.809
-# ySlope	0.001	0.000
-submodels[submodelName]['p0'] = [1., 0., 0.]
-submodels[submodelName]['sd'] = [0.2, 0.1, 0.1]
+submodels[submodelName]['p0'] = [1.45, 0., 0., 0., 0.]
+submodels[submodelName]['sd'] = [0.5, 0.1, 0.1, 0.1, 0.1]
 submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 0, 0.65)'
+
+submodels[submodelName]['fitFunction'] = \
+    'p00 + p10*x + p01*y + p20*x**2 + p11*x*y'
+
+
+def poly21(xy, p00, p10, p01, p20, p11):
+
+    x, y = xy
+    f = eval(submodels[submodelName]['fitFunction'])
+
+    return f
 
 #################################################
 # For plots:
