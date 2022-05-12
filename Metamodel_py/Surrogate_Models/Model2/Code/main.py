@@ -62,10 +62,10 @@ except:
 os.mkdir(Output_path)
 print("Directory 'Output' created in '% s'" % (paths['Model']))
 
-plot_things = False
+plot_things = True  # False
 #################################################
 submodelName = 'Decaylength'
-# 1. Get training data:
+# %% 1. Get training data:
 # 1.0 Read raw data as dataFrame:
 raw_data_name = 'raw_data_decaylength.csv'
 df_raw_data_decaylength =\
@@ -94,10 +94,10 @@ df_trainingData_decaylength_pivot_r =\
 if plot_things:
     # 1.2 Plot training data:
     preProcessing.plotTrainingData(
-        df_trainingData_decaylength_pivot_r, submodelName)
+        df_trainingData_decaylength_pivot, submodelName)
 
 #################################################
-# 2. Parameters Fitting (to be used as initial parameters
+# %% 2. Parameters Fitting (to be used as initial parameters
 # for the untrained model):
 # 2.1 Get fit parameters:
 df_fitParameters_decaylength = parametersFitting.setFitFunction(
@@ -167,7 +167,7 @@ gv_untrained_filename =\
 with pm_model_untrained:
     trace = pm.sample(2000, chains=4)
 
-pm.traceplot(trace)
+pm.plot_trace(trace)
 
 trace_summary = pm.summary(trace)
 
@@ -205,26 +205,27 @@ if plot_things:
 #################################################
 # 5 Predictions based on the trained parameters:
 # 5.1 Run prediction:
-"""
 run_prediction = False
+prediction = definitions.prediction
+
+df_trainedTable_ID = df_model2_trainedTable_ID
 
 if run_prediction:
     df_prediction_mean, df_prediction_std =\
-        predicting.predict(df_model2_trainedTable_ID)
+        predicting.predict(df_trainedTable_ID)
 
     df_prediction_mean.to_pickle(
-        Output_path+"/df_model_predicted_decaylength_mean")
+        Output_path+"/"+prediction['saveName_mean'])
     df_prediction_std.to_pickle(
-        Output_path+"/df_model_predicted_decaylength_std")
+        Output_path+"/"+prediction['saveName_std'])
 
-df_prediction_mean_r = pd.read_pickle(
-    Output_path+"/df_model_predicted_decaylength_mean")
-df_prediction_std_r = pd.read_pickle(
-    Output_path+"/df_model_predicted_decaylength_std")
+    df_prediction_mean_r = pd.read_pickle(
+        Output_path+"/"+prediction['saveName_mean'])
+    df_prediction_std_r = pd.read_pickle(
+        Output_path+"/"+prediction['saveName_std'])
 
-# 5.2 Plot prediction data:
-predicting.plotPredictionData(df_prediction_mean_r,
-                              df_prediction_std_r,
-                              definitions)
-"""
+    if plot_things:
+        # 5.2 Plot prediction data:
+        predicting.plotPredictionData(df_prediction_mean_r,
+                                      definitions, submodelName)
 #################################################

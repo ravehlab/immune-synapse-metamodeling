@@ -35,6 +35,25 @@ def gaussXgaussY(xy, xScale, xMu, xSigma, yScale, yMu, ySigma):
 
     return f
 
+
+# %% poly22 #####################################
+def poly22(xy, p00, p10, p01, p20, p11, p02):
+    """
+    Gets: xy, fit_parameters.
+    Returns: f.
+    Calling: None.
+    Called by:
+    Description:
+    """
+    submodelName = 'Decaylength'
+    # submodels[submodelName]['fitFunction']
+    x, y = xy
+    # f = p00 + p10*x + p01*y + p20*x**2 + p11*x*y + p02*y**2
+    f = eval(submodels[submodelName]['fitFunction'])
+    
+    return f
+
+fit_function = poly22
 #################################################
 # 2.2 Set fit function for dep:
 
@@ -60,7 +79,7 @@ def setFitFunction(df_trainingData_flatten):
 
     df_fitParameters = getFitParameters(
         X=(flatten_x, flatten_y),
-        fitFunc=gaussXgaussY,
+        fitFunc=fit_function,
         fXdata=flatten_z,
         parametersNames=parametersNames,
         p0=submodels['Decaylength']['p0'])
@@ -97,6 +116,45 @@ def getFitParameters(X, fitFunc, fXdata, parametersNames, p0):
 # 2.4 Get fitted data:
 
 
+# def getFittedData(df_trainingData_flatten, df_fitParameters):
+#     """
+#     Gets: df_fitParameters, df_trainingData_flatten.
+#     Returns: df_fitted_data_pivot.
+#     Calling: None.
+#     Called by: Surrogate.main
+#     Description: Returns fitted data created by the fit parameters and the
+#     x, y data.
+#     """
+
+#     # Read fit parameters from df_fitParameters:
+#     xScale_fit = df_fitParameters.loc['PoffScale', 'mu']
+#     xMu_fit = df_fitParameters.loc['PoffMu', 'mu']
+#     xSigma_fit = df_fitParameters.loc['PoffSigma', 'mu']
+#     yScale_fit = df_fitParameters.loc['DiffScale', 'mu']
+#     yMu_fit = df_fitParameters.loc['DiffMu', 'mu']
+#     ySigma_fit = df_fitParameters.loc['DiffSigma', 'mu']
+
+#     # flatten_column_name_x = data['flatten_columns_names']['x']
+#     # flatten_column_name_y = data['flatten_columns_names']['y']
+#     # flatten_column_name_z = data['flatten_columns_names']['z']
+
+#     flatten_x = df_trainingData_flatten['Poff']
+#     flatten_y = df_trainingData_flatten['Diff']
+
+#     fitted_data_flatten =\
+#         xScale_fit*np.exp(-0.5*((flatten_x - xMu_fit)/xSigma_fit)**2) +\
+#         yScale_fit*np.exp(-0.5*((flatten_y - yMu_fit)/ySigma_fit)**2)
+
+#     df_fitted_data_flatten = df_trainingData_flatten
+#     df_fitted_data_flatten['Decaylength_nm'] = fitted_data_flatten
+
+#     df_fitted_data_pivot =\
+#         df_fitted_data_flatten.pivot(index='Diff',
+#                                      columns='Poff',
+#                                      values='Decaylength_nm')
+
+#     return df_fitted_data_pivot
+
 def getFittedData(df_trainingData_flatten, df_fitParameters):
     """
     Gets: df_fitParameters, df_trainingData_flatten.
@@ -108,23 +166,20 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
     """
 
     # Read fit parameters from df_fitParameters:
-    xScale_fit = df_fitParameters.loc['PoffScale', 'mu']
-    xMu_fit = df_fitParameters.loc['PoffMu', 'mu']
-    xSigma_fit = df_fitParameters.loc['PoffSigma', 'mu']
-    yScale_fit = df_fitParameters.loc['DiffScale', 'mu']
-    yMu_fit = df_fitParameters.loc['DiffMu', 'mu']
-    ySigma_fit = df_fitParameters.loc['DiffSigma', 'mu']
+    p00_fit = df_fitParameters.loc['p00', 'mu']
+    p10_fit = df_fitParameters.loc['p10', 'mu']
+    p01_fit = df_fitParameters.loc['p01', 'mu']
+    p20_fit = df_fitParameters.loc['p20', 'mu']
+    p11_fit = df_fitParameters.loc['p11', 'mu']
+    p02_fit = df_fitParameters.loc['p02', 'mu']
 
-    # flatten_column_name_x = data['flatten_columns_names']['x']
-    # flatten_column_name_y = data['flatten_columns_names']['y']
-    # flatten_column_name_z = data['flatten_columns_names']['z']
 
     flatten_x = df_trainingData_flatten['Poff']
     flatten_y = df_trainingData_flatten['Diff']
 
-    fitted_data_flatten =\
-        xScale_fit*np.exp(-0.5*((flatten_x - xMu_fit)/xSigma_fit)**2) +\
-        yScale_fit*np.exp(-0.5*((flatten_y - yMu_fit)/ySigma_fit)**2)
+    fitted_data_flatten = fit_function(
+        (flatten_x, flatten_y),
+        p00_fit, p10_fit, p01_fit, p20_fit, p11_fit, p02_fit)
 
     df_fitted_data_flatten = df_trainingData_flatten
     df_fitted_data_flatten['Decaylength_nm'] = fitted_data_flatten
@@ -135,7 +190,6 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
                                      values='Decaylength_nm')
 
     return df_fitted_data_pivot
-
 #################################################
 # Plot fitted data:
 

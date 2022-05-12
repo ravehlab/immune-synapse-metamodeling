@@ -26,7 +26,7 @@ def get_pm_model2_untrained(df_trainingData_model,
         # fp_Poff_LCKA2
         ID = 'fp_Poff_LCKA2'
         fp_Poff_LCKA2 = pm.Normal(
-            'fp_Poff_LCKA2',
+            'rv_Poff',
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']),
             observed=x_obs)
@@ -41,44 +41,44 @@ def get_pm_model2_untrained(df_trainingData_model,
 
         # decaylength_LCKA2
         """TODO: read parameters values from RV table"""
-        # rv_p00_Decaylength_LCKA2
-        ID = 'rv_p00_Decaylength_LCKA2'
-        rv_p00_Decaylength_LCKA2 = pm.Normal(
+        # rv_PoffScale_Decaylength_LCKA2
+        ID = 'rv_PoffScale_Decaylength_LCKA2'
+        rv_PoffScale_Decaylength_LCKA2 = pm.Normal(
+            ID,
+            mu=eval(dfRV.loc[ID, DP]['mu']),
+            sd=1.)  # eval(dfRV.loc[ID, DP]['sd']))
+
+        # rv_PoffMu_Decaylength_LCKA2
+        ID = 'rv_PoffMu_Decaylength_LCKA2'
+        rv_PoffMu_Decaylength_LCKA2 = pm.Normal(
+            ID,
+            mu=eval(dfRV.loc[ID, DP]['mu']),
+            sd=1.)  # meval(dfRV.loc[ID, DP]['sd']))
+
+        # rv_PoffSigma_Decaylength_LCKA2
+        ID = 'rv_PoffSigma_Decaylength_LCKA2'
+        rv_PoffSigma_Decaylength_LCKA2 = pm.Normal(
+            ID,
+            mu=eval(dfRV.loc[ID, DP]['mu']),
+            sd=1.)  # eval(dfRV.loc[ID, DP]['sd']))
+
+        # rv_DiffScale_decaylength_LCKA2
+        ID = 'rv_DiffScale_Decaylength_LCKA2'
+        rv_DiffScale_Decaylength_LCKA2 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_p10_Decaylength_LCKA2
-        ID = 'rv_p10_Decaylength_LCKA2'
-        rv_p10_Decaylength_LCKA2 = pm.Normal(
+        # rv_DiffMu_Decaylength_LCKA2
+        ID = 'rv_DiffMu_Decaylength_LCKA2'
+        rv_DiffMu_Decaylength_LCKA2 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_p01_Decaylength_LCKA2
-        ID = 'rv_p01_Decaylength_LCKA2'
-        rv_p01_Decaylength_LCKA2 = pm.Normal(
-            ID,
-            mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
-
-        # rv_p20_Decaylength_LCKA2
-        ID = 'rv_p20_Decaylength_LCKA2'
-        rv_p20_Decaylength_LCKA2 = pm.Normal(
-            ID,
-            mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
-
-        # rv_p11_Decaylength_LCKA2
-        ID = 'rv_p11_Decaylength_LCKA2'
-        rv_p11_Decaylength_LCKA2 = pm.Normal(
-            ID,
-            mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
-
-        # rv_p02_Decaylength_LCKA2
-        ID = 'rv_p02_Decaylength_LCKA2'
-        rv_p02_Decaylength_LCKA2 = pm.Normal(
+        # rv_DiffSigma_Decaylength_LCKA2
+        ID = 'rv_DiffSigma_Decaylength_LCKA2'
+        rv_DiffSigma_Decaylength_LCKA2 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
@@ -86,12 +86,12 @@ def get_pm_model2_untrained(df_trainingData_model,
         ID = 'rv_output_Decaylength_LCKA2'
         rv_output_Decaylength_LCKA2 = pm.Normal(
             ID,
-            mu=rv_p00_Decaylength_LCKA2 +\
-                rv_p10_Decaylength_LCKA2*fp_Poff_LCKA2 +\
-                rv_p01_Decaylength_LCKA2*fp_Diff_LCKA2 +\
-                rv_p20_Decaylength_LCKA2*fp_Poff_LCKA2**2 +\
-                rv_p11_Decaylength_LCKA2*fp_Poff_LCKA2*fp_Diff_LCKA2 +\
-                rv_p02_Decaylength_LCKA2*fp_Diff_LCKA2**2,
+            mu=rv_PoffScale_Decaylength_LCKA2 *
+            (-0.5 * ((fp_Poff_LCKA2 - rv_PoffMu_Decaylength_LCKA2) /
+                     rv_PoffSigma_Decaylength_LCKA2)**2) +
+            rv_DiffScale_Decaylength_LCKA2 *
+            (-0.5 * ((fp_Diff_LCKA2 - rv_DiffMu_Decaylength_LCKA2) /
+                     rv_DiffSigma_Decaylength_LCKA2)**2),
             sd=0.5,  # eval(dfRV.loc[ID, DP]['sd']),
             observed=z_obs)
 
@@ -121,46 +121,46 @@ def get_pm_model2_trained(df_model_trainedTable,
         rv_Poff = pm.Normal('rv_Poff', mu=-2., sd=1., observed=observed_Poff)
         rv_Diff = pm.Normal('rv_Diff', mu=-2., sd=1., observed=observed_Diff)
 
-                # decaylength_LCKA2
+        # decaylength_LCKA2
         """TODO: read parameters values from RV table"""
-        # rv_p00_Decaylength_LCKA2
-        ID = 'rv_p00_Decaylength_LCKA2'
-        rv_p00_Decaylength_LCKA2 = pm.Normal(
+        # rv_PoffScale_Decaylength_LCKA2
+        ID = 'rv_PoffScale_Decaylength_LCKA2'
+        rv_PoffScale_Decaylength_LCKA2 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_p10_Decaylength_LCKA2
-        ID = 'rv_p10_Decaylength_LCKA2'
-        rv_p10_Decaylength_LCKA2 = pm.Normal(
+        # rv_PoffMu_Decaylength_LCKA2
+        ID = 'rv_PoffMu_Decaylength_LCKA2'
+        rv_PoffMu_Decaylength_LCKA2 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_p01_Decaylength_LCKA2
-        ID = 'rv_p01_Decaylength_LCKA2'
-        rv_p01_Decaylength_LCKA2 = pm.Normal(
+        # rv_PoffSigma_Decaylength_LCKA2
+        ID = 'rv_PoffSigma_Decaylength_LCKA2'
+        rv_PoffSigma_Decaylength_LCKA2 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_p20_Decaylength_LCKA2
-        ID = 'rv_p20_Decaylength_LCKA2'
-        rv_p20_Decaylength_LCKA2 = pm.Normal(
+        # rv_DiffScale_Decaylength_LCKA2
+        ID = 'rv_DiffScale_Decaylength_LCKA2'
+        rv_DiffScale_Decaylength_LCKA2 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_p11_Decaylength_LCKA2
-        ID = 'rv_p11_Decaylength_LCKA2'
-        rv_p11_Decaylength_LCKA2 = pm.Normal(
+        # rv_DiffMu_Decaylength_LCKA2
+        ID = 'rv_DiffMu_Decaylength_LCKA2'
+        rv_DiffMu_Decaylength_LCKA2 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_p02_Decaylength_LCKA2
-        ID = 'rv_p02_Decaylength_LCKA2'
-        rv_p02_Decaylength_LCKA2 = pm.Normal(
+        # rv_DiffSigma_Decaylength_LCKA2
+        ID = 'rv_DiffSigma_Decaylength_LCKA2'
+        rv_DiffSigma_Decaylength_LCKA2 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
@@ -168,13 +168,13 @@ def get_pm_model2_trained(df_model_trainedTable,
         ID = 'rv_output_Decaylength_LCKA2'
         rv_output_Decaylength_LCKA2 = pm.Normal(
             ID,
-            mu=rv_p00_Decaylength_LCKA2 +\
-                rv_p10_Decaylength_LCKA2*rv_Poff +\
-                rv_p01_Decaylength_LCKA2*rv_Diff +\
-                rv_p20_Decaylength_LCKA2*rv_Poff**2 +\
-                rv_p11_Decaylength_LCKA2*rv_Poff*rv_Diff +\
-                rv_p02_Decaylength_LCKA2*rv_Diff**2,
-            sd=0.5)
+            mu=rv_PoffScale_Decaylength_LCKA2 *
+            (-0.5 * ((rv_Poff - rv_PoffMu_Decaylength_LCKA2) /
+                     rv_PoffSigma_Decaylength_LCKA2)**2) +
+            rv_DiffScale_Decaylength_LCKA2 *
+            (-0.5 * ((rv_Diff - rv_DiffMu_Decaylength_LCKA2) /
+                     rv_DiffSigma_Decaylength_LCKA2)**2),
+            sd=0.5)  # eval(dfRV.loc[ID, DP]['sd']))
 
     return pm_model_trained
 #################################################

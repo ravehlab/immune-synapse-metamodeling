@@ -119,7 +119,7 @@ fp_y['distribution'] = data['distributions'][1]
 fp_y['distributionParameters'] = {'mu': data['y_mu'],
                                   'sd': data['y_sd']}
 
-#################################################
+# %% ################################################
 # Define submodels:
 """For every output of the same free parameters there is a different
 submodel."""
@@ -130,42 +130,37 @@ submodelName = submodelsNames[0]
 submodels = {}
 submodels[submodelName] = {}
 submodels[submodelName]['fitParametersNames'] =\
-    ['PoffScale', 'PoffMu', 'PoffSigma',
-     'DiffScale', 'DiffMu', 'DiffSigma']
+    ['p00', 'p10', 'p01','p20', 'p11', 'p02']
 
 # Fit parameters description Depletion:
 submodels[submodelName]['fitParametersDescriptions'] =\
-    ['PoffScale',
-     'PoffMu',
-     'PoffSigma',
-     'DiffScale',
-     'DiffMu',
-     'DiffSigma']
+    ['p00', 'p10', 'p01','p20', 'p11', 'p02']
 
 # Fit parameters units:
 submodels[submodelName]['fitParametersUnits'] =\
     ["nm",
-     "nm",
-     "nm",
-     "nm",
-     "nm",
-     "nm"]
+     "-",
+     "-",
+     "-",
+     "-",
+     "-"]
 
-# Initial fit parameters
-#            mu	    sd
-# xScale	1.908	0.103
-# xMu	-4.074	0.109
-# xSigma	2.480	0.162
-# yScale	0.917	0.145
-# yMu	-0.666	0.287
-# ySigma	1.023	0.282
-submodels[submodelName]['p0'] = [1.9, -4., 2.5, 0.9, -0.7, 1.]
-submodels[submodelName]['sd'] = [1., 1., 1., 1., 1., 1.]
+submodels[submodelName]['p0'] = [1.5, -1., 0.8, -0.1, 0., 0.1]
+submodels[submodelName]['sd'] = [0.12, 0.1, 0.1, 0.02, 0.02, 0.03]
 submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
 
-submodels[submodelName]['fitFunction'] = None
+submodels[submodelName]['fitFunction'] = \
+    'p00 + p10*x + p01*y + p20*x**2 + p11*x*y + p02*y**2'
 
-#################################################
+
+def poly22(xy, p00, p10, p01, p20, p11, p02):
+
+    x, y = xy
+    f = eval(submodels[submodelName]['fitFunction'])
+
+    return f
+
+# %% ################################################
 # Define fit parameters:
 fitParameters = {}
 
@@ -331,18 +326,20 @@ for i, fitParametersName in enumerate(
 
 
 prediction = {}
-prediction['n_x'] = 21  # number of points in x direction.
-prediction['max_x'] = 0.
-prediction['min_x'] = 1E-5
+prediction['n_x'] = 21  # 21  # number of points in x direction.
+prediction['max_x'] = -5./prediction['n_x']
+prediction['min_x'] = -5.
 prediction['Xs'] = np.linspace(prediction['min_x'],
                                prediction['max_x'],
                                prediction['n_x'])  # x values.
 
-prediction['n_y'] = 20  # number of points in y direction.
-prediction['max_y'] = 1E-0
-prediction['min_y'] = 1E-3
+prediction['n_y'] = 20  # 20  # number of points in y direction.
+prediction['max_y'] = -3./prediction['n_y']
+prediction['min_y'] = -3.
 prediction['Ys'] = np.linspace(prediction['min_y'],
                                prediction['max_y'],
                                prediction['n_y'])
 
+prediction['saveName_mean'] = "df_predicted_Decaylength_mean"
+prediction['saveName_std'] = "df_predicted_Decaylength_std"
 #################################################
