@@ -35,7 +35,8 @@ modelIndex = '1'
 paths = {}
 # paths['Metamodel'] = os.getcwd()+'/'
 # paths['Metamodel'] = '/home/yair/Documents/Git/Metamodel_py/'
-paths['Metamodel'] = '/home/jonah/Yair/Git/Metamodel_py/'
+#paths['Metamodel'] = '/home/jonah/Yair/Git/Metamodel_py/'
+paths['Metamodel'] = 'C://Users/Owner/Documents/Git/immune-synapse-metamodeling/Metamodel_py/'
 paths['Surrogate'] = paths['Metamodel']+'Surrogate_Models/'
 paths['Model'] = paths['Surrogate']+'Model'+modelIndex+'/'
 paths['Input'] = paths['Metamodel']+'Input_Models/Model'+modelIndex+'/'
@@ -120,45 +121,6 @@ fp_y['ID'] =\
 fp_y['distribution'] = 'Uniform'
 fp_y['distributionParameters'] = {'lower': data['y_min'],
                                   'upper': data['y_max']}
-
-#################################################
-# Define submodels:
-"""For every different output of the free parameters there is a different
-submodel."""
-
-# submodelsNames = ['WTCR', 'WCD45', 'Depletion']
-# submodelName = submodelsNames[2]
-
-# submodels = {}
-# # submodels['names'] = ['Depletion']
-# submodels[submodelName] = {}
-# submodels[submodelName]['fitParametersNames'] =\
-#     ['tScale', 'tCen', 'tDev', 'kScale', 'kCen', 'kDev']
-
-# # Fit parameters description Depletion:
-# submodels[submodelName]['fitParametersDescriptions'] =\
-#     ["xScale",
-#      "xCen",
-#      "xDev",
-#      "xScale",
-#      "yCen",
-#      "yDev"]
-
-# # Fit parameters units:
-# submodels[submodelName]['fitParametersUnits'] =\
-#     ["None",
-#      "nm",
-#      "nm",
-#      "None",
-#      "nm",
-#      "nm"]
-
-# # Initial fit parameters
-# submodels[submodelName]['p0'] = [230., 34., 22., -80., 20., -12.]
-# submodels[submodelName]['sd'] = [30., 10., 10., -30., 20., 10.]
-# submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
-
-# submodels[submodelName]['fitFunction'] = None
 
 # %% ################################################
 # Define submodels:
