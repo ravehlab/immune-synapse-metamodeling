@@ -55,7 +55,6 @@ Output_path = paths['Output']
 Input_path = paths['Input']
 
 # Remove all Output directory content:
-
 try:
     shutil.rmtree(Output_path)
 except:
@@ -63,9 +62,9 @@ except:
 
 # os.rmdir(Output_path)
 os.mkdir(Output_path)
-# print("Directory 'Output' created in '% s'" % (paths['Model']))
+print("Directory 'Output' created in '% s'" % (paths['Model']))
 
-plot_things = False
+plot_things = False  # True  # 
 #################################################
 # 1.1 Read trainingData from Input/:
 df_trainingData_depletion_pivot_r =\
@@ -175,12 +174,10 @@ for rv in mean_sd_r.index:
         str(mean_sd_r.loc[rv]['sd'])
 
 # Display trained table:.
-"""
 display(df_trainedTable_ID.style.set_properties(
     **{'text-align': 'left',
        'background-color': submodels[submodelName]['tableBackgroundColor'],
        'border': '1px black solid'}))
-"""
 
 # 4.3 Set trained model:
 pm_model1_trained = training.get_pm_model1_trained(
@@ -195,27 +192,27 @@ gv_trained_filename =\
 #################################################
 # 5 Predictions based on the trained parameters:
 # 5.1 Run prediction:
-
-run_prediction = True
+# """
+run_prediction = False  # True
+prediction = definitions.prediction
 
 if run_prediction:
     df_prediction_mean, df_prediction_std =\
         predicting.predict(df_trainedTable_ID)
 
     df_prediction_mean.to_pickle(
-        Output_path+"/df_predicted_dep_mean")
+        Output_path+"/"+prediction['saveName_mean'])
     df_prediction_std.to_pickle(
-        Output_path+"/df_predicted_dep_std")
+        Output_path+"/"+prediction['saveName_std'])
 
     df_prediction_mean_r = pd.read_pickle(
-        Output_path+"/df_predicted_dep_mean")
+        Output_path+"/"+prediction['saveName_mean'])
     df_prediction_std_r = pd.read_pickle(
-        Output_path+"/df_predicted_dep_std")
+        Output_path+"/"+prediction['saveName_std'])
 
     if plot_things:
         # 5.2 Plot prediction data:
         predicting.plotPredictionData(df_prediction_mean_r,
-                                      df_prediction_std_r,
-                                      definitions)
-
+                                      definitions, submodelName)
+# """
 #################################################

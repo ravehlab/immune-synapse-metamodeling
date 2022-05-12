@@ -35,9 +35,7 @@ modelIndex = '1'
 paths = {}
 # paths['Metamodel'] = os.getcwd()+'/'
 # paths['Metamodel'] = '/home/yair/Documents/Git/Metamodel_py/'
-# paths['Metamodel'] = '/home/jonah/Yair/Git/Metamodel_py/'
-# paths['Metamodel'] = '/immune-synapse-metamodeling/Metamodel_py/'
-paths['Metamodel'] = '/cs/usr/yairneveoz/immune-synapse-metamodeling/Metamodel_py/'
+paths['Metamodel'] = '/home/jonah/Yair/Git/Metamodel_py/'
 paths['Surrogate'] = paths['Metamodel']+'Surrogate_Models/'
 paths['Model'] = paths['Surrogate']+'Model'+modelIndex+'/'
 paths['Input'] = paths['Metamodel']+'Input_Models/Model'+modelIndex+'/'
@@ -128,41 +126,83 @@ fp_y['distributionParameters'] = {'lower': data['y_min'],
 """For every different output of the free parameters there is a different
 submodel."""
 
+# submodelsNames = ['WTCR', 'WCD45', 'Depletion']
+# submodelName = submodelsNames[2]
+
+# submodels = {}
+# # submodels['names'] = ['Depletion']
+# submodels[submodelName] = {}
+# submodels[submodelName]['fitParametersNames'] =\
+#     ['tScale', 'tCen', 'tDev', 'kScale', 'kCen', 'kDev']
+
+# # Fit parameters description Depletion:
+# submodels[submodelName]['fitParametersDescriptions'] =\
+#     ["xScale",
+#      "xCen",
+#      "xDev",
+#      "xScale",
+#      "yCen",
+#      "yDev"]
+
+# # Fit parameters units:
+# submodels[submodelName]['fitParametersUnits'] =\
+#     ["None",
+#      "nm",
+#      "nm",
+#      "None",
+#      "nm",
+#      "nm"]
+
+# # Initial fit parameters
+# submodels[submodelName]['p0'] = [230., 34., 22., -80., 20., -12.]
+# submodels[submodelName]['sd'] = [30., 10., 10., -30., 20., 10.]
+# submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
+
+# submodels[submodelName]['fitFunction'] = None
+
+# %% ################################################
+# Define submodels:
+"""For every output of the same free parameters there is a different
+submodel."""
+
 submodelsNames = ['WTCR', 'WCD45', 'Depletion']
 submodelName = submodelsNames[2]
 
 submodels = {}
-# submodels['names'] = ['Depletion']
 submodels[submodelName] = {}
 submodels[submodelName]['fitParametersNames'] =\
-    ['tScale', 'tCen', 'tDev', 'kScale', 'kCen', 'kDev']
+    ['p00', 'p10', 'p01','p20', 'p11']
 
 # Fit parameters description Depletion:
 submodels[submodelName]['fitParametersDescriptions'] =\
-    ["xScale",
-     "xCen",
-     "xDev",
-     "xScale",
-     "yCen",
-     "yDev"]
+    ['p00', 'p10', 'p01','p20', 'p11']
 
 # Fit parameters units:
 submodels[submodelName]['fitParametersUnits'] =\
-    ["None",
-     "nm",
-     "nm",
-     "None",
-     "nm",
-     "nm"]
+    ["nm",
+     "-",
+     "-",
+     "-",
+     "-",
+     "-"]
 
-# Initial fit parameters
-submodels[submodelName]['p0'] = [230., 34., 22., -80., 20., -12.]
-submodels[submodelName]['sd'] = [30., 10., 10., -30., 20., 10.]
+submodels[submodelName]['p0'] = [45., 1.7, 0.3, 0., 0.]
+submodels[submodelName]['sd'] = [10., 0.5, 0.2, 0.1, 0.1]
 submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
 
-submodels[submodelName]['fitFunction'] = None
+submodels[submodelName]['fitFunction'] = \
+    'p00 + p10*x + p01*y + p20*x**2 + p11*x*y'
 
-#################################################
+
+def poly21(xy, p00, p10, p01, p20, p11):
+
+    x, y = xy
+    f = eval(submodels[submodelName]['fitFunction'])
+
+    return f
+
+
+# %% ################################################
 # Define fit parameters:
 fitParameters = {}
 
@@ -234,6 +274,8 @@ prediction['Ys'] = np.linspace(prediction['min_y'],
                                prediction['max_y'],
                                prediction['n_y'])
 
+prediction['saveName_mean'] = "df_predicted_depletion_mean"
+prediction['saveName_std'] = "df_predicted_depletion_std"
 #################################################
 # y = pm.Normal.dist(mu=10, sd=0.5)
 # y.random(size=20)

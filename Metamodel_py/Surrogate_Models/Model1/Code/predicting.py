@@ -10,15 +10,11 @@ import numpy as np
 import pandas as pd
 import pymc3 as pm
 
-# from Surrogate_Models.Model1.Code import definitions
-# from Surrogate_Models.Model1.Code import training
-# from Surrogate_Models.Model1.Code import plotting
 import definitions
 import training
 import plotting
 
-prediction = definitions.prediction
-
+plots = definitions.plots
 # Create a heatmap by running the trained model with a batch of x, y value:
 
 
@@ -31,9 +27,9 @@ def predict(df_model1_trainedTable):
     Description: Calculating predictions based on
     the trained model parameters.
     """
-
-    Xs = prediction['Xs']  # x values.
-    Ys = prediction['Ys']  # y values.
+    
+    Xs = definitions.prediction['Xs']  # x values.
+    Ys = definitions.prediction['Ys']  # y values.
 
     prediction_mean = np.zeros((len(Ys), len(Xs)))
     prediction_std = np.zeros((len(Ys), len(Xs)))
@@ -45,20 +41,23 @@ def predict(df_model1_trainedTable):
                 df_model1_trainedTable, observed_k=y, observed_t=x)
 
             with current_model:
-                current_trace = pm.sample(1000, chains=4, progressbar=False)
+                current_trace = pm.sample(2000, chains=4, progressbar=False)
 
             print(f"i,x={i, x}, j,y={j, y}")
 
-            prediction_mean[i, j] = current_trace.rv_output_depletion_KSEG1.mean()
-            prediction_std[i, j] = current_trace.rv_output_depletion_KSEG1.std()
-
+            prediction_mean[i, j] =\
+                current_trace.rv_output_depletion_KSEG1.mean()
+            prediction_std[i, j] =\
+                current_trace.rv_output_depletion_KSEG1.std()
+            
+            print(f"mean={prediction_mean[i, j]}, std={prediction_std[i, j]}")
     df_prediction_mean = pd.DataFrame(data=prediction_mean,
                                       index=Ys,
-                                      columns=Xs,)
+                                      columns=Xs)
 
     df_prediction_std = pd.DataFrame(data=prediction_std,
                                      index=Ys,
-                                     columns=Xs,)
+                                     columns=Xs)
 
     return df_prediction_mean, df_prediction_std
 
@@ -75,7 +74,7 @@ def plotPredictionData(df_pivot, definitions, submodelName):
     Description: Plotting a heatmap of the training data.
     """
 
-    nRows = definitions.nRows
+    nRows = plots['nRoWs']
 
     DataToPlot = nRows*[None]
     DataToPlot[0] = [[df_pivot.columns,
