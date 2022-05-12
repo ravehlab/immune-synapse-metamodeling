@@ -221,7 +221,8 @@ gv_trained_filename =\
 #################################################
 # 5 Predictions based on the trained parameters:
 # 5.1 Run prediction:
-"""
+
+
 run_prediction = False
 
 if run_prediction:
@@ -233,14 +234,14 @@ if run_prediction:
     df_prediction_std.to_pickle(
         Output_path+"/df_model3_predicted_PhosRatio_std")
 
-df_prediction_mean_r = pd.read_pickle(
-    Output_path+"/df_model3_predicted_PhosRatio_mean")
-df_prediction_std_r = pd.read_pickle(
-    Output_path+"/df_model3_predicted_PhosRatio_std")
+    df_prediction_mean_r = pd.read_pickle(
+        Output_path+"/df_model3_predicted_PhosRatio_mean")
+    df_prediction_std_r = pd.read_pickle(
+        Output_path+"/df_model3_predicted_PhosRatio_std")
 
-# 5.2 Plot prediction data:
-predicting.plotPredictionData(df_prediction_mean_r,
-                              df_prediction_std_r,
-                              definitions)
-"""
+    # 5.2 Plot prediction data:
+    predicting.plotPredictionData(df_prediction_mean_r,
+                                  df_prediction_std_r,
+                                  definitions)
+
 #################################################

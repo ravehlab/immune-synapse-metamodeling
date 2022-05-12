@@ -134,27 +134,71 @@ fp_y['distributionParameters'] = {'mu': data['y_mu'],
 submodel."""
 
 submodelsNames = ['PhosRatio', 'RgRatio']
-#################################################
+# # %% ################################################
+# submodelName = submodelsNames[0]
+# submodels = {}
+# # submodels['names'] = ['PhosRatio']
+# submodels[submodelName] = {}
+# submodels[submodelName]['fitParametersNames'] =\
+#     ['DecaylengthScale',
+#      'DecaylengthMu',
+#      'DecaylengthSigma',
+#      'DepletionScale',
+#      'DepletionMu',
+#      'DepletionSigma']
+
+# # Fit parameters description Depletion:
+# submodels[submodelName]['fitParametersDescriptions'] =\
+#     ['Decaylengthcale',
+#      'DecaylengthMu',
+#      'DecaylengthSigma',
+#      'DepletionScale',
+#      'DepletionMu',
+#      'DepletionSigma']
+
+# # Fit parameters units:
+# submodels[submodelName]['fitParametersUnits'] =\
+#     ["-",
+#      "nm",
+#      "nm",
+#      "-",
+#      "nm",
+#      "nm"]
+
+# # Initial fit parameters
+# # p0_phosRatio = 1., 100., 100., 1., 100., 100.
+# # mu	sd
+# # xScale	0.959	0.065
+# # xMu	263.251	13.893
+# # xSigma	113.371	7.837
+# # yScale	-0.228	0.018
+# # yMu	192.868	11.107
+# # ySigma	85.407	12.065
+# submodels[submodelName]['p0'] = [1., 260., 100, 0.2, 200., 100.]
+# submodels[submodelName]['sd'] = [1., 50., 50., 1., 50., 50.]
+# submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 0, 0.65)'
+
+# %% ################################################
 submodelName = submodelsNames[0]
 submodels = {}
 # submodels['names'] = ['PhosRatio']
 submodels[submodelName] = {}
 submodels[submodelName]['fitParametersNames'] =\
-    ['DecaylengthScale',
-     'DecaylengthMu',
-     'DecaylengthSigma',
-     'DepletionScale',
-     'DepletionMu',
-     'DepletionSigma']
+    ['p00',
+     'p10',
+     'p01',
+     'p20',
+     'p11',
+     'p02']
 
 # Fit parameters description Depletion:
 submodels[submodelName]['fitParametersDescriptions'] =\
-    ['Decaylengthcale',
-     'DecaylengthMu',
-     'DecaylengthSigma',
-     'DepletionScale',
-     'DepletionMu',
-     'DepletionSigma']
+    ['p00',
+     'p10',
+     'p01',
+     'p20',
+     'p11',
+     'p02']
 
 # Fit parameters units:
 submodels[submodelName]['fitParametersUnits'] =\
@@ -165,20 +209,22 @@ submodels[submodelName]['fitParametersUnits'] =\
      "nm",
      "nm"]
 
-# Initial fit parameters
-# p0_phosRatio = 1., 100., 100., 1., 100., 100.
-# mu	sd
-# xScale	0.959	0.065
-# xMu	263.251	13.893
-# xSigma	113.371	7.837
-# yScale	-0.228	0.018
-# yMu	192.868	11.107
-# ySigma	85.407	12.065
-submodels[submodelName]['p0'] = [1., 260., 100, 0.2, 200., 100.]
-submodels[submodelName]['sd'] = [1., 50., 50., 1., 50., 50.]
+submodels[submodelName]['p0'] = [0.03, 0., 0., 0., 0., 0.]
+submodels[submodelName]['sd'] = [0.05, 0.01, 0.01, 0.01, 0.01, 0.01]
 submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 0, 0.65)'
 
-#################################################
+submodels[submodelName]['fitFunction'] = \
+    'p00 + p10*x + p01*y + p20*x**2 + p11*x*y + p02*y**2'
+
+
+def poly22(xy, p00, p10, p01, p20, p11, p02):
+
+    x, y = xy
+    f = eval(submodels[submodelName]['fitFunction'])
+
+    return f
+
+# %% ################################################
 # For plots:
 submodelName = submodelsNames[0]
 plots[submodelName] = {}
@@ -234,14 +280,6 @@ for i, fitParametersName in enumerate(
     print(fitParameters[fitParametersName])
 
 
-# p0_RgRatio = 1., 200., 100., 1., 0.
-# mu	sd
-# xScale	-0.564	0.023
-# xMu	197.729	4.257
-# xSigma	96.988	5.777
-# yIntercept	1.516	0.021
-# ySlope	0.001	0.000
-
 #################################################
 # crateModelInfo:
 
@@ -256,14 +294,14 @@ for i, fitParametersName in enumerate(
 
 prediction = {}
 prediction['n_x'] = 21  # number of points in x direction.
-prediction['max_x'] = 100.
+prediction['max_x'] = 200.
 prediction['min_x'] = 0.
 prediction['Xs'] = np.linspace(prediction['min_x'],
                                prediction['max_x'],
                                prediction['n_x'])  # x values.
 
 prediction['n_y'] = 20  # number of points in y direction.
-prediction['max_y'] = 100.
+prediction['max_y'] = 200.
 prediction['min_y'] = prediction['max_y']/prediction['n_y']
 prediction['Ys'] = np.linspace(prediction['min_y'],
                                prediction['max_y'],

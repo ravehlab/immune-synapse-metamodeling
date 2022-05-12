@@ -25,68 +25,67 @@ def get_pm_model3_untrained(df_trainingData_model3,
         z_obs = df_trainingData_model3.loc[:, 'PhosRatio'].values
 
         # fp_Decaylength_TCRP3
+        s = 1000
         ID = 'fp_Decaylength_TCRP3'
         fp_Decaylength_TCRP3 = pm.Normal(ID,
-                                         mu=eval(dfRV.loc[ID, DP]['mu']),
-                                         sd=eval(dfRV.loc[ID, DP]['sd']),
-                                         observed=x_obs)
+            mu=eval(dfRV.loc[ID, DP]['mu']),
+            sd=eval(dfRV.loc[ID, DP]['sd']),
+            observed=x_obs)
 
         # fp_Depletion_TCRP3
         ID = 'fp_Depletion_TCRP3'
         fp_Depletion_TCRP3 = pm.Normal(ID,
-                                       mu=eval(dfRV.loc[ID, DP]['mu']),
-                                       sd=eval(dfRV.loc[ID, DP]['sd']),
-                                       observed=y_obs)
+            mu=eval(dfRV.loc[ID, DP]['mu']),
+            sd=eval(dfRV.loc[ID, DP]['sd']),
+            observed=y_obs)
 
         # PhosRatio_TCRP
         """TODO: read parameters values from RV table"""
-        # rv_DecaylengthScale_PhosRatio_TCRP3
-        ID = 'rv_DecaylengthScale_PhosRatio_TCRP3'
-        rv_DecaylengthScale_PhosRatio_TCRP3 = pm.Normal(ID,
+        # rv_p00_PhosRatio_TCRP3
+        ID = 'rv_p00_PhosRatio_TCRP3'
+        rv_p00_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
-        # rv_DecaylengthMu_PhosRatio_TCRP3
-        ID = 'rv_DecaylengthMu_PhosRatio_TCRP3'
-        rv_DecaylengthMu_PhosRatio_TCRP3 = pm.Normal(ID,
+        # rv_p10_PhosRatio_TCRP3
+        ID = 'rv_p10_PhosRatio_TCRP3'
+        rv_p10_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
-        # rv_DecaylengthSigma_PhosRatio_TCRP3
-        ID = 'rv_DecaylengthSigma_PhosRatio_TCRP3'
-        rv_DecaylengthSigma_PhosRatio_TCRP3 = pm.Normal(ID,
+        # rv_p01_PhosRatio_TCRP3
+        ID = 'rv_p01_PhosRatio_TCRP3'
+        rv_p01_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
-        # rv_DepletionScale_PhosRatio_TCRP3
-        ID = 'rv_DepletionScale_PhosRatio_TCRP3'
-        rv_DepletionScale_PhosRatio_TCRP3 = pm.Normal(ID,
+        # rv_p20_PhosRatio_TCRP3
+        ID = 'rv_p20_PhosRatio_TCRP3'
+        rv_p20_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
-        # rv_DepletionMu_PhosRatio_TCRP3
-        ID = 'rv_DepletionMu_PhosRatio_TCRP3'
-        rv_DepletionMu_PhosRatio_TCRP3 = pm.Normal(ID,
+        # rv_p11_PhosRatio_TCRP3
+        ID = 'rv_p11_PhosRatio_TCRP3'
+        rv_p11_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
-        # rv_DepletionSigma_PhosRatio_TCRP3
-        ID = 'rv_DepletionSigma_PhosRatio_TCRP3'
-        rv_DepletionSigma_PhosRatio_TCRP3 = pm.Normal(ID,
+        # rv_p02_PhosRatio_TCRP3
+        ID = 'rv_p02_PhosRatio_TCRP3'
+        rv_p02_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
         ID = 'rv_output_PhosRatio_TCRP3'
         rv_output_PhosRatio_TCRP3 = pm.Normal(ID,
-            mu=rv_DecaylengthScale_PhosRatio_TCRP3*(
-                np.exp(-0.5*((fp_Decaylength_TCRP3 -
-                              rv_DecaylengthMu_PhosRatio_TCRP3) /
-                             rv_DecaylengthSigma_PhosRatio_TCRP3)**2) +
-                rv_DepletionScale_PhosRatio_TCRP3*(
-                    np.exp(-0.5*((fp_Depletion_TCRP3 -
-                                  rv_DepletionMu_PhosRatio_TCRP3) /
-                                 rv_DepletionSigma_PhosRatio_TCRP3)**2))),
-                sd=eval(dfRV.loc[ID, DP]['sd']),
+            mu=rv_p00_PhosRatio_TCRP3 +\
+                rv_p10_PhosRatio_TCRP3*fp_Decaylength_TCRP3 +\
+                rv_p01_PhosRatio_TCRP3*fp_Depletion_TCRP3 +\
+                rv_p20_PhosRatio_TCRP3*fp_Decaylength_TCRP3**2 +\
+                rv_p11_PhosRatio_TCRP3*fp_Decaylength_TCRP3*fp_Depletion_TCRP3 +\
+                rv_p02_PhosRatio_TCRP3*fp_Depletion_TCRP3**2,
+                sd=eval(dfRV.loc[ID, DP]['sd'])*s,
                 observed=z_obs)
 
     return pm_model3_untrained
@@ -119,54 +118,53 @@ def get_pm_model3_trained(df_model3_trainedTable,
                                  observed=observed_Depletion)
 
         # PhosRatio_TCRP
+        s = 1000
         """TODO: read parameters values from RV table"""
-        # rv_DecaylengthScale_PhosRatio_TCRP3
-        ID = 'rv_DecaylengthScale_PhosRatio_TCRP3'
-        rv_DecaylengthScale_PhosRatio_TCRP3 = pm.Normal(ID,
+        # rv_p00_PhosRatio_TCRP3
+        ID = 'rv_p00_PhosRatio_TCRP3'
+        rv_p00_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
-        # rv_DecaylengthMu_PhosRatio_TCRP3
-        ID = 'rv_DecaylengthMu_PhosRatio_TCRP3'
-        rv_DecaylengthMu_PhosRatio_TCRP3 = pm.Normal(ID,
+        # rv_p10_PhosRatio_TCRP3
+        ID = 'rv_p10_PhosRatio_TCRP3'
+        rv_p10_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
-        # rv_DecaylengthSigma_PhosRatio_TCRP3
-        ID = 'rv_DecaylengthSigma_PhosRatio_TCRP3'
-        rv_DecaylengthSigma_PhosRatio_TCRP3 = pm.Normal(ID,
+        # rv_p01_PhosRatio_TCRP3
+        ID = 'rv_p01_PhosRatio_TCRP3'
+        rv_p01_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
-        # rv_DepletionScale_PhosRatio_TCRP3
-        ID = 'rv_DepletionScale_PhosRatio_TCRP3'
-        rv_DepletionScale_PhosRatio_TCRP3 = pm.Normal(ID,
+        # rv_p20_PhosRatio_TCRP3
+        ID = 'rv_p20_PhosRatio_TCRP3'
+        rv_p20_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
-        # rv_DepletionMu_PhosRatio_TCRP3
-        ID = 'rv_DepletionMu_PhosRatio_TCRP3'
-        rv_DepletionMu_PhosRatio_TCRP3 = pm.Normal(ID,
+        # rv_p11_PhosRatio_TCRP3
+        ID = 'rv_p11_PhosRatio_TCRP3'
+        rv_p11_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
-        # rv_DepletionSigma_PhosRatio_TCRP3
-        ID = 'rv_DepletionSigma_PhosRatio_TCRP3'
-        rv_DepletionSigma_PhosRatio_TCRP3 = pm.Normal(ID,
+        # rv_p02_PhosRatio_TCRP3
+        ID = 'rv_p02_PhosRatio_TCRP3'
+        rv_p02_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
         ID = 'rv_output_PhosRatio_TCRP3'
         rv_output_PhosRatio_TCRP3 = pm.Normal(ID,
-            mu=rv_DecaylengthScale_PhosRatio_TCRP3*(
-                np.exp(-0.5*((rv_Decaylength -
-                              rv_DecaylengthMu_PhosRatio_TCRP3) /
-                             rv_DecaylengthSigma_PhosRatio_TCRP3)**2) +
-                rv_DepletionScale_PhosRatio_TCRP3*(
-                    np.exp(-0.5*((rv_Depletion -
-                                  rv_DepletionMu_PhosRatio_TCRP3) /
-                                 rv_DepletionSigma_PhosRatio_TCRP3)**2))),
-                sd=eval(dfRV.loc[ID, DP]['sd']))
+            mu=rv_p00_PhosRatio_TCRP3 +\
+                rv_p10_PhosRatio_TCRP3*rv_Decaylength +\
+                rv_p01_PhosRatio_TCRP3*rv_Depletion +\
+                rv_p20_PhosRatio_TCRP3*rv_Decaylength**2 +\
+                rv_p11_PhosRatio_TCRP3*rv_Decaylength*rv_Depletion +\
+                rv_p02_PhosRatio_TCRP3*rv_Depletion**2,
+                sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
     return pm_model3_trained
 #################################################
