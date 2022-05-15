@@ -28,8 +28,8 @@ Normal"]
 Normal"]
 	rv_p00_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
 	fp_Decaylength_TCRP4 -> rv_output_RgRatio_TCRP4
-	fp_Depletion_TCRP4 -> rv_output_RgRatio_TCRP4
 	rv_p11_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
+	fp_Depletion_TCRP4 -> rv_output_RgRatio_TCRP4
 	rv_p20_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
 	rv_p01_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
 	rv_p10_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4

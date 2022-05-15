@@ -14,7 +14,8 @@ import pymc3 as pm
 # Input_path = '/home/yair/Documents/Git/Metamodel_py/Coupled_Model/Input/'
 # Input_path = '/home/jonah/Yair/Git/Metamodel_py/Coupled_Model/Input/'
 # Input_path = '/immune-synapse-metamodeling/Metamodel_py/Coupled_Model/Input/'
-Input_path = '/cs/usr/yairneveoz/immune-synapse-metamodeling/Metamodel_py/Coupled_Model/Input/'
+# Input_path = '/cs/usr/yairneveoz/immune-synapse-metamodeling/Metamodel_py/Coupled_Model/Input/'
+Input_path = '/home/jonah/Yair/Git/immune-synapse-metamodeling/Metamodel_py/Coupled_Model/Input/'
 # Read input data from surrogate models:
 model1_df_Table_ID = pd.read_pickle(
     Input_path+"df_model1_untrainedTable_ID")
@@ -57,53 +58,46 @@ def get_metamodel(observed_t_KSEG1=None,
 
     metamodel = pm.Model()
     with metamodel:
-        # % model1 - KSEG (kinetic segregation) ####################
-        rv_t_KSEG1 = pm.Normal(
+        dfRV = model1_df_Table_ID
 
+        rv_t_KSEG1 = pm.Normal(
             'rv_t_KSEG1', mu=50, sd=20, observed=observed_t_KSEG1)
         rv_k_KSEG1 = pm.Normal(
             'rv_k_KSEG1', mu=50, sd=20, observed=observed_k_KSEG1)
 
-        dfRV = model1_df_Table_ID
-        # depletion_KSEG
-        # rv_tScale_Depletion_KSEG1
-        ID = 'rv_tScale_Depletion_KSEG1'
-        rv_tScale_Depletion_KSEG1 = pm.Normal(
+                # depletion_KSEG
+        """TODO: read parameters values from RV table"""
+        # rv_p00_Depletion_KSEG1
+        ID = 'rv_p00_Depletion_KSEG1'
+        rv_p00_Depletion_KSEG1 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_tCen_Depletion_KSEG1
-        ID = 'rv_tCen_Depletion_KSEG1'
-        rv_tCen_Depletion_KSEG1 = pm.Normal(
+        # rv_p10_Depletion_KSEG1
+        ID = 'rv_p10_Depletion_KSEG1'
+        rv_p10_Depletion_KSEG1 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_tDev_Depletion_KSEG1
-        ID = 'rv_tDev_Depletion_KSEG1'
-        rv_tDev_Depletion_KSEG1 = pm.Normal(
+        # rv_p01_Depletion_KSEG1
+        ID = 'rv_p01_Depletion_KSEG1'
+        rv_p01_Depletion_KSEG1 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_kScale_Depletion_KSEG1
-        ID = 'rv_kScale_Depletion_KSEG1'
-        rv_kScale_Depletion_KSEG1 = pm.Normal(
+        # rv_p20_Depletion_KSEG1
+        ID = 'rv_p20_Depletion_KSEG1'
+        rv_p20_Depletion_KSEG1 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_kCen_Depletion_KSEG1
-        ID = 'rv_kCen_Depletion_KSEG1'
-        rv_kCen_Depletion_KSEG1 = pm.Normal(
-            ID,
-            mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
-
-        # rv_kDev_Depletion_KSEG1
-        ID = 'rv_kDev_Depletion_KSEG1'
-        rv_kDev_Depletion_KSEG1 = pm.Normal(
+        # rv_p11_Depletion_KSEG1
+        ID = 'rv_p11_Depletion_KSEG1'
+        rv_p11_Depletion_KSEG1 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
@@ -111,12 +105,11 @@ def get_metamodel(observed_t_KSEG1=None,
         ID = 'rv_output_depletion_KSEG1'
         rv_output_depletion_KSEG1 = pm.Normal(
             ID,
-            mu=rv_tScale_Depletion_KSEG1/(
-                1 + np.exp(-(rv_t_KSEG1 - rv_tCen_Depletion_KSEG1) /
-                           rv_tDev_Depletion_KSEG1)) +
-            rv_kScale_Depletion_KSEG1/(
-                1 + np.exp(-(rv_k_KSEG1 - rv_kCen_Depletion_KSEG1) /
-                           rv_kDev_Depletion_KSEG1)),
+            mu=rv_p00_Depletion_KSEG1 +\
+                rv_p10_Depletion_KSEG1*rv_t_KSEG1 +\
+                rv_p01_Depletion_KSEG1*rv_k_KSEG1 +\
+                rv_p20_Depletion_KSEG1*rv_t_KSEG1**2 +\
+                rv_p11_Depletion_KSEG1*rv_t_KSEG1*rv_k_KSEG1,
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
         # % model2 - LCKA (LCK activation) #########################
@@ -127,46 +120,63 @@ def get_metamodel(observed_t_KSEG1=None,
 
         dfRV = model2_df_Table_ID
 
+
+                # fp_Poff_LCKA2
+        ID = 'fp_Poff_LCKA2'
+        fp_Poff_LCKA2 = pm.Normal(
+            'fp_Poff_LCKA2',
+            mu=eval(dfRV.loc[ID, DP]['mu']),
+            sd=eval(dfRV.loc[ID, DP]['sd']),
+            observed=observed_logPoff_LCKA2)
+
+        # fp_Diff_LCKA2
+        ID = 'fp_Diff_LCKA2'
+        fp_Diff_LCKA2 = pm.Normal(
+            'fp_Diff_LCKA2',
+            mu=eval(dfRV.loc[ID, DP]['mu']),
+            sd=eval(dfRV.loc[ID, DP]['sd']),
+            observed=observed_logDiff_LCKA2)
+
         # decaylength_LCKA2
         """TODO: read parameters values from RV table"""
-        # rv_PoffScale_Decaylength_LCKA2
-        ID = 'rv_PoffScale_Decaylength_LCKA2'
-        rv_PoffScale_Decaylength_LCKA2 = pm.Normal(
+        # rv_p00_Decaylength_LCKA2
+        ID = 'rv_p00_Decaylength_LCKA2'
+        rv_p00_Decaylength_LCKA2 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_PoffMu_Decaylength_LCKA2
-        ID = 'rv_PoffMu_Decaylength_LCKA2'
-        rv_PoffMu_Decaylength_LCKA2 = pm.Normal(
+        # rv_p10_Decaylength_LCKA2
+        ID = 'rv_p10_Decaylength_LCKA2'
+        rv_p10_Decaylength_LCKA2 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_PoffSigma_Decaylength_LCKA2
-        ID = 'rv_PoffSigma_Decaylength_LCKA2'
-        rv_PoffSigma_Decaylength_LCKA2 = pm.Normal(
+        # rv_p01_Decaylength_LCKA2
+        ID = 'rv_p01_Decaylength_LCKA2'
+        rv_p01_Decaylength_LCKA2 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_DiffScale_Decaylength_LCKA2
-        ID = 'rv_DiffScale_Decaylength_LCKA2'
-        rv_DiffScale_Decaylength_LCKA2 = pm.Normal(
+        # rv_p20_Decaylength_LCKA2
+        ID = 'rv_p20_Decaylength_LCKA2'
+        rv_p20_Decaylength_LCKA2 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_DiffMu_Decaylength_LCKA2
-        ID = 'rv_DiffMu_Decaylength_LCKA2'
-        rv_DiffMu_Decaylength_LCKA2 = pm.Normal(
+        # rv_p11_Decaylength_LCKA2
+        ID = 'rv_p11_Decaylength_LCKA2'
+        rv_p11_Decaylength_LCKA2 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_DiffSigma_Decaylength_LCKA2
-        ID = 'rv_DiffSigma_Decaylength_LCKA2'
-        rv_DiffSigma_Decaylength_LCKA2 = pm.Normal(
+        # rv_p02_Decaylength_LCKA2
+        ID = 'rv_p02_Decaylength_LCKA2'
+        rv_p02_Decaylength_LCKA2 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
@@ -174,13 +184,13 @@ def get_metamodel(observed_t_KSEG1=None,
         ID = 'rv_output_Decaylength_LCKA2'
         rv_output_Decaylength_LCKA2 = pm.Normal(
             ID,
-            mu=rv_PoffScale_Decaylength_LCKA2 *
-            (-0.5 * ((rv_logPoff_LCKA2 - rv_PoffMu_Decaylength_LCKA2) /
-                     rv_PoffSigma_Decaylength_LCKA2)**2) +
-            rv_DiffScale_Decaylength_LCKA2 *
-            (-0.5 * ((rv_logDiff_LCKA2 - rv_DiffMu_Decaylength_LCKA2) /
-                     rv_DiffSigma_Decaylength_LCKA2)**2),
-            sd=0.5)  # eval(dfRV.loc[ID, DP]['sd']))
+            mu=rv_p00_Decaylength_LCKA2 +\
+                rv_p10_Decaylength_LCKA2*fp_Poff_LCKA2 +\
+                rv_p01_Decaylength_LCKA2*fp_Diff_LCKA2 +\
+                rv_p20_Decaylength_LCKA2*fp_Poff_LCKA2**2 +\
+                rv_p11_Decaylength_LCKA2*fp_Poff_LCKA2*fp_Diff_LCKA2 +\
+                rv_p02_Decaylength_LCKA2*fp_Diff_LCKA2**2,
+            sd=0.5)  # eval(dfRV.loc[ID, DP]['sd']),       
 
         # % Coupling layer: ########################################
         # from model1:
@@ -207,7 +217,7 @@ def get_metamodel(observed_t_KSEG1=None,
             mu=rv_Decaylength_ALCK2_C,
             sd=50)
 
-        rv_depletion_TCRP3 = pm.Normal(
+        rv_Depletion_TCRP3 = pm.Normal(
             'rv_depletion_TCRP3',
             mu=rv_depletion_KSEG1_C,
             sd=30)
@@ -215,119 +225,113 @@ def get_metamodel(observed_t_KSEG1=None,
         #############################################################
         # % Model 3 (TCR phosphorylation, PhosRatio) ###############
         dfRV = model3_df_Table_ID
-        DP = 'Distribution parameters'
-
-        # rv_Decaylength = pm.Normal('rv_Decaylength', mu=100, sd=50,
-        #                            observed=observed_decaylength_TCRP3)
-
-        # rv_Depletion = pm.Normal('rv_Depletion', mu=100, sd=50,
-        #                          observed=observed_depletion_TCRP3)
 
         # PhosRatio_TCRP
+        s = 1000
         """TODO: read parameters values from RV table"""
-        # rv_DecaylengthScale_PhosRatio_TCRP3
-        ID = 'rv_DecaylengthScale_PhosRatio_TCRP3'
-        rv_DecaylengthScale_PhosRatio_TCRP3 = pm.Normal(
-            ID,
+        # rv_p00_PhosRatio_TCRP3
+        ID = 'rv_p00_PhosRatio_TCRP3'
+        rv_p00_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
-        # rv_DecaylengthMu_PhosRatio_TCRP3
-        ID = 'rv_DecaylengthMu_PhosRatio_TCRP3'
-        rv_DecaylengthMu_PhosRatio_TCRP3 = pm.Normal(
-            ID,
+        # rv_p10_PhosRatio_TCRP3
+        ID = 'rv_p10_PhosRatio_TCRP3'
+        rv_p10_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
-        # rv_DecaylengthSigma_PhosRatio_TCRP3
-        ID = 'rv_DecaylengthSigma_PhosRatio_TCRP3'
-        rv_DecaylengthSigma_PhosRatio_TCRP3 = pm.Normal(
-            ID,
+        # rv_p01_PhosRatio_TCRP3
+        ID = 'rv_p01_PhosRatio_TCRP3'
+        rv_p01_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
-        # rv_DepletionScale_PhosRatio_TCRP3
-        ID = 'rv_DepletionScale_PhosRatio_TCRP3'
-        rv_DepletionScale_PhosRatio_TCRP3 = pm.Normal(
-            ID,
+        # rv_p20_PhosRatio_TCRP3
+        ID = 'rv_p20_PhosRatio_TCRP3'
+        rv_p20_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
-        # rv_DepletionMu_PhosRatio_TCRP3
-        ID = 'rv_DepletionMu_PhosRatio_TCRP3'
-        rv_DepletionMu_PhosRatio_TCRP3 = pm.Normal(
-            ID,
+        # rv_p11_PhosRatio_TCRP3
+        ID = 'rv_p11_PhosRatio_TCRP3'
+        rv_p11_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
-        # rv_DepletionSigma_PhosRatio_TCRP3
-        ID = 'rv_DepletionSigma_PhosRatio_TCRP3'
-        rv_DepletionSigma_PhosRatio_TCRP3 = pm.Normal(
-            ID,
+        # rv_p02_PhosRatio_TCRP3
+        ID = 'rv_p02_PhosRatio_TCRP3'
+        rv_p02_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
         ID = 'rv_output_PhosRatio_TCRP3'
-        rv_output_PhosRatio_TCRP3 = pm.Normal(
-            ID,
-            mu=rv_DecaylengthScale_PhosRatio_TCRP3*(
-                np.exp(-0.5*((rv_Decaylength_TCRP3 -
-                              rv_DecaylengthMu_PhosRatio_TCRP3) /
-                             rv_DecaylengthSigma_PhosRatio_TCRP3)**2) +
-                rv_DepletionScale_PhosRatio_TCRP3*(
-                    np.exp(-0.5*((rv_depletion_TCRP3 -
-                                  rv_DepletionMu_PhosRatio_TCRP3) /
-                                 rv_DepletionSigma_PhosRatio_TCRP3)**2))),
-            sd=eval(dfRV.loc[ID, DP]['sd']),
-            observed=observed_phosRatio_TCRP3)
+        rv_output_PhosRatio_TCRP3 = pm.Normal(ID,
+            mu=rv_p00_PhosRatio_TCRP3 +\
+                rv_p10_PhosRatio_TCRP3*rv_Decaylength_TCRP3 +\
+                rv_p01_PhosRatio_TCRP3*rv_Depletion_TCRP3 +\
+                rv_p20_PhosRatio_TCRP3*rv_Decaylength_TCRP3**2 +\
+                rv_p11_PhosRatio_TCRP3*rv_Decaylength_TCRP3*rv_Depletion_TCRP3 +\
+                rv_p02_PhosRatio_TCRP3*rv_Depletion_TCRP3**2,
+                sd=eval(dfRV.loc[ID, DP]['sd'])*s)
 
         #############################################################
-        # % Model 4 (TCR phosphorylation, RgRatio) #################
+        # %% Model 4 (TCR phosphorylation, RgRatio) #################
         dfRV = model4_df_Table_ID
 
         # RgRatio_TCRP
+        s = 1000
         """TODO: read parameters values from RV table"""
-        # rv_Intercept_RgRatio_TCRP4
-        ID = 'rv_Intercept_RgRatio_TCRP4'
-        rv_Intercept_RgRatio_TCRP4 = pm.Normal(
+        # rv_p00_RgRatio_TCRP4
+        ID = 'rv_p00_RgRatio_TCRP4'
+        rv_p00_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=0.2)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_DecaylengthSlope_RgRatio_TCRP4
-        ID = 'rv_DecaylengthSlope_RgRatio_TCRP4'
-        rv_DecaylengthSlope_RgRatio_TCRP4 = pm.Normal(
+        # rv_p10_RgRatio_TCRP4
+        ID = 'rv_p10_RgRatio_TCRP4'
+        rv_p10_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=0.2)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_DepletionSlope_RgRatio_TCRP4
-        ID = 'rv_DepletionSlope_RgRatio_TCRP4'
-        rv_DepletionSlope_RgRatio_TCRP4 = pm.Normal(
+        # rv_p01_RgRatio_TCRP4
+        ID = 'rv_p01_RgRatio_TCRP4'
+        rv_p01_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=0.2)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
+
+        # rv_p20_RgRatio_TCRP4
+        ID = 'rv_p20_RgRatio_TCRP4'
+        rv_p20_RgRatio_TCRP4 = pm.Normal(
+            ID,
+            mu=eval(dfRV.loc[ID, DP]['mu']),
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
+
+        # rv_p11_RgRatio_TCRP4
+        ID = 'rv_p11_RgRatio_TCRP4'
+        rv_p11_RgRatio_TCRP4 = pm.Normal(
+            ID,
+            mu=eval(dfRV.loc[ID, DP]['mu']),
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
 
         ID = 'rv_output_RgRatio_TCRP4'
         rv_output_RgRatio_TCRP4 = pm.Normal(
             ID,
-            mu=rv_Intercept_RgRatio_TCRP4 +
-            rv_DecaylengthSlope_RgRatio_TCRP4*rv_Decaylength_TCRP3 +
-            rv_DepletionSlope_RgRatio_TCRP4*rv_depletion_TCRP3,
-            sd=0.3, observed=observed_RgRatio_TCRP4)  # eval(dfRV.loc[ID, DP]['sd']))
+            mu=rv_p00_RgRatio_TCRP4 +\
+                rv_p10_RgRatio_TCRP4*rv_Decaylength_TCRP3 +\
+                rv_p01_RgRatio_TCRP4*rv_Depletion_TCRP3 +\
+                rv_p20_RgRatio_TCRP4*rv_Decaylength_TCRP3**2 +\
+                rv_p11_RgRatio_TCRP4*rv_Decaylength_TCRP3*rv_Depletion_TCRP3,
+            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd'])
 
     return metamodel
 
 
 # %% Direction A (KSEG & LCKA to TCRP):
-# Get coupled_model:
-# x_obs = df_trainingData_model4.loc[:, 'Decaylength_nm'].values
-# y_obs = df_trainingData_model4.loc[:, 'Depletion_nm'].values
-# z_obs = df_trainingData_model4.loc[:, 'RgRatio'].values
-# t_KSEG1_obs = np.linspace(10., 100., 10)  # 25.
-# k_KSEG1_obs = np.linspace(10., 100., 10)  # 25.
 
-    
 metamodel = get_metamodel(observed_t_KSEG1=50.,
                           observed_k_KSEG1=25.,
                           observed_logPoff_LCKA2=-1.0,  # -1.0
@@ -369,7 +373,7 @@ with metamodel:
     trace_metamodel = pm.sample(2000, chains=4)
 
 pm.plot_trace(trace_metamodel)
-vars(metamodel)
+# vars(metamodel)
 pm.summary(trace_metamodel, ['rv_t_KSEG1',
                              'rv_k_KSEG1',
                              'rv_logPoff_LCKA2',

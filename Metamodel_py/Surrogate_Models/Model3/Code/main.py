@@ -47,19 +47,6 @@ import predicting
 paths = definitions.paths
 submodels = definitions.submodels
 
-###
-modelIndex = '3'
-paths = {}
-# paths['Metamodel'] = os.getcwd()+'/'
-# paths['Metamodel'] = '/home/yair/Documents/Git/Metamodel_py/'
-paths['Metamodel'] = '/home/jonah/Yair/Git/Metamodel_py/'
-paths['Surrogate'] = paths['Metamodel']+'Surrogate_Models/'
-paths['Model'] = paths['Surrogate']+'Model'+modelIndex+'/'
-paths['Input'] = paths['Metamodel']+'Input_Models/Model'+modelIndex+'/'
-paths['Output'] = paths['Model']+'Output/'
-paths['Processing'] = paths['Model']+'Processing/'
-###
-
 # Create the directory 'Output' in '/Metamodel_py/Surrogate_Models/Model1/'
 submodelName = 'phosRatio'
 Output_path = paths['Output']

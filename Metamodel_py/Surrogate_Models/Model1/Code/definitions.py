@@ -35,8 +35,8 @@ modelIndex = '1'
 paths = {}
 # paths['Metamodel'] = os.getcwd()+'/'
 # paths['Metamodel'] = '/home/yair/Documents/Git/Metamodel_py/'
-#paths['Metamodel'] = '/home/jonah/Yair/Git/Metamodel_py/'
-paths['Metamodel'] = 'C://Users/Owner/Documents/Git/immune-synapse-metamodeling/Metamodel_py/'
+paths['Metamodel'] = '/home/jonah/Yair/Git/immune-synapse-metamodeling/Metamodel_py/'
+# paths['Metamodel'] = 'C://Users/Owner/Documents/Git/immune-synapse-metamodeling/Metamodel_py/'
 paths['Surrogate'] = paths['Metamodel']+'Surrogate_Models/'
 paths['Model'] = paths['Surrogate']+'Model'+modelIndex+'/'
 paths['Input'] = paths['Metamodel']+'Input_Models/Model'+modelIndex+'/'
@@ -162,7 +162,6 @@ def poly21(xy, p00, p10, p01, p20, p11):
     f = eval(submodels[submodelName]['fitFunction'])
 
     return f
-
 
 # %% ################################################
 # Define fit parameters:
