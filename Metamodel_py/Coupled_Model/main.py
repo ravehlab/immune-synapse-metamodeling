@@ -185,11 +185,11 @@ def get_metamodel(observed_t_KSEG1=None,
         rv_output_Decaylength_LCKA2 = pm.Normal(
             ID,
             mu=rv_p00_Decaylength_LCKA2 +\
-                rv_p10_Decaylength_LCKA2*fp_Poff_LCKA2 +\
-                rv_p01_Decaylength_LCKA2*fp_Diff_LCKA2 +\
-                rv_p20_Decaylength_LCKA2*fp_Poff_LCKA2**2 +\
-                rv_p11_Decaylength_LCKA2*fp_Poff_LCKA2*fp_Diff_LCKA2 +\
-                rv_p02_Decaylength_LCKA2*fp_Diff_LCKA2**2,
+                rv_p10_Decaylength_LCKA2*rv_logPoff_LCKA2 +\
+                rv_p01_Decaylength_LCKA2*rv_logDiff_LCKA2 +\
+                rv_p20_Decaylength_LCKA2*rv_logPoff_LCKA2**2 +\
+                rv_p11_Decaylength_LCKA2*rv_logPoff_LCKA2*rv_logDiff_LCKA2 +\
+                rv_p02_Decaylength_LCKA2*rv_logDiff_LCKA2**2,
             sd=0.5)  # eval(dfRV.loc[ID, DP]['sd']),       
 
         # % Coupling layer: ########################################
@@ -200,16 +200,16 @@ def get_metamodel(observed_t_KSEG1=None,
             sd=50)
 
         # from model2:
-        rv_Decaylength_ALCK2_C = pm.Normal(
-            'rv_Decaylength_ALCK2_C',
-            mu=10**rv_output_Decaylength_LCKA2,
-            sd=50)
-        
-        # from model2:
         # rv_Decaylength_ALCK2_C = pm.Normal(
         #     'rv_Decaylength_ALCK2_C',
-        #     mu=rv_output_Decaylength_LCKA2,
+        #     mu=10**rv_output_Decaylength_LCKA2,
         #     sd=50)
+        
+        # from model2:
+        rv_Decaylength_ALCK2_C = pm.Normal(
+            'rv_Decaylength_ALCK2_C',
+            mu=rv_output_Decaylength_LCKA2,
+            sd=50)
 
         # model3 from coupled variables: ############################
         rv_Decaylength_TCRP3 = pm.Normal(
@@ -416,10 +416,10 @@ values.
 # %% Direction A: Model1 and Model2 to Model3: ######################
 # Run loop:
 # Define pairs of free parameters:
-batch = 't_k'
+# batch = 't_k'
 # batch = 't_Poff'
 # batch = 't_Diff'
-# batch = 'k_Poff'
+batch = 'k_Poff'
 # batch = 'k_Diff'
 # batch = 'Poff_Diff'
 
@@ -436,6 +436,11 @@ batch_t = np.linspace(100./(Np), 100., Np)
 batch_k = np.linspace(100./(Np), 100., Np)
 batch_logPoff = np.linspace(-5., -5./Np, Np)
 batch_logDiff = np.linspace(-3., -3./Np, Np)
+
+# batch_t = fixed_t
+# batch_k = fixed_k
+# batch_logPoff = fixed_logPoff
+# batch_logDiff = fixed_logDiff
 
 if True: 
     if batch == 't_k':
@@ -565,104 +570,3 @@ if True:
             except:
                 print("An exception occurred")
 
-# %%
-"""
-if True:
-    n_ys = 20 #4 #
-    n_xs = 20 #4 #
-    
-    if batch == 't_k':
-        x1s = np.linspace(100./(n_xs), 100., n_xs)
-        y1s = np.linspace(100./(n_ys), 100., n_ys) # 25. 
-
-        x2s = -4. #
-        y2s = -2. #
-        
-        batch_x = x1s
-        batch_y = y1s
-        
-        fixed_x = x2s
-        fixed_y = y2s
-        
-    if batch == 'Poff_Diff':
-        x1s = 50.
-        y1s = 25. 
-
-        x2s = np.linspace(-5., -5./n_xs, n_xs)
-        y2s = np.linspace(-3., -3./n_xs, n_xs)
-        
-        fixed_x = x1s
-        fixed_y = y1s
-        
-        batch_x = x2s
-        batch_y = y2s        
-        
-        
-    if batch == 'Poff_k':
-        x1s = 50.
-        y1s = np.linspace(100./(n_ys), 100., n_ys) 
-
-        x2s = np.linspace(-5., -5./n_xs, n_xs) 
-        y2s = -2.
-    
-        fixed_x = x1s
-        batch_y = y1s
-        
-        batch_x = x2s
-        fixed_y = y2s        
-    
-    
-    
-    RgRatios_mean = np.zeros((n_ys, n_xs))
-    RgRatios_std = np.zeros((n_ys, n_xs))
-
-    phosRatios_mean = np.zeros((n_ys, n_xs))
-    phosRatios_std = np.zeros((n_ys, n_xs))
-    
-    rv_output_dep_KSEG1_mean = np.zeros((n_ys, n_xs))
-    rv_dep_C_mean = np.zeros((n_ys, n_xs))
-    rv_depletion_TCRP_mean = np.zeros((n_ys, n_xs))
-    
-    rv_output_logDLALCK_ALCK2_mean = np.zeros((n_ys, n_xs))
-    rv_decayLength_C_mean = np.zeros((n_ys, n_xs))
-    rv_decayLength_TCRP_mean = np.zeros((n_ys, n_xs))
-    
-    for i,y_in in enumerate(batch_y):
-        for j,x_in in enumerate(batch_x):
-#             try:
-            if batch == 't_k':
-                cur_metamodel = get_pm_metamodel(observed_t_KSEG1 = x_in,
-                                                 observed_k_KSEG1 = y_in,
-                                                 observed_logPoff_LCKA2 = fixed_x, 
-                                                 observed_logDiff_LCKA2 = fixed_y,
-                                                 observed_RgRatio_TCRP3 = None,
-                                                 observed_phosRatio_TCRP3 = None)
-
-            if batch == 'Poff_Diff':
-                cur_metamodel = get_pm_metamodel(observed_t_KSEG1 = fixed_x,
-                                                 observed_k_KSEG1 = fixed_y,
-                                                 observed_logPoff_LCKA2 = x_in, 
-                                                 observed_logDiff_LCKA2 = y_in,
-                                                 observed_RgRatio_TCRP3 = None,
-                                                 observed_phosRatio_TCRP3 = None)
-
-            if batch == 'Poff_k':
-                cur_metamodel = get_pm_metamodel(observed_t_KSEG1 = fixed_x,
-                                                 observed_k_KSEG1 = y_in,
-                                                 observed_logPoff_LCKA2 = x_in, 
-                                                 observed_logDiff_LCKA2 = fixed_y,
-                                                 observed_RgRatio_TCRP3 = None,
-                                                 observed_phosRatio_TCRP3 = None)
-
-
-            with cur_metamodel:
-                cur_trace_metamodel = pm.sample(2000, chains=4, progressbar = False);
-
-            print(f"i,dep={i,y_in}, j,lp={j,x_in}")
-
-            RgRatios_mean[i,j] = cur_trace_metamodel.rv_output_RgRatio_TCRP3.mean() 
-            RgRatios_std[i,j] = cur_trace_metamodel.rv_output_RgRatio_TCRP3.std()
-
-            phosRatios_mean[i,j] = cur_trace_metamodel.rv_output_phosRatio_TCRP3.mean() 
-            phosRatios_std[i,j] = cur_trace_metamodel.rv_output_phosRatio_TCRP3.std()
-"""

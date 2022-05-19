@@ -18,7 +18,7 @@ plots = definitions.plots
 # Create a heatmap by running the trained model with a batch of x, y value:
 
 
-def predict(df_model1_trainedTable):
+def predict(df_model2_trainedTable):
     """
     Gets: df_model1_trainedTable.
     Returns: df_prediction_mean, df_prediction_std.
@@ -38,7 +38,7 @@ def predict(df_model1_trainedTable):
         for j, x in enumerate(Xs):
 
             current_model = training.get_pm_model2_trained(
-                df_model1_trainedTable, observed_Diff=y, observed_Poff=x)
+                df_model2_trainedTable, observed_logDiff=y, observed_logPoff=x)
 
             with current_model:
                 current_trace = pm.sample(2000, chains=4, progressbar=False)

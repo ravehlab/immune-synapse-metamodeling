@@ -1,8 +1,8 @@
 digraph {
-	rv_depletion [label="rv_depletion
+	rv_p20_RgRatio_TCRP4 [label="rv_p20_RgRatio_TCRP4
 ~
 Normal"]
-	rv_p00_RgRatio_TCRP4 [label="rv_p00_RgRatio_TCRP4
+	rv_p01_RgRatio_TCRP4 [label="rv_p01_RgRatio_TCRP4
 ~
 Normal"]
 	rv_p11_RgRatio_TCRP4 [label="rv_p11_RgRatio_TCRP4
@@ -11,10 +11,7 @@ Normal"]
 	rv_Decaylength [label="rv_Decaylength
 ~
 Normal"]
-	rv_p20_RgRatio_TCRP4 [label="rv_p20_RgRatio_TCRP4
-~
-Normal"]
-	rv_p01_RgRatio_TCRP4 [label="rv_p01_RgRatio_TCRP4
+	rv_p00_RgRatio_TCRP4 [label="rv_p00_RgRatio_TCRP4
 ~
 Normal"]
 	rv_p10_RgRatio_TCRP4 [label="rv_p10_RgRatio_TCRP4
@@ -23,11 +20,14 @@ Normal"]
 	rv_output_RgRatio_TCRP4 [label="rv_output_RgRatio_TCRP4
 ~
 Normal"]
-	rv_depletion -> rv_output_RgRatio_TCRP4
-	rv_p00_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
+	rv_depletion [label="rv_depletion
+~
+Normal"]
 	rv_p11_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
-	rv_Decaylength -> rv_output_RgRatio_TCRP4
-	rv_p20_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
 	rv_p01_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
+	rv_p20_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
+	rv_Decaylength -> rv_output_RgRatio_TCRP4
+	rv_p00_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
 	rv_p10_RgRatio_TCRP4 -> rv_output_RgRatio_TCRP4
+	rv_depletion -> rv_output_RgRatio_TCRP4
 }

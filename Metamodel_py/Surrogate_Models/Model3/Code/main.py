@@ -168,7 +168,7 @@ gv_untrained_filename =\
                         directory=Output_path)
 
 with pm_model3_untrained:
-    trace = pm.sample(2000, chains=4)
+    trace = pm.sample(2000, chains=2)
 
 pm.traceplot(trace)
 
@@ -210,7 +210,7 @@ gv_trained_filename =\
 # 5.1 Run prediction:
 
 
-run_prediction = False
+run_prediction = True  # False
 
 if run_prediction:
     df_prediction_mean, df_prediction_std =\
@@ -227,8 +227,9 @@ if run_prediction:
         Output_path+"/df_model3_predicted_PhosRatio_std")
 
     # 5.2 Plot prediction data:
-    predicting.plotPredictionData(df_prediction_mean_r,
-                                  df_prediction_std_r,
-                                  definitions)
+    if plot_things:
+        predicting.plotPredictionData(df_prediction_mean_r,
+                                      df_prediction_std_r,
+                                      definitions)
 
 #################################################

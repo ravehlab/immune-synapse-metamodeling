@@ -109,8 +109,8 @@ return the model conditioned on those values.
 
 
 def get_pm_model2_trained(df_model_trainedTable,
-                          observed_Poff=None,
-                          observed_Diff=None):
+                          observed_logPoff=None,
+                          observed_logDiff=None):
 
     pm_model_trained = pm.Model()
     with pm_model_trained:
@@ -118,8 +118,8 @@ def get_pm_model2_trained(df_model_trainedTable,
         dfRV = df_model_trainedTable
         DP = 'Distribution parameters'
 
-        rv_Poff = pm.Normal('rv_Poff', mu=-2., sd=1., observed=observed_Poff)
-        rv_Diff = pm.Normal('rv_Diff', mu=-2., sd=1., observed=observed_Diff)
+        rv_Poff = pm.Normal('rv_Poff', mu=-2., sd=1., observed=observed_logPoff)
+        rv_Diff = pm.Normal('rv_Diff', mu=-2., sd=1., observed=observed_logDiff)
 
                 # decaylength_LCKA2
         """TODO: read parameters values from RV table"""

@@ -326,14 +326,14 @@ for i, fitParametersName in enumerate(
 
 
 prediction = {}
-prediction['n_x'] = 21  # 21  # number of points in x direction.
+prediction['n_x'] = 5  # 21  # 21  # number of points in x direction.
 prediction['max_x'] = -5./prediction['n_x']
 prediction['min_x'] = -5.
 prediction['Xs'] = np.linspace(prediction['min_x'],
                                prediction['max_x'],
                                prediction['n_x'])  # x values.
 
-prediction['n_y'] = 20  # 20  # number of points in y direction.
+prediction['n_y'] = 4  # 20  # 20  # number of points in y direction.
 prediction['max_y'] = -3./prediction['n_y']
 prediction['min_y'] = -3.
 prediction['Ys'] = np.linspace(prediction['min_y'],

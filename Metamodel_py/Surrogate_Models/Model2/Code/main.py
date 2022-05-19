@@ -205,7 +205,7 @@ if plot_things:
 #################################################
 # 5 Predictions based on the trained parameters:
 # 5.1 Run prediction:
-run_prediction = False
+run_prediction = True  # False
 prediction = definitions.prediction
 
 df_trainedTable_ID = df_model2_trainedTable_ID

@@ -206,26 +206,28 @@ gv_trained_filename =\
 #################################################
 # %% 5 Predictions based on the trained parameters:
 # 5.1 Run prediction:
-"""
-run_prediction = False
+    
+    
+run_prediction = True  # False
 
 if run_prediction:
     df_prediction_mean, df_prediction_std =\
         predicting.predict(df_model4_trainedTable_ID)
 
     df_prediction_mean.to_pickle(
-        Output_path+"/df_model4_predicted_RgRatio_mean")
+        Output_path+"/df_model4_predicted_PhosRatio_mean")
     df_prediction_std.to_pickle(
-        Output_path+"/df_model4_predicted_RgRatio_std")
+        Output_path+"/df_model4_predicted_PhosRatio_std")
 
-df_prediction_mean_r = pd.read_pickle(
-    Output_path+"/df_model4_predicted_RgRatio_mean")
-df_prediction_std_r = pd.read_pickle(
-    Output_path+"/df_model4_predicted_RgRatio_std")
+    df_prediction_mean_r = pd.read_pickle(
+        Output_path+"/df_model3_predicted_RgRatio_mean")
+    df_prediction_std_r = pd.read_pickle(
+        Output_path+"/df_model3_predicted_RgRatio_std")
 
-# 5.2 Plot prediction data:
-predicting.plotPredictionData(df_prediction_mean_r,
-                              df_prediction_std_r,
-                              definitions)
-"""
+    # 5.2 Plot prediction data:
+    if plot_things:
+        predicting.plotPredictionData(df_prediction_mean_r,
+                                      df_prediction_std_r,
+                                      definitions)
+
 #################################################

@@ -103,7 +103,7 @@ return the model conditioned on those values.
 
 def get_pm_model4_trained(df_model4_trainedTable,
                           observed_Decaylength=None,
-                          observed_depletion=None):
+                          observed_Depletion=None):
 
     pm_model4_trained = pm.Model()
     with pm_model4_trained:
@@ -114,7 +114,7 @@ def get_pm_model4_trained(df_model4_trainedTable,
         rv_Decaylength = pm.Normal('rv_Decaylength', mu=100, sd=50,
                                    observed=observed_Decaylength)
         rv_Depletion = pm.Normal('rv_depletion', mu=100, sd=50,
-                                 observed=observed_depletion)
+                                 observed=observed_Depletion)
 
         # RgRatio_TCRP
         s = 1000
