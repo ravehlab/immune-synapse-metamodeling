@@ -133,11 +133,11 @@ submodelName = submodelsNames[2]
 submodels = {}
 submodels[submodelName] = {}
 submodels[submodelName]['fitParametersNames'] =\
-    ['xScale', 'xCen', 'xDev', 'yScale', 'yCen', 'yDev']
+    ['p00', 'p10', 'p01','p20', 'p11']
 
 # Fit parameters description Depletion:
 submodels[submodelName]['fitParametersDescriptions'] =\
-    ['xScale', 'xCen', 'xDev', 'yScale', 'yCen', 'yDev']
+    ['p00', 'p10', 'p01','p20', 'p11']
 
 # Fit parameters units:
 submodels[submodelName]['fitParametersUnits'] =\
@@ -148,11 +148,8 @@ submodels[submodelName]['fitParametersUnits'] =\
      "-",
      "-"]
 
-submodels[submodelName]['p0'] = [130., 50., 20., 100., 20., 30.]
-submodels[submodelName]['sd'] = [20., 10., 10., 20., 10.]
-# submodels[submodelName]['upper'] = [10., 0.5, 0.2, 0.1, 0.1]
-# submodels[submodelName]['lower'] = [10., 0.5, 0.2, 0.1, 0.1]
-
+submodels[submodelName]['p0'] = [45., 1.7, 0.3, 0., 0.]
+submodels[submodelName]['sd'] = [10., 0.5, 0.2, 0.1, 0.1]
 submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
 
 submodels[submodelName]['fitFunction'] = \

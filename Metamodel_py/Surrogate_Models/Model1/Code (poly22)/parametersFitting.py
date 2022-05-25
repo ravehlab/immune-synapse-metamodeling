@@ -37,7 +37,7 @@ def poly21(xy, p00, p10, p01, p20, p11):
 
     return f
 
-fit_function = sigXsigY
+fit_function = poly21
 #################################################
 # 2.2 Set fit function for dep:
 
@@ -116,18 +116,18 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
     submodelName = 'Depletion'
 
     # Read fit parameters from df_fitParameters:
-    xScale_fit = df_fitParameters.loc[
-        submodels[submodelName]['fitParametersNames'][0], 'mu']
-    xCen_fit = df_fitParameters.loc[
-        submodels[submodelName]['fitParametersNames'][1], 'mu']
-    xDev_fit = df_fitParameters.loc[
-        submodels[submodelName]['fitParametersNames'][2], 'mu']
-    yScale_fit = df_fitParameters.loc[
-        submodels[submodelName]['fitParametersNames'][3], 'mu']
-    yCen_fit = df_fitParameters.loc[
-        submodels[submodelName]['fitParametersNames'][4], 'mu']
-    yDev_fit = df_fitParameters.loc[
-        submodels[submodelName]['fitParametersNames'][5], 'mu']
+    # xScale_fit = df_fitParameters.loc[
+    #     submodels[submodelName]['fitParametersNames'][0], 'mu']
+    # xCen_fit = df_fitParameters.loc[
+    #     submodels[submodelName]['fitParametersNames'][1], 'mu']
+    # xDev_fit = df_fitParameters.loc[
+    #     submodels[submodelName]['fitParametersNames'][2], 'mu']
+    # yScale_fit = df_fitParameters.loc[
+    #     submodels[submodelName]['fitParametersNames'][3], 'mu']
+    # yCen_fit = df_fitParameters.loc[
+    #     submodels[submodelName]['fitParametersNames'][4], 'mu']
+    # yDev_fit = df_fitParameters.loc[
+    #     submodels[submodelName]['fitParametersNames'][5], 'mu']
 
     flatten_column_name_x = data['flatten_columns_names'][0]
     flatten_column_name_y = data['flatten_columns_names'][1]
@@ -143,19 +143,18 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
 
 
     # Read fit parameters from df_fitParameters:
-    # p00_fit = df_fitParameters.loc['p00', 'mu']
-    # p10_fit = df_fitParameters.loc['p10', 'mu']
-    # p01_fit = df_fitParameters.loc['p01', 'mu']
-    # p20_fit = df_fitParameters.loc['p20', 'mu']
-    # p11_fit = df_fitParameters.loc['p11', 'mu']
+    p00_fit = df_fitParameters.loc['p00', 'mu']
+    p10_fit = df_fitParameters.loc['p10', 'mu']
+    p01_fit = df_fitParameters.loc['p01', 'mu']
+    p20_fit = df_fitParameters.loc['p20', 'mu']
+    p11_fit = df_fitParameters.loc['p11', 'mu']
+
+    # flatten_x = df_trainingData_flatten['Poff']
+    # flatten_y = df_trainingData_flatten['Diff']
 
     fitted_data_flatten = fit_function(
         (flatten_x, flatten_y),
-        xScale_fit, xCen_fit, xDev_fit, yScale_fit, yCen_fit, yDev_fit)
-        
-    # fitted_data_flatten = fit_function(
-    #     (flatten_x, flatten_y),
-    #     p00_fit, p10_fit, p01_fit, p20_fit, p11_fit)
+        p00_fit, p10_fit, p01_fit, p20_fit, p11_fit)
 
     df_fitted_data_flatten = df_trainingData_flatten
     df_fitted_data_flatten[

@@ -38,60 +38,52 @@ def get_pm_model1_untrained(df_trainingData_model1,
                                 lower=dfRV.loc[ID, DP]['lower'],
                                 upper=dfRV.loc[ID, DP]['upper'],
                                 observed=y_obs)
-        'yDev'
+
         # depletion_KSEG
         """TODO: read parameters values from RV table"""
-        # rv_xScale_Depletion_KSEG1
-        ID = 'rv_xScale_Depletion_KSEG1'
-        rv_xScale_Depletion_KSEG1 = pm.Normal(
+        # rv_p00_Depletion_KSEG1
+        ID = 'rv_p00_Depletion_KSEG1'
+        rv_p00_Depletion_KSEG1 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_xCen_Depletion_KSEG1
-        ID = 'rv_xCen_Depletion_KSEG1'
-        rv_xCen_Depletion_KSEG1 = pm.Normal(
+        # rv_p10_Depletion_KSEG1
+        ID = 'rv_p10_Depletion_KSEG1'
+        rv_p10_Depletion_KSEG1 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_xDev_Depletion_KSEG1
-        ID = 'rv_xDev_Depletion_KSEG1'
-        rv_xDev_Depletion_KSEG1 = pm.Normal(
+        # rv_p01_Depletion_KSEG1
+        ID = 'rv_p01_Depletion_KSEG1'
+        rv_p01_Depletion_KSEG1 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_yScale_Depletion_KSEG1
-        ID = 'rv_yScale_Depletion_KSEG1'
-        rv_yScale_Depletion_KSEG1 = pm.Normal(
+        # rv_p20_Depletion_KSEG1
+        ID = 'rv_p20_Depletion_KSEG1'
+        rv_p20_Depletion_KSEG1 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_yCen_Depletion_KSEG1
-        ID = 'rv_yCen_Depletion_KSEG1'
-        rv_yCen_Depletion_KSEG1 = pm.Normal(
+        # rv_p11_Depletion_KSEG1
+        ID = 'rv_p11_Depletion_KSEG1'
+        rv_p11_Depletion_KSEG1 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_yDev_Depletion_KSEG1
-        ID = 'rv_yDev_Depletion_KSEG1'
-        rv_yDev_Depletion_KSEG1 = pm.Normal(
-            ID,
-            mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
-        
         ID = 'rv_output_depletion_KSEG1'
         rv_output_depletion_KSEG1 = pm.Normal(
             ID,
-            mu=rv_xScale_Depletion_KSEG1/\
-                (1 + np.exp(-(fp_t_KSEG1 - rv_xCen_Depletion_KSEG1)/
-                rv_xDev_Depletion_KSEG1)) +\
-                rv_yScale_Depletion_KSEG1/\
-                (1 + np.exp(-(fp_k_KSEG1 - rv_yCen_Depletion_KSEG1)/
-                rv_yDev_Depletion_KSEG1)),
+            mu=rv_p00_Depletion_KSEG1 +\
+                rv_p10_Depletion_KSEG1*fp_t_KSEG1 +\
+                rv_p01_Depletion_KSEG1*fp_k_KSEG1 +\
+                rv_p20_Depletion_KSEG1*fp_t_KSEG1**2 +\
+                rv_p11_Depletion_KSEG1*fp_t_KSEG1*fp_k_KSEG1,
             sd=eval(dfRV.loc[ID, DP]['sd']),
             observed=z_obs)
 
@@ -123,58 +115,51 @@ def get_pm_model1_trained(df_model1_trainedTable,
 
                 # depletion_KSEG
         """TODO: read parameters values from RV table"""
-        # rv_xScale_Depletion_KSEG1
-        ID = 'rv_xScale_Depletion_KSEG1'
-        rv_xScale_Depletion_KSEG1 = pm.Normal(
+        # rv_p00_Depletion_KSEG1
+        ID = 'rv_p00_Depletion_KSEG1'
+        rv_p00_Depletion_KSEG1 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_xCen_Depletion_KSEG1
-        ID = 'rv_xCen_Depletion_KSEG1'
-        rv_xCen_Depletion_KSEG1 = pm.Normal(
+        # rv_p10_Depletion_KSEG1
+        ID = 'rv_p10_Depletion_KSEG1'
+        rv_p10_Depletion_KSEG1 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_xDev_Depletion_KSEG1
-        ID = 'rv_xDev_Depletion_KSEG1'
-        rv_xDev_Depletion_KSEG1 = pm.Normal(
+        # rv_p01_Depletion_KSEG1
+        ID = 'rv_p01_Depletion_KSEG1'
+        rv_p01_Depletion_KSEG1 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_yScale_Depletion_KSEG1
-        ID = 'rv_yScale_Depletion_KSEG1'
-        rv_yScale_Depletion_KSEG1 = pm.Normal(
+        # rv_p20_Depletion_KSEG1
+        ID = 'rv_p20_Depletion_KSEG1'
+        rv_p20_Depletion_KSEG1 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_yCen_Depletion_KSEG1
-        ID = 'rv_yCen_Depletion_KSEG1'
-        rv_yCen_Depletion_KSEG1 = pm.Normal(
+        # rv_p11_Depletion_KSEG1
+        ID = 'rv_p11_Depletion_KSEG1'
+        rv_p11_Depletion_KSEG1 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
             sd=eval(dfRV.loc[ID, DP]['sd']))
 
-        # rv_yDev_Depletion_KSEG1
-        ID = 'rv_yDev_Depletion_KSEG1'
-        rv_yDev_Depletion_KSEG1 = pm.Normal(
-            ID,
-            mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
-        
         ID = 'rv_output_depletion_KSEG1'
         rv_output_depletion_KSEG1 = pm.Normal(
             ID,
-            mu=rv_xScale_Depletion_KSEG1/\
-                (1 + np.exp(-(rv_t_KSEG1 - rv_xCen_Depletion_KSEG1)/
-                rv_xDev_Depletion_KSEG1)) +\
-                rv_yScale_Depletion_KSEG1/\
-                (1 + np.exp(-(rv_k_KSEG1 - rv_yCen_Depletion_KSEG1)/
-                rv_yDev_Depletion_KSEG1)),
+            mu=rv_p00_Depletion_KSEG1 +\
+                rv_p10_Depletion_KSEG1*rv_t_KSEG1 +\
+                rv_p01_Depletion_KSEG1*rv_k_KSEG1 +\
+                rv_p20_Depletion_KSEG1*rv_t_KSEG1**2 +\
+                rv_p11_Depletion_KSEG1*rv_t_KSEG1*rv_k_KSEG1,
             sd=eval(dfRV.loc[ID, DP]['sd']))
+
 
     return pm_model1_trained
 #################################################
