@@ -19,72 +19,81 @@ data = definitions.data
 # 2.1 Set fit equation for dep:
 
 
-def linXlinY(xy, intercept, xSlope, ySlope):
-    """
-    Gets: xy, intercept, xSlope, ySlope.
-    Returns: f.
-    Calling: None.
-    Called by:
-    Description:
-    """
+# def linXlinY(xy, intercept, xSlope, ySlope):
+#     """
+#     Gets: xy, intercept, xSlope, ySlope.
+#     Returns: f.
+#     Calling: None.
+#     Called by:
+#     Description:
+#     """
 
-    x, y = xy
-    f = intercept + xSlope*x + ySlope*y
+#     x, y = xy
+#     f = intercept + xSlope*x + ySlope*y
 
-    return f
-
-
-def gaussXgaussY(xy, xScale, xMu, xSigma, yScale, yMu, ySigma):
-    """
-    Gets: xy, xScale, xMu, xSigma, yScale, yMu, ySigma.
-    Returns: f.
-    Calling: None.
-    Called by:
-    Description:
-    """
-
-    x, y = xy
-    fx = xScale*np.exp(-0.5*((x - xMu)/xSigma)**2)
-    fy = yScale*np.exp(-0.5*((y - yMu)/ySigma)**2)
-    f = fx + fy
-
-    return f
+#     return f
 
 
-def sigXlinearY(xy, xMin, xMax, xCen, xDev, ySlope):
-    """
-    Gets: xy, xScale, xMu, xSigma, yScale, yMu, ySigma.
-    Returns: f.
-    Calling: None.
-    Called by:
-    Description:
-    """
+# def gaussXgaussY(xy, xScale, xMu, xSigma, yScale, yMu, ySigma):
+#     """
+#     Gets: xy, xScale, xMu, xSigma, yScale, yMu, ySigma.
+#     Returns: f.
+#     Calling: None.
+#     Called by:
+#     Description:
+#     """
 
-    x, y = xy
-    fx = xMin + (xMax - xMin)*np.exp((x - xCen)/xDev)
-    fy = ySlope*y
-    f = fx + fy
+#     x, y = xy
+#     fx = xScale*np.exp(-0.5*((x - xMu)/xSigma)**2)
+#     fy = yScale*np.exp(-0.5*((y - yMu)/ySigma)**2)
+#     f = fx + fy
 
-    return f
+#     return f
+
+
+# def sigXlinearY(xy, xMin, xMax, xCen, xDev, ySlope):
+#     """
+#     Gets: xy, xScale, xMu, xSigma, yScale, yMu, ySigma.
+#     Returns: f.
+#     Calling: None.
+#     Called by:
+#     Description:
+#     """
+
+#     x, y = xy
+#     fx = xMin + (xMax - xMin)*np.exp((x - xCen)/xDev)
+#     fy = ySlope*y
+#     f = fx + fy
+
+#     return f
 
 # %% poly22 #####################################
-def poly22(xy, p00, p10, p01, p20, p11, p02):
-    """
-    Gets: xy, fit_parameters.
-    Returns: f.
-    Calling: None.
-    Called by:
-    Description:
-    """
-    submodelName = 'PhosRatio'
-    # submodels[submodelName]['fitFunction']
-    x, y = xy
-    # f = p00 + p10*x + p01*y + p20*x**2 + p11*x*y + p02*y**2
-    f = eval(submodels[submodelName]['fitFunction'])
+# def poly22(xy, p00, p10, p01, p20, p11, p02):
+#     """
+#     Gets: xy, fit_parameters.
+#     Returns: f.
+#     Calling: None.
+#     Called by:
+#     Description:
+#     """
+#     submodelName = 'PhosRatio'
+#     # submodels[submodelName]['fitFunction']
+#     x, y = xy
+#     # f = p00 + p10*x + p01*y + p20*x**2 + p11*x*y + p02*y**2
+#     f = eval(submodels[submodelName]['fitFunction'])
     
+#     return f
+
+# %% sigXsigY ###################################
+def sigXsigY(xy, a, xScale, xCen, xDev, yScale, yCen, yDev):
+    
+    submodelName = 'PhosRatio'
+    x, y = xy
+    f = eval(submodels[submodelName]['fitFunction'])
+
     return f
 
-fit_function = poly22
+fit_function = sigXsigY
 #################################################
 # 2.2 Set fit function for dep:
 
@@ -98,7 +107,7 @@ def setFitFunction(df_trainingData_flatten):
     Description: Returns a dataFrame with index=parametersNames,
     columns=['mu', 'sd'], values=fitParameters.
     """
-
+    submodelName = 'PhosRatio'
     # parametersNames_depletion = definitions.parametersNames_depletion
 
     # Read x, y, z data from dataFrame:
@@ -113,7 +122,7 @@ def setFitFunction(df_trainingData_flatten):
         fitFunc=fit_function,
         fXdata=flatten_z,
         parametersNames=parametersNames,
-        p0=submodels['PhosRatio']['p0'])
+        p0=submodels[submodelName]['p0'])
 
     return df_fitParameters_dep
 
@@ -158,19 +167,20 @@ def getFittedData(df_trainingData_flatten, df_fitParameters):
     """
 
     # Read fit parameters from df_fitParameters:
-    p00_fit = df_fitParameters.loc['p00', 'mu']
-    p10_fit = df_fitParameters.loc['p10', 'mu']
-    p01_fit = df_fitParameters.loc['p01', 'mu']
-    p20_fit = df_fitParameters.loc['p20', 'mu']
-    p11_fit = df_fitParameters.loc['p11', 'mu']
-    p02_fit = df_fitParameters.loc['p02', 'mu']
+    a_fit = df_fitParameters.loc['a', 'mu']
+    xScale_fit = df_fitParameters.loc['xScale', 'mu']
+    xCen_fit = df_fitParameters.loc['xCen', 'mu']
+    xDev_fit = df_fitParameters.loc['xDev', 'mu']
+    yScale_fit = df_fitParameters.loc['yScale', 'mu']
+    yCen_fit = df_fitParameters.loc['yCen', 'mu']
+    yDev_fit = df_fitParameters.loc['yDev', 'mu']
 
     flatten_x = df_trainingData_flatten['Decaylength_nm']
     flatten_y = df_trainingData_flatten['Depletion_nm']
 
     fitted_data_flatten = fit_function(
         (flatten_x, flatten_y),
-        p00_fit, p10_fit, p01_fit, p20_fit, p11_fit, p02_fit)
+        a_fit, xScale_fit, xCen_fit, xDev_fit, yScale_fit, yCen_fit, yDev_fit)
 
     df_fitted_data_flatten = df_trainingData_flatten
     df_fitted_data_flatten['PhosRatio'] = fitted_data_flatten

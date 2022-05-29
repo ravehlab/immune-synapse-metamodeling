@@ -1,9 +1,11 @@
 ,ID,Variable type,Short Name,Latex Name,Description,Distribution,Distribution parameters,Units
 0,fp_Decaylength_TCRP4,Free parameter,Decaylength,$$Decaylength^{TCRP}$$,Decay length of active Lck in nm.,Normal,"{'mu': '100.0', 'sd': '50.0'}",nm
 1,fp_Depletion_TCRP4,Free parameter,Depletion,$$Depletion^{TCRP}$$,Depletion distsance between TCR and CD45,Normal,"{'mu': '100.0', 'sd': '50.0'}",nm
-2,rv_p00_RgRatio_TCRP4,Random variable,p00,nm,p00,Normal,"{'mu': '1.45270114756034', 'sd': '0.00874081277785078'}",$$nm$$
-3,rv_p10_RgRatio_TCRP4,Random variable,p10,-,p10,Normal,"{'mu': '-0.003164247794818671', 'sd': '0.00014336944490237608'}",$$nm$$
-4,rv_p01_RgRatio_TCRP4,Random variable,p01,-,p01,Normal,"{'mu': '0.0011034497607679608', 'sd': '6.274705157512513e-05'}",$$nm$$
-5,rv_p20_RgRatio_TCRP4,Random variable,p20,-,p20,Normal,"{'mu': '3.385845566297025e-06', 'sd': '6.173068805363864e-07'}",$$nm$$
-6,rv_p11_RgRatio_TCRP4,Random variable,p11,-,p11,Normal,"{'mu': '-3.774271067278457e-06', 'sd': '5.238022854285548e-07'}",$$nm$$
-7,rv_output_RgRatio_TCRP4,Random variable,output,$$RgRatio^{TCRP}_{output}$$,RgRatio output,Normal,"{'mu': '', 'sd': '0.5'}",$$nm$$
+2,rv_a_RgRatio_TCRP4,Random variable,a,-,a,Normal,"{'mu': '0.8', 'sd': '0.2'}",$$nm$$
+3,rv_xScale_RgRatio_TCRP4,Random variable,xScale,nm,xScale,Normal,"{'mu': '0.9', 'sd': '0.2'}",$$nm$$
+4,rv_xCen_RgRatio_TCRP4,Random variable,xCen,nm,xCen,Normal,"{'mu': '70.0', 'sd': '30.0'}",$$nm$$
+5,rv_xDev_RgRatio_TCRP4,Random variable,xDev,-,xDev,Normal,"{'mu': '-45.0', 'sd': '10.0'}",$$nm$$
+6,rv_yScale_RgRatio_TCRP4,Random variable,yScale,nm,yScale,Normal,"{'mu': '-0.4', 'sd': '0.2'}",$$nm$$
+7,rv_yCen_RgRatio_TCRP4,Random variable,yCen,nm,yCen,Normal,"{'mu': '10.0', 'sd': '5.0'}",$$nm$$
+8,rv_yDev_RgRatio_TCRP4,Random variable,yDev,-,yDev,Normal,"{'mu': '100.0', 'sd': '20.0'}",$$nm$$
+9,rv_output_RgRatio_TCRP4,Random variable,output,$$RgRatio^{TCRP}_{output}$$,RgRatio output,Normal,"{'mu': '', 'sd': '0.5'}",$$nm$$

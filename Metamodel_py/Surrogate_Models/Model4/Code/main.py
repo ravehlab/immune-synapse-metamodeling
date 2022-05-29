@@ -104,12 +104,28 @@ if plot_things:
 # %% 2. Parameters Fitting (to be used as initial parameters
 # for the untrained model):
 # 2.1 Get fit parameters:
-df_fitParameters_RgRatio = parametersFitting.setFitFunction(
-    df_trainingData_RgRatio_flatten)
+if False:
+    df_fitParameters_RgRatio = parametersFitting.setFitFunction(
+        df_trainingData_RgRatio_flatten)
+
+###
+parametersNames = \
+    ['a', 'xScale', 'xCen', 'xDev', 'yScale', 'yCen', 'yDev']
+mu = [0.8, 0.9, 70., -45., -0.4, 10., 100.]
+sd = [0.2, 0.2, 30., 10., 0.2, 5., 20.]
+
+
+data = {'mu': mu, 'sd': sd}
+index = parametersNames
+
+df_fitParameters_RgRatio = pd.DataFrame(data, index=index)
+
+###
 
 # 2.2 Create fitted data from fit parameters:
-df_fittedData_RgRatio_pivot = parametersFitting.getFittedData(
-    df_trainingData_RgRatio_flatten, df_fitParameters_RgRatio)
+if False:
+    df_fittedData_RgRatio_pivot = parametersFitting.getFittedData(
+        df_trainingData_RgRatio_flatten, df_fitParameters_RgRatio)
 
 if plot_things:
     # 2.3 Plot fitted data:
@@ -209,21 +225,30 @@ gv_trained_filename =\
     
     
 run_prediction = True  # False
+prediction = definitions.prediction
 
 if run_prediction:
     df_prediction_mean, df_prediction_std =\
         predicting.predict(df_model4_trainedTable_ID)
 
+    # Save to csv:
+    df_prediction_mean.to_csv(
+        Output_path+"/"+prediction['saveName_mean'])   
+    df_prediction_std.to_csv(
+        Output_path+"/"+prediction['saveName_std'])
+
+    # Save to pickle:
     df_prediction_mean.to_pickle(
-        Output_path+"/df_model4_predicted_PhosRatio_mean")
+        Output_path+"/"+prediction['saveName_mean'])
     df_prediction_std.to_pickle(
-        Output_path+"/df_model4_predicted_PhosRatio_std")
-
+        Output_path+"/"+prediction['saveName_std'])
+    
+    # Read from pickle:
     df_prediction_mean_r = pd.read_pickle(
-        Output_path+"/df_model3_predicted_RgRatio_mean")
+        Output_path+"/"+prediction['saveName_mean'])
     df_prediction_std_r = pd.read_pickle(
-        Output_path+"/df_model3_predicted_RgRatio_std")
-
+        Output_path+"/"+prediction['saveName_std'])
+    
     # 5.2 Plot prediction data:
     if plot_things:
         predicting.plotPredictionData(df_prediction_mean_r,

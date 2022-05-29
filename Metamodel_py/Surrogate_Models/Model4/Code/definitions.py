@@ -164,30 +164,42 @@ submodels = {}
 submodels = {}
 submodels[submodelName] = {}
 submodels[submodelName]['fitParametersNames'] =\
-    ['p00', 'p10', 'p01','p20', 'p11']
+    ['a',
+     'xScale',
+     'xCen',
+     'xDev',
+     'yScale',
+     'yCen',
+     'yDev']
 
 # Fit parameters description Depletion:
 submodels[submodelName]['fitParametersDescriptions'] =\
-    ['p00', 'p10', 'p01','p20', 'p11']
+    ['a',
+     'xScale',
+     'xCen',
+     'xDev',
+     'yScale',
+     'yCen',
+     'yDev']
 
 # Fit parameters units:
 submodels[submodelName]['fitParametersUnits'] =\
-    ["nm",
+    ["-",
+     "nm",
+     "nm",
      "-",
-     "-",
-     "-",
-     "-",
+     "nm",
+     "nm",
      "-"]
 
-submodels[submodelName]['p0'] = [1.45, 0., 0., 0., 0.]
-submodels[submodelName]['sd'] = [0.5, 0.1, 0.1, 0.1, 0.1]
+submodels[submodelName]['p0'] = [0.8, 0.9, 70., -45., -0.4, 10., 100.]
+submodels[submodelName]['sd'] = [0.2, 0.2, 30., 10., 0.2, 5., 20.]
 submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 0, 0.65)'
 
 submodels[submodelName]['fitFunction'] = \
-    'p00 + p10*x + p01*y + p20*x**2 + p11*x*y'
+    'a + xScale/(1 + np.exp(-(x-xCen)/xDev)) + yScale/(1 + np.exp(-(y-yCen)/yDev))'
 
-
-def poly21(xy, p00, p10, p01, p20, p11):
+def sigXsigY(xy, a, xScale, xCen, xDev, yScale, yCen, yDev):
 
     x, y = xy
     f = eval(submodels[submodelName]['fitFunction'])
@@ -270,19 +282,22 @@ for i, fitParametersName in enumerate(
 
 
 prediction = {}
-prediction['n_x'] = 5  # 21  # number of points in x direction.
+prediction['n_x'] = 21  # 5  # 21  # number of points in x direction.
 prediction['max_x'] = 200.
 prediction['min_x'] = 0.
 prediction['Xs'] = np.linspace(prediction['min_x'],
                                prediction['max_x'],
                                prediction['n_x'])  # x values.
 
-prediction['n_y'] = 4  # 20  # number of points in y direction.
+prediction['n_y'] = 20  # 4  # 20  # number of points in y direction.
 prediction['max_y'] = 200.
 prediction['min_y'] = prediction['max_y']/prediction['n_y']
 prediction['Ys'] = np.linspace(prediction['min_y'],
                                prediction['max_y'],
                                prediction['n_y'])
+
+prediction['saveName_mean'] = "df_model4_predicted_RgRatio_mean"
+prediction['saveName_std'] = "df_model4_predicted_RgRatio_std"    
 
 #################################################
 # y = pm.Normal.dist(mu=10, sd=0.5)

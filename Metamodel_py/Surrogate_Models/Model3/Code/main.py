@@ -104,12 +104,28 @@ if plot_things:
 # 2. Parameters Fitting (to be used as initial parameters
 # for the untrained model):
 # 2.1 Get fit parameters:
-df_fitParameters_PhosRatio = parametersFitting.setFitFunction(
-    df_trainingData_PhosRatio_flatten)
+if False:
+    df_fitParameters_PhosRatio = parametersFitting.setFitFunction(
+        df_trainingData_PhosRatio_flatten)
+
+###
+parametersNames = \
+    ['a', 'xScale', 'xCen', 'xDev', 'yScale', 'yCen', 'yDev']
+mu = [0.1, 0.9, 110., 40.0, -0.5, 100., 80.]
+sd = [0.1, 0.2, 30., 10., 0.2, 20., 20.]
+
+
+data = {'mu': mu, 'sd': sd}
+index = parametersNames
+
+df_fitParameters_PhosRatio = pd.DataFrame(data, index=index)
+
+###
 
 # 2.2 Create fitted data from fit parameters:
-df_fittedData_PhosRatio_pivot = parametersFitting.getFittedData(
-    df_trainingData_PhosRatio_flatten, df_fitParameters_PhosRatio)
+if False:
+    df_fittedData_PhosRatio_pivot = parametersFitting.getFittedData(
+        df_trainingData_PhosRatio_flatten, df_fitParameters_PhosRatio)
 
 if plot_things:
     # 2.3 Plot fitted data:
@@ -211,21 +227,30 @@ gv_trained_filename =\
 
 
 run_prediction = True  # False
+prediction = definitions.prediction
 
 if run_prediction:
     df_prediction_mean, df_prediction_std =\
         predicting.predict(df_model3_trainedTable_ID)
 
+    # Save to csv:
+    df_prediction_mean.to_csv(
+        Output_path+"/"+prediction['saveName_mean'])   
+    df_prediction_std.to_csv(
+        Output_path+"/"+prediction['saveName_std'])
+
+    # Save to pickle:
     df_prediction_mean.to_pickle(
-        Output_path+"/df_model3_predicted_PhosRatio_mean")
+        Output_path+"/"+prediction['saveName_mean'])
     df_prediction_std.to_pickle(
-        Output_path+"/df_model3_predicted_PhosRatio_std")
-
+        Output_path+"/"+prediction['saveName_std'])
+    
+    # Read from pickle:
     df_prediction_mean_r = pd.read_pickle(
-        Output_path+"/df_model3_predicted_PhosRatio_mean")
+        Output_path+"/"+prediction['saveName_mean'])
     df_prediction_std_r = pd.read_pickle(
-        Output_path+"/df_model3_predicted_PhosRatio_std")
-
+        Output_path+"/"+prediction['saveName_std'])
+    
     # 5.2 Plot prediction data:
     if plot_things:
         predicting.plotPredictionData(df_prediction_mean_r,

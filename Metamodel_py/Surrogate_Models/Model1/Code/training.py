@@ -121,7 +121,7 @@ def get_pm_model1_trained(df_model1_trainedTable,
         rv_t_KSEG1 = pm.Normal('rv_t', mu=50, sd=20, observed=observed_t)
         rv_k_KSEG1 = pm.Normal('rv_k', mu=50, sd=20, observed=observed_k)
 
-                # depletion_KSEG
+        # depletion_KSEG
         """TODO: read parameters values from RV table"""
         # rv_xScale_Depletion_KSEG1
         ID = 'rv_xScale_Depletion_KSEG1'

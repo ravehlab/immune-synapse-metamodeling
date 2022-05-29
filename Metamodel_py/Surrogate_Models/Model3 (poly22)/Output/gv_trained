@@ -1,0 +1,37 @@
+digraph {
+	rv_output_PhosRatio_TCRP3 [label="rv_output_PhosRatio_TCRP3
+~
+Normal"]
+	rv_p00_PhosRatio_TCRP3 [label="rv_p00_PhosRatio_TCRP3
+~
+Normal"]
+	rv_p10_PhosRatio_TCRP3 [label="rv_p10_PhosRatio_TCRP3
+~
+Normal"]
+	rv_p20_PhosRatio_TCRP3 [label="rv_p20_PhosRatio_TCRP3
+~
+Normal"]
+	rv_Decaylength [label="rv_Decaylength
+~
+Normal"]
+	rv_Depletion [label="rv_Depletion
+~
+Normal"]
+	rv_p11_PhosRatio_TCRP3 [label="rv_p11_PhosRatio_TCRP3
+~
+Normal"]
+	rv_p01_PhosRatio_TCRP3 [label="rv_p01_PhosRatio_TCRP3
+~
+Normal"]
+	rv_p02_PhosRatio_TCRP3 [label="rv_p02_PhosRatio_TCRP3
+~
+Normal"]
+	rv_p00_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
+	rv_p20_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
+	rv_p10_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
+	rv_Decaylength -> rv_output_PhosRatio_TCRP3
+	rv_Depletion -> rv_output_PhosRatio_TCRP3
+	rv_p11_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
+	rv_p01_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
+	rv_p02_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
+}

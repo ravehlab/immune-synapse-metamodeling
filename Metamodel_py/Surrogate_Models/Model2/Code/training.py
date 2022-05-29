@@ -121,7 +121,7 @@ def get_pm_model2_trained(df_model_trainedTable,
         rv_Poff = pm.Normal('rv_Poff', mu=-2., sd=1., observed=observed_logPoff)
         rv_Diff = pm.Normal('rv_Diff', mu=-2., sd=1., observed=observed_logDiff)
 
-                # decaylength_LCKA2
+        # decaylength_LCKA2
         """TODO: read parameters values from RV table"""
         # rv_p00_Decaylength_LCKA2
         ID = 'rv_p00_Decaylength_LCKA2'

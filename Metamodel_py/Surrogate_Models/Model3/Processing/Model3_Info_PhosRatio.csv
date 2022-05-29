@@ -1,10 +1,11 @@
 ,ID,Variable type,Short Name,Latex Name,Description,Distribution,Distribution parameters,Units
 0,fp_Decaylength_TCRP3,Free parameter,Decaylength,$$Decaylength^{TCRP}$$,Decay length of active Lck in nm.,Normal,"{'mu': '100.0', 'sd': '50.0'}",nm
 1,fp_Depletion_TCRP3,Free parameter,Depletion,$$Depletion^{TCRP}$$,Depletion distsance between TCR and CD45,Normal,"{'mu': '100.0', 'sd': '50.0'}",$$kTnm^2$$
-2,rv_p00_PhosRatio_TCRP3,Random variable,p00,-,p00,Normal,"{'mu': '0.03639827812370527', 'sd': '0.013357363899587749'}",$$nm$$
-3,rv_p10_PhosRatio_TCRP3,Random variable,p10,nm,p10,Normal,"{'mu': '0.0018094259506943574', 'sd': '0.00020303679897202697'}",$$nm$$
-4,rv_p01_PhosRatio_TCRP3,Random variable,p01,nm,p01,Normal,"{'mu': '-0.0011396597445762922', 'sd': '0.0001817058989743034'}",$$nm$$
-5,rv_p20_PhosRatio_TCRP3,Random variable,p20,-,p20,Normal,"{'mu': '1.3479602009700719e-05', 'sd': '8.742170851654671e-07'}",$$nm$$
-6,rv_p11_PhosRatio_TCRP3,Random variable,p11,nm,p11,Normal,"{'mu': '-6.42613266262079e-06', 'sd': '7.417977907041882e-07'}",$$nm$$
-7,rv_p02_PhosRatio_TCRP3,Random variable,p02,nm,p02,Normal,"{'mu': '2.5664345981195117e-06', 'sd': '7.92476279895619e-07'}",$$nm$$
-8,rv_output_PhosRatio_TCRP3,Random variable,output,$$PhosRatio^{TCRP}_{output}$$,PhosRatio output,Normal,"{'mu': '', 'sd': '0.5'}",$$nm$$
+2,rv_a_PhosRatio_TCRP3,Random variable,a,-,a,Normal,"{'mu': '0.1', 'sd': '0.1'}",$$nm$$
+3,rv_xScale_PhosRatio_TCRP3,Random variable,xScale,nm,xScale,Normal,"{'mu': '0.9', 'sd': '0.2'}",$$nm$$
+4,rv_xCen_PhosRatio_TCRP3,Random variable,xCen,nm,xCen,Normal,"{'mu': '110.0', 'sd': '30.0'}",$$nm$$
+5,rv_xDev_PhosRatio_TCRP3,Random variable,xDev,-,xDev,Normal,"{'mu': '40.0', 'sd': '10.0'}",$$nm$$
+6,rv_yScale_PhosRatio_TCRP3,Random variable,yScale,nm,yScale,Normal,"{'mu': '-0.5', 'sd': '0.2'}",$$nm$$
+7,rv_yCen_PhosRatio_TCRP3,Random variable,yCen,nm,yCen,Normal,"{'mu': '100.0', 'sd': '20.0'}",$$nm$$
+8,rv_yDev_PhosRatio_TCRP3,Random variable,yDev,-,yDev,Normal,"{'mu': '80.0', 'sd': '20.0'}",$$nm$$
+9,rv_output_PhosRatio_TCRP3,Random variable,output,$$PhosRatio^{TCRP}_{output}$$,PhosRatio output,Normal,"{'mu': '', 'sd': '0.5'}",$$nm$$

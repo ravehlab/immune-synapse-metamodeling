@@ -200,11 +200,19 @@ if run_prediction:
     df_prediction_mean, df_prediction_std =\
         predicting.predict(df_trainedTable_ID)
 
+    # Save to csv:
+    df_prediction_mean.to_csv(
+        Output_path+"/"+prediction['saveName_mean'])   
+    df_prediction_std.to_csv(
+        Output_path+"/"+prediction['saveName_std'])
+
+    # Save to pickle:
     df_prediction_mean.to_pickle(
         Output_path+"/"+prediction['saveName_mean'])
     df_prediction_std.to_pickle(
         Output_path+"/"+prediction['saveName_std'])
-
+    
+    # Read from pickle:
     df_prediction_mean_r = pd.read_pickle(
         Output_path+"/"+prediction['saveName_mean'])
     df_prediction_std_r = pd.read_pickle(

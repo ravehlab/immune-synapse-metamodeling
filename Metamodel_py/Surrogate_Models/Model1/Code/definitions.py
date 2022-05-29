@@ -156,10 +156,9 @@ submodels[submodelName]['sd'] = [20., 10., 10., 20., 10.]
 submodels[submodelName]['tableBackgroundColor'] = 'rgba(200, 150, 255, 0.65)'
 
 submodels[submodelName]['fitFunction'] = \
-    'p00 + p10*x + p01*y + p20*x**2 + p11*x*y'
+    'xScale/(1 + np.exp(-(x-xCen)/xDev)) + yScale/(1 + np.exp(-(y-yCen)/yDev))'
 
-
-def poly21(xy, p00, p10, p01, p20, p11):
+def sigXsigY(xy, xScale, xCen, xDev, yScale, yCen, yDev):
 
     x, y = xy
     f = eval(submodels[submodelName]['fitFunction'])

@@ -19,54 +19,62 @@ data = definitions.data
 # 2.1 Set fit equation for dep:
 
 
-def linXlinY(xy, intercept, xSlope, ySlope):
-    """
-    Gets: xy, intercept, xSlope, ySlope.
-    Returns: f.
-    Calling: None.
-    Called by:
-    Description:
-    """
+# def linXlinY(xy, intercept, xSlope, ySlope):
+#     """
+#     Gets: xy, intercept, xSlope, ySlope.
+#     Returns: f.
+#     Calling: None.
+#     Called by:
+#     Description:
+#     """
 
-    x, y = xy
-    f = intercept + xSlope*x + ySlope*y
+#     x, y = xy
+#     f = intercept + xSlope*x + ySlope*y
 
-    return f
-
-
-def sigXlinearY(xy, xMin, xMax, xCen, xDev, ySlope):
-    """
-    Gets: xy, xScale, xMu, xSigma, yScale, yMu, ySigma.
-    Returns: f.
-    Calling: None.
-    Called by:
-    Description:
-    """
-
-    x, y = xy
-    fx = xMin + (xMax - xMin)/np.exp((x - xCen)/xDev)
-    fy = ySlope*y
-    f = fx + fy
-
-    return f
+#     return f
 
 
-def poly21(xy, p00, p10, p01, p20, p11):
+# def sigXlinearY(xy, xMin, xMax, xCen, xDev, ySlope):
+#     """
+#     Gets: xy, xScale, xMu, xSigma, yScale, yMu, ySigma.
+#     Returns: f.
+#     Calling: None.
+#     Called by:
+#     Description:
+#     """
+
+#     x, y = xy
+#     fx = xMin + (xMax - xMin)/np.exp((x - xCen)/xDev)
+#     fy = ySlope*y
+#     f = fx + fy
+
+#     return f
+
+
+# def poly21(xy, p00, p10, p01, p20, p11):
     
-    submodelName = 'RgRatio'
+#     submodelName = 'RgRatio'
+#     x, y = xy
+#     f = eval(submodels[submodelName]['fitFunction'])
+
+#     return f
+
+# fit_function = poly21
+
+def sigXsigY(xy, a, xScale, xCen, xDev, yScale, yCen, yDev):
+    
+    submodelName = 'PhosRatio'
     x, y = xy
     f = eval(submodels[submodelName]['fitFunction'])
 
     return f
 
-fit_function = poly21
+fit_function = sigXsigY
+
 #################################################
 # 2.2 Set fit function:
-
-
-fitFunction = linXlinY
-
-
+    
+    
 def setFitFunction(df_trainingData_flatten):
     """
     Gets: df_trainingData_model1.csv
