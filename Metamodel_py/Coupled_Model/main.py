@@ -448,8 +448,8 @@ values.
 # batch = 't_Poff'
 # batch = 't_Diff'
 # batch = 'k_Poff'
-# batch = 'k_Diff'
-batch = 'Poff_Diff'
+batch = 'k_Diff'
+# batch = 'Poff_Diff'
 
 # Define fixed parameters values:
 fixed_t = 50.
