@@ -16,6 +16,7 @@ import pymc3 as pm
 # Input_path = '/immune-synapse-metamodeling/Metamodel_py/Coupled_Model/Input/'
 # Input_path = '/cs/usr/yairneveoz/immune-synapse-metamodeling/Metamodel_py/Coupled_Model/Input/'
 Input_path = '/home/jonah/Yair/Git/immune-synapse-metamodeling/Metamodel_py/Coupled_Model/Input/'
+
 # Read input data from surrogate models:
 model1_df_Table_ID = pd.read_pickle(
     Input_path+"df_model1_untrainedTable_ID")
@@ -598,3 +599,7 @@ if True:
             except:
                 print("An exception occurred")
 
+# phosRatios_mean.to_csv('coupled_phosRatios_mean_' + batch)
+# phosRatios_std.to_csv('coupled_phosRatios_std_' + batch)
+# RgRatios_mean.to_csv('coupled_RgRatios_mean_' + batch)
+# RgRatios_std.to_csv('coupled_RgRatios_std_' + batch)
