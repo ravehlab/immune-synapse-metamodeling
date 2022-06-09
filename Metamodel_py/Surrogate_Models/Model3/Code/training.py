@@ -25,10 +25,7 @@ def get_pm_model3_untrained(df_trainingData_model3,
         z_obs = df_trainingData_model3.loc[:, 'PhosRatio'].values
 
         # fp_Decaylength_TCRP3
-        sx = 100.
-        sy = 100.
         s = 1.
-        sd2 = 0.2
         ID = 'fp_Decaylength_TCRP3'
         fp_Decaylength_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
@@ -48,43 +45,43 @@ def get_pm_model3_untrained(df_trainingData_model3,
         ID = 'rv_a_PhosRatio_TCRP3'
         rv_a_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_xScale_PhosRatio_TCRP3
         ID = 'rv_xScale_PhosRatio_TCRP3'
         rv_xScale_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_xCen_PhosRatio_TCRP3
         ID = 'rv_xCen_PhosRatio_TCRP3'
         rv_xCen_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_xDev_PhosRatio_TCRP3
         ID = 'rv_xDev_PhosRatio_TCRP3'
         rv_xDev_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_yScale_PhosRatio_TCRP3
         ID = 'rv_yScale_PhosRatio_TCRP3'
         rv_yScale_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_yCen_PhosRatio_TCRP3
         ID = 'rv_yCen_PhosRatio_TCRP3'
         rv_yCen_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_yDev_PhosRatio_TCRP3
         ID = 'rv_yDev_PhosRatio_TCRP3'
         rv_yDev_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
         ID = 'rv_output_PhosRatio_TCRP3'
         rv_output_PhosRatio_TCRP3 = pm.Normal(ID,
@@ -95,20 +92,13 @@ def get_pm_model3_untrained(df_trainingData_model3,
                 rv_yScale_PhosRatio_TCRP3/\
                 (1 + np.exp(-(fp_Depletion_TCRP3 - rv_yCen_PhosRatio_TCRP3)/
                 rv_yDev_PhosRatio_TCRP3)),
-                sd=eval(dfRV.loc[ID, DP]['sd'])*s,
+                sd=0.1,  # eval(dfRV.loc[ID, DP]['sd']),
                 observed=z_obs)
 
     return pm_model3_untrained
 #################################################
 
 # Trained model:
-
-
-"""
-Return model1 trained based on trace1.
-If observed_t and/or observed_k are specified,
-return the model conditioned on those values.
-"""
 
 
 def get_pm_model3_trained(df_model3_trainedTable,
@@ -128,51 +118,47 @@ def get_pm_model3_trained(df_model3_trainedTable,
                                  observed=observed_Depletion)
 
         # PhosRatio_TCRP
-        sx = 100.
-        sy = 100.
-        s = 1
-        sd2 = 1.
         # rv_a_PhosRatio_TCRP3
         ID = 'rv_a_PhosRatio_TCRP3'
         rv_a_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_xScale_PhosRatio_TCRP3
         ID = 'rv_xScale_PhosRatio_TCRP3'
         rv_xScale_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_xCen_PhosRatio_TCRP3
         ID = 'rv_xCen_PhosRatio_TCRP3'
         rv_xCen_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_xDev_PhosRatio_TCRP3
         ID = 'rv_xDev_PhosRatio_TCRP3'
         rv_xDev_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_yScale_PhosRatio_TCRP3
         ID = 'rv_yScale_PhosRatio_TCRP3'
         rv_yScale_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_yCen_PhosRatio_TCRP3
         ID = 'rv_yCen_PhosRatio_TCRP3'
         rv_yCen_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_yDev_PhosRatio_TCRP3
         ID = 'rv_yDev_PhosRatio_TCRP3'
         rv_yDev_PhosRatio_TCRP3 = pm.Normal(ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)
+            sd=eval(dfRV.loc[ID, DP]['sd']))
 
         ID = 'rv_output_PhosRatio_TCRP3'
         rv_output_PhosRatio_TCRP3 = pm.Normal(ID,
@@ -183,7 +169,7 @@ def get_pm_model3_trained(df_model3_trainedTable,
                 rv_yScale_PhosRatio_TCRP3/\
                 (1 + np.exp(-(rv_Depletion - rv_yCen_PhosRatio_TCRP3)/
                 rv_yDev_PhosRatio_TCRP3)),
-                sd=eval(dfRV.loc[ID, DP]['sd'])*s)
+                sd=0.1)  # eval(dfRV.loc[ID, DP]['sd']))
 
     return pm_model3_trained
 #################################################

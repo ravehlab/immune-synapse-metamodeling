@@ -8,4 +8,4 @@
 6,rv_yScale_PhosRatio_TCRP3,Random variable,yScale,nm,yScale,Normal,"{'mu': '-0.5', 'sd': '0.2'}",$$nm$$
 7,rv_yCen_PhosRatio_TCRP3,Random variable,yCen,nm,yCen,Normal,"{'mu': '100.0', 'sd': '20.0'}",$$nm$$
 8,rv_yDev_PhosRatio_TCRP3,Random variable,yDev,-,yDev,Normal,"{'mu': '80.0', 'sd': '20.0'}",$$nm$$
-9,rv_output_PhosRatio_TCRP3,Random variable,output,$$PhosRatio^{TCRP}_{output}$$,PhosRatio output,Normal,"{'mu': '', 'sd': '0.5'}",$$nm$$
+9,rv_output_PhosRatio_TCRP3,Random variable,output,$$PhosRatio^{TCRP}_{output}$$,PhosRatio output,Normal,"{'mu': '', 'sd': '0.1'}",$$nm$$

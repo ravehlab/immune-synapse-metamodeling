@@ -40,58 +40,55 @@ def get_pm_model4_untrained(df_trainingData_model4,
             observed=y_obs)
 
         # RgRatio_TCRP
-        sx = 1.
-        sy = 1.
-        s = 1.
         """TODO: read parameters values from RV table"""
         # rv_a_RgRatio_TCRP4
         ID = 'rv_a_RgRatio_TCRP4'
         rv_a_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd']))  # eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_xScale_RgRatio_TCRP4
         ID = 'rv_xScale_RgRatio_TCRP4'
         rv_xScale_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd']))  # eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_xCen_RgRatio_TCRP4
         ID = 'rv_xCen_RgRatio_TCRP4'
         rv_xCen_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd']))  # eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_xDev_RgRatio_TCRP4
         ID = 'rv_xDev_RgRatio_TCRP4'
         rv_xDev_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd']))  # eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_yScale_RgRatio_TCRP4
         ID = 'rv_yScale_RgRatio_TCRP4'
         rv_yScale_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd']))  # eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_yCen_RgRatio_TCRP4
         ID = 'rv_yCen_RgRatio_TCRP4'
         rv_yCen_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd']))  # eval(dfRV.loc[ID, DP]['sd']))
         
         # rv_yDev_RgRatio_TCRP4
         ID = 'rv_yDev_RgRatio_TCRP4'
         rv_yDev_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd']))  # eval(dfRV.loc[ID, DP]['sd']))
         
         ID = 'rv_output_RgRatio_TCRP4'
         rv_output_RgRatio_TCRP4 = pm.Normal(
@@ -103,7 +100,7 @@ def get_pm_model4_untrained(df_trainingData_model4,
                 rv_yScale_RgRatio_TCRP4/\
                 (1 + np.exp(-(fp_Depletion_TCRP4 - rv_yCen_RgRatio_TCRP4)/\
                             rv_yDev_RgRatio_TCRP4)),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s,
+            sd=0.1,  # eval(dfRV.loc[ID, DP]['sd']),
             observed=z_obs)
 
     return pm_model4_untrained
@@ -135,58 +132,55 @@ def get_pm_model4_trained(df_model4_trainedTable,
                                  observed=observed_Depletion)
 
         # RgRatio_TCRP
-        sx = 1.
-        sy = 1.
-        s = 1
         """TODO: read parameters values from RV table"""
         # rv_a_RgRatio_TCRP4
         ID = 'rv_a_RgRatio_TCRP4'
         rv_a_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd']))  # eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_xScale_RgRatio_TCRP4
         ID = 'rv_xScale_RgRatio_TCRP4'
         rv_xScale_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd']))  # eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_xCen_RgRatio_TCRP4
         ID = 'rv_xCen_RgRatio_TCRP4'
         rv_xCen_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd']))  # eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_xDev_RgRatio_TCRP4
         ID = 'rv_xDev_RgRatio_TCRP4'
         rv_xDev_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd']))  # eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_yScale_RgRatio_TCRP4
         ID = 'rv_yScale_RgRatio_TCRP4'
         rv_yScale_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd']))  # eval(dfRV.loc[ID, DP]['sd']))
 
         # rv_yCen_RgRatio_TCRP4
         ID = 'rv_yCen_RgRatio_TCRP4'
         rv_yCen_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd']))  # eval(dfRV.loc[ID, DP]['sd']))
         
         # rv_yDev_RgRatio_TCRP4
         ID = 'rv_yDev_RgRatio_TCRP4'
         rv_yDev_RgRatio_TCRP4 = pm.Normal(
             ID,
             mu=eval(dfRV.loc[ID, DP]['mu']),
-            sd=eval(dfRV.loc[ID, DP]['sd'])*s)  # eval(dfRV.loc[ID, DP]['sd']))
+            sd=eval(dfRV.loc[ID, DP]['sd']))  # eval(dfRV.loc[ID, DP]['sd']))
         
         ID = 'rv_output_RgRatio_TCRP4'
         rv_output_RgRatio_TCRP4 = pm.Normal(
@@ -198,7 +192,7 @@ def get_pm_model4_trained(df_model4_trainedTable,
                 rv_yScale_RgRatio_TCRP4/\
                 (1 + np.exp(-(rv_Depletion - rv_yCen_RgRatio_TCRP4)/\
                             rv_yDev_RgRatio_TCRP4)),
-            sd=eval(dfRV.loc[ID, DP]['sd']))
+            sd=0.1)  # eval(dfRV.loc[ID, DP]['sd']))
             
     return pm_model4_trained
 #################################################

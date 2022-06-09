@@ -256,7 +256,7 @@ def model3_PhosRatio_info(df_fitParameters_PhosRatio):
            description='PhosRatio output',
            distribution='Normal',
            distributionParameters={'mu': '',
-                                   'sd': str(0.5)},
+                                   'sd': '0.1'},
            units="$$nm$$"))
 
     model3_PhosRatio.to_csv(paths['Processing'] +

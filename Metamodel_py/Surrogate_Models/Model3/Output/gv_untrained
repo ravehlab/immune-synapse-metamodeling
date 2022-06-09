@@ -1,44 +1,44 @@
 digraph {
 	subgraph cluster420 {
-		fp_Depletion_TCRP3 [label="fp_Depletion_TCRP3
+		rv_output_PhosRatio_TCRP3 [label="rv_output_PhosRatio_TCRP3
 ~
 Normal" style=filled]
 		fp_Decaylength_TCRP3 [label="fp_Decaylength_TCRP3
 ~
 Normal" style=filled]
-		rv_output_PhosRatio_TCRP3 [label="rv_output_PhosRatio_TCRP3
+		fp_Depletion_TCRP3 [label="fp_Depletion_TCRP3
 ~
 Normal" style=filled]
 		label=420 labeljust=r labelloc=b style=rounded
 	}
+	rv_yScale_PhosRatio_TCRP3 [label="rv_yScale_PhosRatio_TCRP3
+~
+Normal"]
+	rv_xCen_PhosRatio_TCRP3 [label="rv_xCen_PhosRatio_TCRP3
+~
+Normal"]
+	rv_a_PhosRatio_TCRP3 [label="rv_a_PhosRatio_TCRP3
+~
+Normal"]
 	rv_xDev_PhosRatio_TCRP3 [label="rv_xDev_PhosRatio_TCRP3
 ~
 Normal"]
 	rv_yCen_PhosRatio_TCRP3 [label="rv_yCen_PhosRatio_TCRP3
 ~
 Normal"]
-	rv_yScale_PhosRatio_TCRP3 [label="rv_yScale_PhosRatio_TCRP3
-~
-Normal"]
 	rv_yDev_PhosRatio_TCRP3 [label="rv_yDev_PhosRatio_TCRP3
-~
-Normal"]
-	rv_xCen_PhosRatio_TCRP3 [label="rv_xCen_PhosRatio_TCRP3
 ~
 Normal"]
 	rv_xScale_PhosRatio_TCRP3 [label="rv_xScale_PhosRatio_TCRP3
 ~
 Normal"]
-	rv_a_PhosRatio_TCRP3 [label="rv_a_PhosRatio_TCRP3
-~
-Normal"]
-	fp_Depletion_TCRP3 -> rv_output_PhosRatio_TCRP3
-	rv_xDev_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
-	rv_yCen_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
-	rv_yDev_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
 	rv_yScale_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
 	rv_xCen_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
-	rv_xScale_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
-	fp_Decaylength_TCRP3 -> rv_output_PhosRatio_TCRP3
 	rv_a_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
+	rv_xDev_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
+	rv_yCen_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
+	fp_Decaylength_TCRP3 -> rv_output_PhosRatio_TCRP3
+	rv_yDev_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
+	rv_xScale_PhosRatio_TCRP3 -> rv_output_PhosRatio_TCRP3
+	fp_Depletion_TCRP3 -> rv_output_PhosRatio_TCRP3
 }

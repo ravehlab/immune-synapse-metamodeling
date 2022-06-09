@@ -184,7 +184,7 @@ gv_untrained_filename =\
                         directory=Output_path)
 
 with pm_model3_untrained:
-    trace = pm.sample(2000, chains=2)
+    trace = pm.sample(2000, chains=4)
 
 pm.traceplot(trace)
 
@@ -226,7 +226,7 @@ gv_trained_filename =\
 # 5.1 Run prediction:
 
 
-run_prediction = True  # False
+run_prediction = True  #False  # True  # 
 prediction = definitions.prediction
 
 if run_prediction:
